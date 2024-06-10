@@ -1,5 +1,6 @@
 package ru.javaboys.nakormi.entity;
 
+import io.jmix.core.FileRef;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
@@ -27,6 +28,18 @@ public class AnimalFood {
     @Column(name = "DESCRIPTION")
     @Lob
     private String description;
+
+    @Column(name = "ANIMAL_FOOD_PHOTO")
+    @Lob
+    private FileRef animalFoodPhoto;
+
+    public FileRef getAnimalFoodPhoto() {
+        return animalFoodPhoto;
+    }
+
+    public void setAnimalFoodPhoto(FileRef animalFoodPhoto) {
+        this.animalFoodPhoto = animalFoodPhoto;
+    }
 
     public String getDescription() {
         return description;

@@ -20,6 +20,11 @@
         <formLayout id="form" dataContainer="animalFoodDc">
             <textField id="nameField" property="name"/>
             <textArea id="descriptionField" height="9.5em" property="description"/>
+            <fileStorageUploadField id="animalFoodPhotoField"
+                                    property="animalFoodPhoto"
+                                    clearButtonVisible="true"
+                                    fileNameVisible="true"/>
+
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

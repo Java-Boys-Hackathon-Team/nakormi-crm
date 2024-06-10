@@ -16,5 +16,28 @@ services:
       - POSTGRES_PASSWORD=pgadmin
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
 
+  # MinIO Console http://localhost:29001/
+  minio:
+    image: bitnami/minio
+    container_name: minio
+    ports:
+      - "29000:9000"
+      - "29001:9001"
+    restart: always
+    volumes:
+      - 'minio_data:/data'
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_REGION_NAME: ru-mos
+      MINIO_DEFAULT_BUCKETS: 'files,public:public' # Files - Private, Public - Public
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
 volumes:
   postgres_data:
+  minio_data:
+    driver: local
