@@ -41,6 +41,7 @@ dependencies {
     }
     testImplementation 'io.jmix.flowui:jmix-flowui-test-assist'
     implementation 'org.postgresql:postgresql'
+    implementation 'io.jmix.translations:jmix-translations-ru'
 }
 
 test {
