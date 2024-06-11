@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://personListView.title"
+      focusComponent="personsDataGrid">
+    <data>
+        <collection id="personsDc"
+                    class="ru.javaboys.nakormi.entity.Person">
+            <fetchPlan extends="_base">
+                <property name="address" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="personsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Person e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="personsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="personsDataGrid.create"/>
+            <button id="editBtn" action="personsDataGrid.edit"/>
+            <button id="removeBtn" action="personsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="personsDl"/>
+        </hbox>
+        <dataGrid id="personsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="personsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="name"/>
+                <column property="surname"/>
+                <column property="phone"/>
+                <column property="address"/>
+                <column property="type"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>
