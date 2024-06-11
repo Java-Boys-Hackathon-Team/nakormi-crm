@@ -29,7 +29,6 @@ public class Person {
     private UUID id;
 
     @NotNull
-    @InstanceName
     @Column(name = "NAME", nullable = false)
     private String name;
 
@@ -47,6 +46,7 @@ public class Person {
     @Column(name = "PERSON_TYPE", nullable = false)
     private String type;
 
+    @InstanceName
     @DependsOnProperties({"name", "surname"})
     public String getDisplayName() {
         return String.format("%s %s",
