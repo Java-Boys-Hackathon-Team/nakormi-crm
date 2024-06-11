@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jdk
 
 COPY build/libs/nakormi-0.0.1-SNAPSHOT.jar nakormi.jar
 
