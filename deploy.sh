@@ -3,6 +3,9 @@
 # Остановка при первой ошибке
 set -e
 
+# Вывод каждой команды перед выполнением
+set -x
+
 # Проверка наличия аргумента с названием ветки
 if [ "$#" -ne 1 ]; then
   echo "Usage: $0 <branch_name>"
@@ -29,6 +32,9 @@ rm -rf node_modules
 rm -rf frontend/generated
 
 # Шаг 5: Удаление всех образов из docker-compose
+docker rmi -f nakormi-nginx:latest
+docker rmi -f nakormi-nakormi:latest
+
 docker-compose rm -f
 docker image prune -f --filter "label=com.docker.compose.project=nakormi"
 
