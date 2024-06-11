@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
-      title="msg://animalFoodDetailView.title"
+      title="msg://foodCategoryEntityDetailView.title"
       focusComponent="form">
     <data>
-        <instance id="animalFoodDc"
-                  class="ru.javaboys.nakormi.entity.AnimalFood">
-            <fetchPlan extends="_base"/>
+        <instance id="foodCategoryDc"
+                  class="ru.javaboys.nakormi.entity.FoodCategory">
+            <fetchPlan extends="_base">
+                <property name="parent" fetchPlan="_base"/>
+            </fetchPlan>
             <loader/>
         </instance>
     </data>
@@ -17,9 +19,14 @@
         <action id="closeAction" type="detail_close"/>
     </actions>
     <layout>
-        <formLayout id="form" dataContainer="animalFoodDc">
+        <formLayout id="form" dataContainer="foodCategoryDc">
+            <entityPicker id="parentField" property="parent">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
             <textField id="nameField" property="name"/>
-            <textArea id="descriptionField" height="9.5em" property="description"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
