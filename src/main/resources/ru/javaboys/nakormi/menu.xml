@@ -3,12 +3,14 @@
 
     <menu id="application" title="msg://ru.javaboys.nakormi/menu.application.title" opened="true">
         <item view="User.list" title="msg://ru.javaboys.nakormi.view.user/UserListView.title"/>
-        <item view="AnimalFood.list" title="msg://ru.javaboys.nakormi.view.animalfood/animalFoodListView.title"/>
         <item view="District.list" title="msg://ru.javaboys.nakormi.view.district/districtListView.title"/>
         <item view="Address.list" title="msg://ru.javaboys.nakormi.view.address/addressListView.title"/>
         <item view="Person.list" title="msg://ru.javaboys.nakormi.view.person/personListView.title"/>
         <item view="Warehouse.list" title="msg://ru.javaboys.nakormi.view.warehouse/warehouseListView.title"/>
         <item view="Volunteer.list" title="msg://ru.javaboys.nakormi.view.volunteer/volunteerListView.title"/>
+        <item view="FoodCategory.list"
+              title="msg://ru.javaboys.nakormi.view.foodcategoryentity/foodCategoryEntityListView.title"/>
+        <item view="Food.list" title="msg://ru.javaboys.nakormi.view.food/foodListView.title"/>
     </menu>
 
 </menu-config>

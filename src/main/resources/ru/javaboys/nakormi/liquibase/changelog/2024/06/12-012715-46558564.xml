@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="nakormi">
+        <createTable tableName="FOOD">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FOOD"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MEASURE" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="nakormi">
+        <createTable tableName="FOOD_CATEGORY">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FOOD_CATEGORY"/>
+            </column>
+            <column name="PARENT_ID" type="UUID"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="nakormi">
+        <createTable tableName="FOOD_FOOD_CATEGORY_LINK">
+            <column name="FOOD_CATEGORY_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FOOD_FOOD_CATEGORY_LINK"/>
+            </column>
+            <column name="FOOD_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FOOD_FOOD_CATEGORY_LINK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="nakormi">
+        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="FOOD_CATEGORY"
+                                 constraintName="FK_FOOD_CATEGORY_ON_PARENT" referencedColumnNames="ID"
+                                 referencedTableName="FOOD_CATEGORY"/>
+    </changeSet>
+    <changeSet id="5" author="nakormi">
+        <addForeignKeyConstraint baseColumnNames="FOOD_ID" baseTableName="FOOD_FOOD_CATEGORY_LINK"
+                                 constraintName="FK_FOOFOOCAT_ON_FOOD" referencedColumnNames="ID"
+                                 referencedTableName="FOOD"/>
+    </changeSet>
+    <changeSet id="6" author="nakormi">
+        <addForeignKeyConstraint baseColumnNames="FOOD_CATEGORY_ID" baseTableName="FOOD_FOOD_CATEGORY_LINK"
+                                 constraintName="FK_FOOFOOCAT_ON_FOOD_CATEGORY" referencedColumnNames="ID"
+                                 referencedTableName="FOOD_CATEGORY"/>
+    </changeSet>
+</databaseChangeLog>
