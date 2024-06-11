@@ -3,7 +3,14 @@ package ru.javaboys.nakormi.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
@@ -24,16 +31,17 @@ public class Address {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private District district;
 
+    @NotNull
     @InstanceName
-    @Column(name = "ADDRESS_TEXT", length = 1000)
-    private String address_text;
+    @Column(name = "ADDRESS_TEXT", nullable = false, length = 1000)
+    private String addressText;
 
-    public String getAddress_text() {
-        return address_text;
+    public String getAddressText() {
+        return addressText;
     }
 
-    public void setAddress_text(String address_text) {
-        this.address_text = address_text;
+    public void setAddressText(String address_text) {
+        this.addressText = address_text;
     }
 
     public District getDistrict() {

@@ -51,7 +51,7 @@
             </actions>
             <columns resizable="true">
                 <column property="description"/>
-                <column property="storage_type"/>
+                <column property="storageType"/>
                 <column property="address"/>
                 <column property="contacts"/>
                 <column property="supervisor"/>

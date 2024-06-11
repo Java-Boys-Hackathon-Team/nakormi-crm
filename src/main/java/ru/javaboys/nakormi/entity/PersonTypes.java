@@ -4,25 +4,24 @@ import io.jmix.core.metamodel.datatype.EnumClass;
 
 import org.springframework.lang.Nullable;
 
+public enum PersonTypes implements EnumClass<String> {
 
-public enum PersonTypes implements EnumClass<Integer> {
+    VOLUNTEER("V"),
+    SUPERVISOR("S"),
+    BENEFICIARY("B");
 
-    VOLUNTEER(10),
-    SUPERVISOR(20),
-    BENEFICIARY(30);
+    private final String id;
 
-    private final Integer id;
-
-    PersonTypes(Integer id) {
+    PersonTypes(String id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @Nullable
-    public static PersonTypes fromId(Integer id) {
+    public static PersonTypes fromId(String id) {
         for (PersonTypes at : PersonTypes.values()) {
             if (at.getId().equals(id)) {
                 return at;

@@ -29,7 +29,7 @@
             </entityPicker>
             <textField id="descriptionField" property="description"/>
             <textField id="contactsField" property="contacts"/>
-            <select id="storage_typeField" property="storage_type"/>
+            <select id="storage_typeField" property="storageType"/>
             <entityPicker id="supervisorField" property="supervisor">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>

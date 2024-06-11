@@ -4,7 +4,15 @@ import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -20,12 +28,13 @@ public class Person {
     @Id
     private UUID id;
 
+    @NotNull
     @InstanceName
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @InstanceName
-    @Column(name = "SURNAME")
+    @NotNull
+    @Column(name = "SURNAME", nullable = false)
     private String surname;
 
     @Column(name = "PHONE", length = 64)
@@ -35,10 +44,9 @@ public class Person {
     @OneToOne(fetch = FetchType.LAZY)
     private Address address;
 
-    @Column(name = "TYPE_")
-    private Integer type;
+    @Column(name = "PERSON_TYPE", nullable = false)
+    private String type;
 
-    @InstanceName
     @DependsOnProperties({"name", "surname"})
     public String getDisplayName() {
         return String.format("%s %s",

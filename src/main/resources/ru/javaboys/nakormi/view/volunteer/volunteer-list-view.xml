@@ -51,8 +51,8 @@
             </actions>
             <columns resizable="true">
                 <column property="person"/>
-                <column property="passport_number"/>
-                <column property="telegram_id"/>
+                <column property="passportNumber"/>
+                <column property="telegramId"/>
                 <column property="warehouse"/>
             </columns>
         </dataGrid>

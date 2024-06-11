@@ -3,7 +3,15 @@ package ru.javaboys.nakormi.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
@@ -23,15 +31,16 @@ public class Warehouse {
     @OneToOne(fetch = FetchType.LAZY)
     private Address address;
 
+    @NotNull
     @InstanceName
-    @Column(name = "DESCRIPTION", length = 1000)
+    @Column(name = "DESCRIPTION", nullable = false, length = 1000)
     private String description;
 
     @Column(name = "CONTACTS")
     private String contacts;
 
-    @Column(name = "STORAGE_TYPE")
-    private Integer storage_type;
+    @Column(name = "STORAGE_TYPE", nullable = false)
+    private String storageType;
 
     @JoinColumn(name = "SUPERVISOR_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -45,12 +54,12 @@ public class Warehouse {
         this.supervisor = supervisor;
     }
 
-    public WarehouseTypes getStorage_type() {
-        return storage_type == null ? null : WarehouseTypes.fromId(storage_type);
+    public WarehouseTypes getStorageType() {
+        return storageType == null ? null : WarehouseTypes.fromId(storageType);
     }
 
-    public void setStorage_type(WarehouseTypes storage_type) {
-        this.storage_type = storage_type == null ? null : storage_type.getId();
+    public void setStorageType(WarehouseTypes storage_type) {
+        this.storageType = storage_type == null ? null : storage_type.getId();
     }
 
     public String getContacts() {

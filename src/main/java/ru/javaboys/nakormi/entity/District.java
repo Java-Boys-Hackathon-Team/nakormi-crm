@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
@@ -19,8 +20,9 @@ public class District {
     @Id
     private UUID id;
 
+    @NotNull
     @InstanceName
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private String name;
 
     public String getName() {

@@ -23,10 +23,10 @@ public class Volunteer {
     private Person person;
 
     @Column(name = "PASSPORT_NUMBER", length = 30)
-    private String passport_number;
+    private String passportNumber;
 
     @Column(name = "TELEGRAM_ID", length = 64)
-    private String telegram_id;
+    private String telegramId;
 
     @JoinColumn(name = "WAREHOUSE_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -40,20 +40,20 @@ public class Volunteer {
         this.warehouse = warehouse;
     }
 
-    public String getTelegram_id() {
-        return telegram_id;
+    public String getTelegramId() {
+        return telegramId;
     }
 
-    public void setTelegram_id(String telegram_id) {
-        this.telegram_id = telegram_id;
+    public void setTelegramId(String telegram_id) {
+        this.telegramId = telegram_id;
     }
 
-    public String getPassport_number() {
-        return passport_number;
+    public String getPassportNumber() {
+        return passportNumber;
     }
 
-    public void setPassport_number(String passport_number) {
-        this.passport_number = passport_number;
+    public void setPassportNumber(String passport_number) {
+        this.passportNumber = passport_number;
     }
 
     public Person getPerson() {
