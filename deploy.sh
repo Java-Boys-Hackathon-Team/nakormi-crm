@@ -24,6 +24,10 @@ git pull origin "$BRANCH_NAME"
 # Шаг 4: Остановка всех работающих контейнеров
 docker-compose down
 
+rm -rf build
+rm -rf node_modules
+rm -rf frontend/generated
+
 # Шаг 5: Удаление всех образов из docker-compose
 docker-compose rm -f
 docker image prune -f --filter "label=com.docker.compose.project=nakormi"
