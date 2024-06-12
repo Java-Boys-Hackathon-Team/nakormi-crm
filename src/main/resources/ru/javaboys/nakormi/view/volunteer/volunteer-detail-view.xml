@@ -8,8 +8,10 @@
             <fetchPlan extends="_base">
                 <property name="person" fetchPlan="_base"/>
                 <property name="warehouse" fetchPlan="_base"/>
+                <property name="attachments" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
+            <collection id="attachmentsDc" property="attachments"/>
         </instance>
     </data>
     <facets>
@@ -35,7 +37,26 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
+            <div id="uploadField"/>
         </formLayout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+<!--            <button action="attachmentsDataGrid.add"/>-->
+            <button action="attachmentsDataGrid.exclude"/>
+        </hbox>
+        <dataGrid id="attachmentsDataGrid"
+                  dataContainer="attachmentsDc"
+                  width="100%"
+                  height="100%"
+                  selectionMode="MULTI">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="exclude" type="list_exclude"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="source"/>
+            </columns>
+        </dataGrid>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
             <button id="closeBtn" action="closeAction"/>
