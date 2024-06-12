@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
-      title="msg://animalFoodDetailView.title"
+      title="msg://districtDetailView.title"
       focusComponent="form">
     <data>
-        <instance id="animalFoodDc"
-                  class="ru.javaboys.nakormi.entity.AnimalFood">
+        <instance id="districtDc"
+                  class="ru.javaboys.nakormi.entity.District">
             <fetchPlan extends="_base"/>
             <loader/>
         </instance>
@@ -17,14 +17,8 @@
         <action id="closeAction" type="detail_close"/>
     </actions>
     <layout>
-        <formLayout id="form" dataContainer="animalFoodDc">
+        <formLayout id="form" dataContainer="districtDc">
             <textField id="nameField" property="name"/>
-            <textArea id="descriptionField" height="9.5em" property="description"/>
-            <fileStorageUploadField id="animalFoodPhotoField"
-                                    property="animalFoodPhoto"
-                                    clearButtonVisible="true"
-                                    fileNameVisible="true"/>
-
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

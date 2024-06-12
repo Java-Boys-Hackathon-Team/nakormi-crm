@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
       xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
-      title="msg://animalFoodListView.title"
-      focusComponent="animalFoodsDataGrid">
+      title="msg://addressListView.title"
+      focusComponent="addressesDataGrid">
     <data>
-        <collection id="animalFoodsDc"
-                    class="ru.javaboys.nakormi.entity.AnimalFood">
-            <fetchPlan extends="_base"/>
-            <loader id="animalFoodsDl" readOnly="true">
+        <collection id="addressesDc"
+                    class="ru.javaboys.nakormi.entity.Address">
+            <fetchPlan extends="_base">
+                <property name="district" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="addressesDl" readOnly="true">
                 <query>
-                    <![CDATA[select e from AnimalFood e]]>
+                    <![CDATA[select e from Address e]]>
                 </query>
             </loader>
         </collection>
@@ -27,19 +29,19 @@
     </actions>
     <layout>
         <genericFilter id="genericFilter"
-                       dataLoader="animalFoodsDl">
+                       dataLoader="addressesDl">
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button id="createBtn" action="animalFoodsDataGrid.create"/>
-            <button id="editBtn" action="animalFoodsDataGrid.edit"/>
-            <button id="removeBtn" action="animalFoodsDataGrid.remove"/>
-            <simplePagination id="pagination" dataLoader="animalFoodsDl"/>
+            <button id="createBtn" action="addressesDataGrid.create"/>
+            <button id="editBtn" action="addressesDataGrid.edit"/>
+            <button id="removeBtn" action="addressesDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="addressesDl"/>
         </hbox>
-        <dataGrid id="animalFoodsDataGrid"
+        <dataGrid id="addressesDataGrid"
                   width="100%"
                   minHeight="20em"
-                  dataContainer="animalFoodsDc"
+                  dataContainer="addressesDc"
                   columnReorderingAllowed="true">
             <actions>
                 <action id="create" type="list_create"/>
@@ -47,8 +49,8 @@
                 <action id="remove" type="list_remove"/>
             </actions>
             <columns resizable="true">
-                <column property="name"/>
-                <column property="description"/>
+                <column property="district"/>
+                <column property="addressText"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">
