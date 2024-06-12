@@ -51,7 +51,7 @@
             </entityPicker>
             <div id="uploadField"/>
         </formLayout>
-        <hbox id="buttonsPanel" classNames="buttons-panel" visible="false">
+        <hbox id="buttonsPanel" classNames="buttons-panel">
 <!--            <button action="attachmentsDataGrid.add"/>-->
             <button id="attachmentsDataGridExclude" action="attachmentsDataGrid.exclude"/>
         </hbox>
@@ -66,7 +66,7 @@
                     </actions>
                     <columns>
                         <column property="name"/>
-                        <column property="source"/>
+                        <column property="source" visible="false"/>
                     </columns>
                 </dataGrid>
             </div>
