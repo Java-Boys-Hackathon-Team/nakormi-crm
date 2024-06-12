@@ -62,7 +62,7 @@ public class FoodTransferDetailView extends StandardDetailView<FoodTransfer> {
 
     @Subscribe
     public void onInit(final InitEvent event) {
-        this.uploadField.add(getUpload());
+        uploadField.add(getUpload());
 //        attachmentsDataGrid.setColumnPosition(getAttachmentPicture(), attachmentsDataGrid.getColumns().size() - 1);
     }
 
