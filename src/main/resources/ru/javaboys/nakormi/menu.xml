@@ -15,6 +15,13 @@
         <item view="FoodTransferRow.list"
               title="msg://ru.javaboys.nakormi.view.foodtransferrow/foodTransferRowListView.title"/>
         <item view="Attachment.list" title="msg://ru.javaboys.nakormi.view.attachment/attachmentListView.title"/>
+
+        <item view="ProductMovement.list"
+              title="msg://ru.javaboys.nakormi.view.productmovement/productMovementListView.title"/>
+        <item view="ProductMovementRow.list"
+              title="msg://ru.javaboys.nakormi.view.productmovementrow/productMovementRowListView.title"/>
+
     </menu>
+
 
 </menu-config>
