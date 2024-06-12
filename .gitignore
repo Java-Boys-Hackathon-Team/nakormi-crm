@@ -32,3 +32,4 @@ webpack.generated.js
 .DS_Store
 
 .idea
+/.env
