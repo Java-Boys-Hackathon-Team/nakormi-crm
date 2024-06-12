@@ -11,6 +11,9 @@
         <item view="FoodCategory.list"
               title="msg://ru.javaboys.nakormi.view.foodcategoryentity/foodCategoryEntityListView.title"/>
         <item view="Food.list" title="msg://ru.javaboys.nakormi.view.food/foodListView.title"/>
+        <item view="FoodTransfer.list" title="msg://ru.javaboys.nakormi.view.foodtransfer/foodTransferListView.title"/>
+        <item view="FoodTransferRow.list"
+              title="msg://ru.javaboys.nakormi.view.foodtransferrow/foodTransferRowListView.title"/>
     </menu>
 
 </menu-config>

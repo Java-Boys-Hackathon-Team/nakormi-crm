@@ -1,6 +1,7 @@
 package ru.javaboys.nakormi.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
 
@@ -18,6 +19,7 @@ public class Volunteer {
     @Id
     private UUID id;
 
+    @InstanceName
     @JoinColumn(name = "PERSON_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private Person person;
