@@ -14,6 +14,7 @@
         <item view="FoodTransfer.list" title="msg://ru.javaboys.nakormi.view.foodtransfer/foodTransferListView.title"/>
         <item view="FoodTransferRow.list"
               title="msg://ru.javaboys.nakormi.view.foodtransferrow/foodTransferRowListView.title"/>
+        <item view="Attachment.list" title="msg://ru.javaboys.nakormi.view.attachment/attachmentListView.title"/>
     </menu>
 
 </menu-config>

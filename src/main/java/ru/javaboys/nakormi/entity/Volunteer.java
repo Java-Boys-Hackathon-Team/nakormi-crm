@@ -5,6 +5,7 @@ import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -33,6 +34,22 @@ public class Volunteer {
     @JoinColumn(name = "WAREHOUSE_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private Warehouse warehouse;
+
+    @ManyToMany
+    @JoinTable(
+            name = "VOLUNTEER_ATTACHMENT", // Имя связующей таблицы
+            joinColumns = @JoinColumn(name = "VOLUNTEER_ID", referencedColumnName = "ID"), // Колонка в связующей таблице для VOLUNTEER
+            inverseJoinColumns = @JoinColumn(name = "ATTACHMENT_ID", referencedColumnName = "ID") // Колонка в связующей таблице для ATTACHMENT
+    )
+    private List<Attachment> attachments;
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
 
     public Warehouse getWarehouse() {
         return warehouse;

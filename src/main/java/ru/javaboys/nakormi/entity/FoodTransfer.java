@@ -47,6 +47,23 @@ public class FoodTransfer {
     @OneToMany(mappedBy = "foodTransfer")
     private List<FoodTransferRow> rows;
 
+    @ManyToMany
+    @JoinTable(
+            name = "FOOD_TRANSFER_ATTACHMENT", // Имя связующей таблицы
+            joinColumns = @JoinColumn(name = "FOOD_TRANSFER_ID", referencedColumnName = "ID"), // Колонка в связующей таблице для FOOD_TRANSFER
+            inverseJoinColumns = @JoinColumn(name = "ATTACHMENT_ID", referencedColumnName = "ID") // Колонка в связующей таблице для ATTACHMENT
+    )
+    private List<Attachment> attachments;
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
+
     public String getDescription() {
         return description;
     }

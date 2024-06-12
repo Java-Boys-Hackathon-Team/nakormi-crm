@@ -26,8 +26,8 @@ dependencies {
     implementation 'io.jmix.security:jmix-security-starter'
     implementation 'io.jmix.security:jmix-security-flowui-starter'
     implementation 'io.jmix.security:jmix-security-data-starter'
-    //Удаляем зависимость, так как используем S3
-    //implementation 'io.jmix.localfs:jmix-localfs-starter'
+    // Удаляем зависимость, так как используем S3
+    // implementation 'io.jmix.localfs:jmix-localfs-starter'
     implementation 'io.jmix.flowui:jmix-flowui-starter'
     implementation 'io.jmix.flowui:jmix-flowui-data-starter'
     implementation 'io.jmix.flowui:jmix-flowui-themes'
