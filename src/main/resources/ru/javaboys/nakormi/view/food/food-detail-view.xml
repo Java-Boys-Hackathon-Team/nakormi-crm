@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://foodDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="foodDc"
+                  class="ru.javaboys.nakormi.entity.Food">
+            <fetchPlan extends="_base">
+                <property name="category" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+            <collection id="categoryDc" property="category"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="foodDc">
+            <textField id="nameField" property="name"/>
+            <select id="measureField" property="measure"/>
+        </formLayout>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Food.category"/>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button action="categoryDataGrid.add"/>
+            <button action="categoryDataGrid.exclude"/>
+        </hbox>
+        <dataGrid id="categoryDataGrid" dataContainer="categoryDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="exclude" type="list_exclude"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
