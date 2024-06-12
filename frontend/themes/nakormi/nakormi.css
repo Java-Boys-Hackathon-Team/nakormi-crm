@@ -15,6 +15,15 @@ vaadin-vertical-layout:has(.attachments) {
 
 .attachments .item {
     flex: 1 1 50%;
+    box-sizing: border-box;
+}
+
+.attachments .item:first-child {
+    padding: 0 1% 0 0;
+}
+
+.attachments .item:last-child {
+    padding: 0 0 0 1%;
 }
 
 .attachment-table #attachmentsDataGrid {
@@ -42,6 +51,7 @@ vaadin-vertical-layout:has(.attachments) {
 @media (max-width: 600px) {
     .attachments .item {
         flex: 1 1 100%;
+        padding: 0 !important;
     }
 
     .attachment-preview img {
