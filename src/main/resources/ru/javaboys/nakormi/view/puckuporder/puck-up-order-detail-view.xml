@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://puckUpOrderDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="puckUpOrderDc"
+                  class="ru.javaboys.nakormi.entity.PuckUpOrder">
+            <fetchPlan extends="_base">
+                <property name="creator" fetchPlan="_base"/>
+                <property name="volunteer" fetchPlan="_base"/>
+                <property name="warehouse" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="puckUpOrderDc">
+            <dateTimePicker id="dateField" property="date"/>
+            <textField id="descriptionField" property="description"/>
+            <entityPicker id="creatorField" property="creator">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="volunteerField" property="volunteer">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="warehouseField" property="warehouse">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <checkbox id="isClosedField" property="isClosed"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
