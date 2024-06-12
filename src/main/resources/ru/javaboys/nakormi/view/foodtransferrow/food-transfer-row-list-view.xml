@@ -28,6 +28,7 @@
     <actions>
         <action id="selectAction" type="lookup_select"/>
         <action id="discardAction" type="lookup_discard"/>
+        <action id="download_reports" text="Выгрузить данные в Data Lens"/>
     </actions>
     <layout>
         <genericFilter id="genericFilter"
@@ -38,6 +39,7 @@
             <button id="createBtn" action="foodTransferRowsDataGrid.create"/>
             <button id="editBtn" action="foodTransferRowsDataGrid.edit"/>
             <button id="removeBtn" action="foodTransferRowsDataGrid.remove"/>
+            <button id="UploadReportBtn" action="download_reports" text="Выгрузить данные в Data Lens"/>
             <simplePagination id="pagination" dataLoader="foodTransferRowsDl"/>
         </hbox>
         <dataGrid id="foodTransferRowsDataGrid"
