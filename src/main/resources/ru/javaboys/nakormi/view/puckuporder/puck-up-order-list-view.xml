@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://puckUpOrderListView.title"
+      focusComponent="puckUpOrdersDataGrid">
+    <data>
+        <collection id="puckUpOrdersDc"
+                    class="ru.javaboys.nakormi.entity.PuckUpOrder">
+            <fetchPlan extends="_base">
+                <property name="creator" fetchPlan="_base"/>
+                <property name="volunteer" fetchPlan="_base"/>
+                <property name="warehouse" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="puckUpOrdersDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from PuckUpOrder e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="puckUpOrdersDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="puckUpOrdersDataGrid.create"/>
+            <button id="editBtn" action="puckUpOrdersDataGrid.edit"/>
+            <button id="removeBtn" action="puckUpOrdersDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="puckUpOrdersDl"/>
+        </hbox>
+        <dataGrid id="puckUpOrdersDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="puckUpOrdersDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="date"/>
+                <column property="description"/>
+                <column property="creator"/>
+                <column property="volunteer"/>
+                <column property="warehouse"/>
+                <column property="isClosed"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>
