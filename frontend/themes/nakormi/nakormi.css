@@ -1,5 +1,5 @@
 /* Стили для десктопной версии */
-vaadin-vertical-layout {
+vaadin-vertical-layout:has(.attachments) {
     height: auto !important;
 }
 
