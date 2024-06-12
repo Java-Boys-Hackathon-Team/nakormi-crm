@@ -55,20 +55,23 @@
             <!--            <button action="attachmentsDataGrid.add"/>-->
             <button action="attachmentsDataGrid.exclude"/>
         </hbox>
-        <dataGrid id="attachmentsDataGrid"
-                  dataContainer="attachmentsDc"
-                  width="100%"
-                  height="100%"
-                  selectionMode="MULTI">
-            <actions>
-                <action id="add" type="list_add"/>
-                <action id="exclude" type="list_exclude"/>
-            </actions>
-            <columns>
-                <column property="name"/>
-                <column property="source"/>
-            </columns>
-        </dataGrid>
+        <div id="attachments" classNames="attachments">
+            <div classNames="attachment-table item">
+                <dataGrid id="attachmentsDataGrid"
+                          dataContainer="attachmentsDc"
+                          selectionMode="MULTI">
+                    <actions>
+                        <action id="add" type="list_add"/>
+                        <action id="exclude" type="list_exclude"/>
+                    </actions>
+                    <columns>
+                        <column property="name"/>
+                        <column property="source"/>
+                    </columns>
+                </dataGrid>
+            </div>
+            <div id="previewField" classNames="attachment-preview item"/>
+        </div>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
             <button id="closeBtn" action="closeAction"/>

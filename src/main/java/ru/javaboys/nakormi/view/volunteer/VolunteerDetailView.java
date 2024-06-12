@@ -1,6 +1,8 @@
 package ru.javaboys.nakormi.view.volunteer;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
@@ -37,6 +39,8 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
 
     @ViewComponent
     private Div uploadField;
+    @ViewComponent
+    private Div previewField;
     @Autowired
     private DataManager dataManager;
     @Autowired
@@ -51,28 +55,26 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
     @Subscribe
     public void onInit(final InitEvent event) {
         this.uploadField.add(getUpload());
-        attachmentsDataGrid.setColumnPosition(getAttachmentPicture(), attachmentsDataGrid.getColumns().size() - 1);
-        attachmentsDataGrid.removeColumnByKey("source");
+//        attachmentsDataGrid.setColumnPosition(getAttachmentPicture(), attachmentsDataGrid.getColumns().size() - 1);
+//        attachmentsDataGrid.removeColumnByKey("source");
     }
 
     private Grid.Column<Attachment> getAttachmentPicture() {
-        return attachmentsDataGrid.addComponentColumn(attachment -> {
-                    FileRef fileRef = attachment.getSource();
-                    if (Objects.isNull(fileRef)) {
-                        return new Span("Отсутствует превью файла.");
-                    }
-                    Image image = uiComponents.create(Image.class);
-                    image.setMaxWidth("300px");
-                    image.setClassName("attachment-picture");
-                    StreamResource streamResource = new StreamResource(
-                            fileRef.getFileName(),
-                            () -> fileStorageLocator.getDefault().openStream(fileRef));
-                    image.setSrc(streamResource);
-                    return image;
-                })
+        return attachmentsDataGrid.addComponentColumn(attachment -> getGetImageBySource(attachment.getSource()))
                 .setHeader("Attachment")
-                .setWidth("310px")
                 .setFlexGrow(0);
+    }
+
+    private Component getGetImageBySource(FileRef fileRef) {
+        if (Objects.isNull(fileRef) || !isImage(fileRef.getContentType())) {
+            return new Span("Отсутствует превью файла.");
+        }
+        Image image = uiComponents.create(Image.class);
+        StreamResource streamResource = new StreamResource(
+                fileRef.getFileName(),
+                () -> fileStorageLocator.getDefault().openStream(fileRef));
+        image.setSrc(streamResource);
+        return image;
     }
 
     private Upload getUpload() {
@@ -80,7 +82,7 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
         Upload upload = new Upload(buffer);
         upload.setAutoUpload(true);
         upload.setDropAllowed(true);
-//        upload.setMaxFileSize(10 * 1024 * 1024);
+//        upload.setMaxFileSize(11 * 1024 * 1024);
 //        upload.setMaxFiles(10);
         FileStorage fileStorage = fileStorageLocator.getDefault();
         upload.addSucceededListener(e -> {
@@ -90,9 +92,18 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
             attachment.setName(fileRef.getFileName());
             attachment.setSource(fileRef);
             Attachment savedAttachment = dataManager.save(attachment);
-
             attachmentsDc.getMutableItems().add(savedAttachment);
         });
         return upload;
+    }
+
+    @Subscribe("attachmentsDataGrid")
+    public void onAttachmentsDataGridItemClick(final ItemClickEvent<Attachment> event) {
+        previewField.removeAll();
+        previewField.add(getGetImageBySource(event.getItem().getSource()));
+    }
+
+    private boolean isImage(String contentType) {
+        return Objects.nonNull(contentType) && contentType.startsWith("image/");
     }
 }
