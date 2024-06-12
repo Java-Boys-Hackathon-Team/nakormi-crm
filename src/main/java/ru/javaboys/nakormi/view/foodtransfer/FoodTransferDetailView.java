@@ -1,5 +1,6 @@
 package ru.javaboys.nakormi.view.foodtransfer;
 
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
@@ -16,6 +17,7 @@ import io.jmix.core.FileStorage;
 import io.jmix.core.FileStorageLocator;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.view.EditedEntityContainer;
 import io.jmix.flowui.view.StandardDetailView;
@@ -39,16 +41,22 @@ public class FoodTransferDetailView extends StandardDetailView<FoodTransfer> {
 
     @ViewComponent
     private Div uploadField;
+
     @ViewComponent
     private Div previewField;
+
     @Autowired
     private DataManager dataManager;
+
     @Autowired
     private UiComponents uiComponents;
+
     @Autowired
     private FileStorageLocator fileStorageLocator;
+
     @ViewComponent
     private DataGrid<Attachment> attachmentsDataGrid;
+
     @ViewComponent
     private CollectionContainer<Attachment> attachmentsDc;
 
@@ -56,7 +64,6 @@ public class FoodTransferDetailView extends StandardDetailView<FoodTransfer> {
     public void onInit(final InitEvent event) {
         this.uploadField.add(getUpload());
 //        attachmentsDataGrid.setColumnPosition(getAttachmentPicture(), attachmentsDataGrid.getColumns().size() - 1);
-//        attachmentsDataGrid.removeColumnByKey("source");
     }
 
     private Grid.Column<Attachment> getAttachmentPicture() {
@@ -101,6 +108,11 @@ public class FoodTransferDetailView extends StandardDetailView<FoodTransfer> {
     public void onAttachmentsDataGridItemClick(final ItemClickEvent<Attachment> event) {
         previewField.removeAll();
         previewField.add(getGetImageBySource(event.getItem().getSource()));
+    }
+
+    @Subscribe(id = "attachmentsDataGridExclude", subject = "clickListener")
+    public void onAttachmentsDataGridExcludeClick(final ClickEvent<JmixButton> event) {
+        previewField.removeAll();
     }
 
     private boolean isImage(String contentType) {
