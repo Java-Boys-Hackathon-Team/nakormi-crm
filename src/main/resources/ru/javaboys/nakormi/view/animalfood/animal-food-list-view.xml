@@ -24,6 +24,7 @@
     <actions>
         <action id="selectAction" type="lookup_select"/>
         <action id="discardAction" type="lookup_discard"/>
+        <action id="createReport" type="uploadAction"/>
     </actions>
     <layout>
         <genericFilter id="genericFilter"
@@ -35,6 +36,7 @@
             <button id="editBtn" action="animalFoodsDataGrid.edit"/>
             <button id="removeBtn" action="animalFoodsDataGrid.remove"/>
             <simplePagination id="pagination" dataLoader="animalFoodsDl"/>
+            <button id="createReportBtn" action="createReport" text="выгрузить данные в Data Lens"/>
         </hbox>
         <dataGrid id="animalFoodsDataGrid"
                   width="100%"
