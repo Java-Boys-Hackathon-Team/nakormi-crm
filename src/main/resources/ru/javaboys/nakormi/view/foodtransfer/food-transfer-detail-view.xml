@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://foodTransferDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="foodTransferDc"
+                  class="ru.javaboys.nakormi.entity.FoodTransfer">
+            <fetchPlan extends="_base">
+                <property name="volunteer" fetchPlan="_base"/>
+                <property name="warehouseSource" fetchPlan="_base"/>
+                <property name="warehouseReceiver" fetchPlan="_base"/>
+                <property name="rows" fetchPlan="_base">
+                    <property name="warehouse" fetchPlan="_base"/>
+                    <property name="food" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="foodTransferDc">
+            <dateTimePicker id="dateField" property="date"/>
+            <textField id="descriptionField" property="description"/>
+            <entityPicker id="volunteerField" property="volunteer">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <select id="transferTypeField" property="transferType"/>
+            <entityPicker id="warehouseSourceField" property="warehouseSource">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="warehouseReceiverField" property="warehouseReceiver">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

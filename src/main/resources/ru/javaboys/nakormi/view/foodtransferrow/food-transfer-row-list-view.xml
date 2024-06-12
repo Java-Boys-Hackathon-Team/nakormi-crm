@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://foodTransferRowListView.title"
+      focusComponent="foodTransferRowsDataGrid">
+    <data>
+        <collection id="foodTransferRowsDc"
+                    class="ru.javaboys.nakormi.entity.FoodTransferRow">
+            <fetchPlan extends="_base">
+                <property name="foodTransfer" fetchPlan="_base"/>
+                <property name="warehouse" fetchPlan="_base"/>
+                <property name="food" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="foodTransferRowsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from FoodTransferRow e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="foodTransferRowsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="foodTransferRowsDataGrid.create"/>
+            <button id="editBtn" action="foodTransferRowsDataGrid.edit"/>
+            <button id="removeBtn" action="foodTransferRowsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="foodTransferRowsDl"/>
+        </hbox>
+        <dataGrid id="foodTransferRowsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="foodTransferRowsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="foodTransfer"/>
+                <column property="date"/>
+                <column property="movement"/>
+                <column property="warehouse"/>
+                <column property="food"/>
+                <column property="quantity"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>
