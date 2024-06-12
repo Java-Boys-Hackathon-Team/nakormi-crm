@@ -41,20 +41,20 @@
         </formLayout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
 <!--            <button action="attachmentsDataGrid.add"/>-->
-            <button action="attachmentsDataGrid.exclude"/>
+            <button id="attachmentsDataGridExclude" action="attachmentsDataGrid.exclude"/>
         </hbox>
         <div id="attachments" classNames="attachments">
             <div classNames="attachment-table item">
                 <dataGrid id="attachmentsDataGrid"
                           dataContainer="attachmentsDc"
                           selectionMode="MULTI">
-                    <actions>
+                    <actions showInContextMenuEnabled="false">
                         <action id="add" type="list_add"/>
                         <action id="exclude" type="list_exclude"/>
                     </actions>
                     <columns>
                         <column property="name"/>
-                        <column property="source"/>
+                        <column property="source" visible="false"/>
                     </columns>
                 </dataGrid>
             </div>
