@@ -14,8 +14,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-@Component
 @Slf4j
+@Component
 public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
     private final String token;
