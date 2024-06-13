@@ -9,9 +9,11 @@
                 <property name="person" fetchPlan="_base"/>
                 <property name="warehouse" fetchPlan="_base"/>
                 <property name="attachments" fetchPlan="_base"/>
+                <property name="animals" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
             <collection id="attachmentsDc" property="attachments"/>
+            <collection id="animalsDc" property="animals"/>
         </instance>
     </data>
     <facets>
@@ -39,6 +41,7 @@
             </entityPicker>
             <div id="uploadField"/>
         </formLayout>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Volunteer.attachments"/>
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="attachmentsDataGridExclude" action="attachmentsDataGrid.exclude"/>
         </hbox>
@@ -57,6 +60,27 @@
                 </dataGrid>
             </div>
             <div id="previewField" classNames="attachment-preview item"/>
+        </div>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Volunteer.animals"/>
+        <hbox id="animalButtonsPanel" classNames="buttons-panel">
+            <button action="animalsDataGrid.add"/>
+            <button action="animalsDataGrid.exclude"/>
+        </hbox>
+        <div classNames="attachments">
+            <dataGrid id="animalsDataGrid"
+                      dataContainer="animalsDc"
+                      selectionMode="MULTI">
+                <actions>
+                    <action id="add" type="list_add"/>
+                    <action id="exclude" type="list_exclude"/>
+                </actions>
+                <columns>
+                    <column property="nickname"/>
+                    <column property="type"/>
+                    <column property="isSterilized"/>
+                    <column property="description"/>
+                </columns>
+            </dataGrid>
         </div>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
