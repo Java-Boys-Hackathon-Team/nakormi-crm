@@ -73,9 +73,9 @@
             <vbox id="detailsLayout" height="100%">
                 <formLayout id="form" dataContainer="invitationCodeDc">
                     <datePicker id="expirationDateField" property="expirationDate"/>
-                    <textField id="codeField" property="code"/>
-                    <checkbox id="usedField" property="used"/>
-                    <entityPicker id="personField" property="person">
+                    <textField id="codeField" property="code" required="true"/>
+                    <checkbox id="usedField" property="used" readOnly="true"/>
+                    <entityPicker id="personField" property="person" readOnly="true">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>
                             <action id="entityClear" type="entity_clear"/>
