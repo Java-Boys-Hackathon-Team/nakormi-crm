@@ -60,7 +60,9 @@
                     </columns>
                 </dataGrid>
             </div>
-            <div id="previewField" classNames="attachment-preview item"/>
+            <div id="previewField" classNames="attachment-preview item">
+                <div id="previewWrapper" classNames="preview-wrapper"/>
+            </div>
         </div>
         <h4 text="msg://ru.javaboys.nakormi.entity/Volunteer.animals"/>
         <hbox id="animalButtonsPanel" classNames="buttons-panel">
