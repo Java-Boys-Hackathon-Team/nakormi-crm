@@ -15,6 +15,7 @@
                         <property name="phone"/>
                     </property>
                 </property>
+                <property name="pride" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
             <collection id="attachmentsDc" property="attachments"/>
@@ -42,6 +43,13 @@
             <select id="genderField" property="gender"/>
             <checkbox id="isSterilizedField" property="isSterilized"/>
             <textArea id="descriptionField" height="9.5em" property="description"/>
+            <entityPicker id="pridesPicker" dataContainer="animalDc" property="pride">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityOpen" type="entity_open"/>
+                </actions>
+            </entityPicker>
             <div id="uploadField"/>
         </formLayout>
         <h4 text="msg://ru.javaboys.nakormi.entity/Animal.attachments"/>
@@ -62,7 +70,9 @@
                     </columns>
                 </dataGrid>
             </div>
-            <div id="previewField" classNames="attachment-preview item"/>
+            <div id="previewField" classNames="attachment-preview item">
+                <div id="previewWrapper" classNames="preview-wrapper"/>
+            </div>
         </div>
         <h4 text="msg://ru.javaboys.nakormi.entity/Animal.volunteers"/>
         <hbox id="volunteersButtonsPanel" classNames="buttons-panel">

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
       xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
-      title="msg://animalListView.title"
-      focusComponent="animalsDataGrid">
+      title="msg://prideListView.title"
+      focusComponent="pridesDataGrid">
     <data>
-        <collection id="animalsDc"
-                    class="ru.javaboys.nakormi.entity.Animal">
+        <collection id="pridesDc"
+                    class="ru.javaboys.nakormi.entity.Pride">
             <fetchPlan extends="_base">
-                <property name="attachments" fetchPlan="_base"/>
-                <property name="pride" fetch="JOIN" fetchPlan="_base"/>
+                <property name="district" fetch="JOIN" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="animalsDl" readOnly="true">
+            <loader id="pridesDl" readOnly="true">
                 <query>
-                    <![CDATA[select e from Animal e]]>
+                    <![CDATA[select e from Pride e]]>
                 </query>
             </loader>
         </collection>
@@ -30,19 +29,19 @@
     </actions>
     <layout>
         <genericFilter id="genericFilter"
-                       dataLoader="animalsDl">
+                       dataLoader="pridesDl">
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button id="createBtn" action="animalsDataGrid.create"/>
-            <button id="editBtn" action="animalsDataGrid.edit"/>
-            <button id="removeBtn" action="animalsDataGrid.remove"/>
-            <simplePagination id="pagination" dataLoader="animalsDl"/>
+            <button id="createBtn" action="pridesDataGrid.create"/>
+            <button id="editBtn" action="pridesDataGrid.edit"/>
+            <button id="removeBtn" action="pridesDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="pridesDl"/>
         </hbox>
-        <dataGrid id="animalsDataGrid"
+        <dataGrid id="pridesDataGrid"
                   width="100%"
                   minHeight="20em"
-                  dataContainer="animalsDc"
+                  dataContainer="pridesDc"
                   columnReorderingAllowed="true"
                   selectionMode="MULTI">
             <actions>
@@ -51,12 +50,8 @@
                 <action id="remove" type="list_remove"/>
             </actions>
             <columns resizable="true">
-                <column property="nickname"/>
-                <column property="type"/>
-                <column property="gender"/>
-                <column property="isSterilized"/>
-                <column property="description"/>
-                <column property="pride.name"/>
+                <column property="name"/>
+                <column property="district"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">
