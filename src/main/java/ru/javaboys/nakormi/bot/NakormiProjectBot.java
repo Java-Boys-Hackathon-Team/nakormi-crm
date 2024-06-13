@@ -39,19 +39,18 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
 
     @Override
     public void consume(Update update) {
-        // We check if the update has a message and the message has text
         if (update.hasMessage() && update.getMessage().hasText()) {
-            // Set variables
+
             String message_text = update.getMessage().getText();
             long chat_id = update.getMessage().getChatId();
 
-            SendMessage message = SendMessage // Create a message object
+            SendMessage message = SendMessage
                     .builder()
                     .chatId(chat_id)
                     .text(message_text)
                     .build();
             try {
-                telegramClient.execute(message); // Sending our message object to user
+                telegramClient.execute(message);
             } catch (TelegramApiException e) {
                 log.error("Error", e);
             }
