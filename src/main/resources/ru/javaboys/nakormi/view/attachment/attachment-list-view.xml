@@ -49,14 +49,14 @@
                           dataContainer="attachmentsDc"
                           columnReorderingAllowed="true"
                           selectionMode="MULTI">
-                    <actions>
+                    <actions showInContextMenuEnabled="false">
                         <action id="create" type="list_create"/>
                         <action id="edit" type="list_edit"/>
                         <action id="remove" type="list_remove"/>
                     </actions>
                     <columns resizable="true">
                         <column property="name"/>
-                        <column property="source"/>
+                        <column property="source" visible="false"/>
                     </columns>
                 </dataGrid>
                 <hbox id="lookupActions" visible="false">
@@ -73,6 +73,7 @@
                     <button id="saveBtn" text="msg:///actions.Save" icon="CHECK" themeNames="primary"/>
                     <button id="cancelBtn" text="msg:///actions.Cancel" icon="BAN"/>
                 </hbox>
+                <div id="previewField" classNames="attachment-preview item" css="margin: 20px 0 0 0;"/>
             </vbox>
         </formLayout>
     </layout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="nakormi">
+        <createTable tableName="PUCK_UP_ORDER">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_PUCK_UP_ORDER"/>
+            </column>
+            <column name="DATE_" type="DATETIME"/>
+            <column name="DESCRIPTION" type="VARCHAR(20)"/>
+            <column name="CREATOR_ID" type="UUID"/>
+            <column name="VOLUNTEER_ID" type="UUID"/>
+            <column name="WAREHOUSE_ID" type="UUID"/>
+            <column name="IS_CLOSED" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="nakormi">
+        <createIndex indexName="IDX_PUCK_UP_ORDER_CREATOR" tableName="PUCK_UP_ORDER">
+            <column name="CREATOR_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="CREATOR_ID" baseTableName="PUCK_UP_ORDER"
+                                 constraintName="FK_PUCK_UP_ORDER_ON_CREATOR" referencedColumnNames="ID"
+                                 referencedTableName="PERSON"/>
+    </changeSet>
+    <changeSet id="3" author="nakormi">
+        <createIndex indexName="IDX_PUCK_UP_ORDER_VOLUNTEER" tableName="PUCK_UP_ORDER">
+            <column name="VOLUNTEER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="VOLUNTEER_ID" baseTableName="PUCK_UP_ORDER"
+                                 constraintName="FK_PUCK_UP_ORDER_ON_VOLUNTEER" referencedColumnNames="ID"
+                                 referencedTableName="VOLUNTEER"/>
+    </changeSet>
+    <changeSet id="4" author="nakormi">
+        <createIndex indexName="IDX_PUCK_UP_ORDER_WAREHOUSE" tableName="PUCK_UP_ORDER">
+            <column name="WAREHOUSE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="WAREHOUSE_ID" baseTableName="PUCK_UP_ORDER"
+                                 constraintName="FK_PUCK_UP_ORDER_ON_WAREHOUSE" referencedColumnNames="ID"
+                                 referencedTableName="WAREHOUSE"/>
+    </changeSet>
+</databaseChangeLog>
