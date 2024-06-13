@@ -13,8 +13,8 @@ import jakarta.validation.constraints.Null;
 import ru.javaboys.nakormi.entity.Attachment;
 import ru.javaboys.nakormi.entity.Person;
 import ru.javaboys.nakormi.entity.TransferTypes;
+import ru.javaboys.nakormi.entity.Volunteer;
 import ru.javaboys.nakormi.entity.Warehouse;
-import ru.javaboys.nakormi.validation.FoodTransferTypes;
 
 import java.util.List;
 import java.util.UUID;
@@ -73,6 +73,10 @@ public class ProductMovement {
     )
     private Person beneficiary;
 
+    @JmixProperty(mandatory = true)
+    @NotNull(message = "Волонтер обязателен для заполнения")
+    private Volunteer volunteer;
+
     @Valid
     @NotEmpty(message = "Детали перемещения обязательны для заполнения")
     private List<ProductMovementRow> details;
@@ -95,6 +99,14 @@ public class ProductMovement {
 
     public void setBeneficiary(Person beneficiary) {
         this.beneficiary = beneficiary;
+    }
+
+    public @NotNull(message = "Волонтер обязателен для заполнения") Volunteer getVolunteer() {
+        return volunteer;
+    }
+
+    public void setVolunteer(@NotNull(message = "Волонтер обязателен для заполнения") Volunteer volunteer) {
+        this.volunteer = volunteer;
     }
 
     public List<ProductMovementRow> getDetails() {

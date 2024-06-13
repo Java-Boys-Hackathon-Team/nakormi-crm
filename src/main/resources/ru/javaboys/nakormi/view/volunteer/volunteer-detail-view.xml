@@ -40,7 +40,6 @@
             <div id="uploadField"/>
         </formLayout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-<!--            <button action="attachmentsDataGrid.add"/>-->
             <button action="attachmentsDataGrid.exclude"/>
         </hbox>
         <div id="attachments" classNames="attachments">
@@ -54,7 +53,6 @@
                     </actions>
                     <columns>
                         <column property="name"/>
-                        <column property="source"/>
                     </columns>
                 </dataGrid>
             </div>

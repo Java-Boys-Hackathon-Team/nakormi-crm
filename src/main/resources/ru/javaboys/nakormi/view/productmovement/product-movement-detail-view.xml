@@ -21,7 +21,13 @@
         <formLayout id="form" dataContainer="productMovementDc">
             <textField id="descriptionField" property="description"/>
             <select id="transferTypeField" property="transferType"/>
-            <entityPicker id="warehousesReceiverPicker" dataContainer="productMovementDc" property="warehouseReceiver" enabled="false">
+            <entityPicker id="volunteersPicker" dataContainer="productMovementDc" property="volunteer">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="personsPicker" dataContainer="productMovementDc" property="beneficiary" enabled="false">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>
@@ -33,7 +39,7 @@
                     <action id="entityLookup" type="entity_lookup"/>
                 </actions>
             </entityPicker>
-            <entityPicker id="personsPicker" dataContainer="productMovementDc" property="beneficiary" enabled="false">
+            <entityPicker id="warehousesReceiverPicker" dataContainer="productMovementDc" property="warehouseReceiver" enabled="false">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>

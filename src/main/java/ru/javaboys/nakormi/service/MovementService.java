@@ -33,11 +33,8 @@ import static ru.javaboys.nakormi.validation.FoodTransferTypes.*;
 
 @Service
 public class MovementService {
-    @Autowired private DataManager dataManager;
-    @Autowired private FoodTransferAttachmentRepository foodTransferAttachmentRepository;
-    @Autowired private FoodTransferRowRepository foodTransferRowRepository;
     @Autowired private FoodTransferRepository foodTransferRepository;
-    @Autowired private AttachmentRepository attachmentRepository;
+    @Autowired private DataManager dataManager;
     @Autowired private Validator validator;
 
 
@@ -51,7 +48,7 @@ public class MovementService {
         FoodTransfer foodTransfer = dataManager.create(FoodTransfer.class);
         foodTransfer.setDate(now);
         foodTransfer.setDescription(movement.getDescription());
-//        foodTransfer.setVolunteer();
+        foodTransfer.setVolunteer(movement.getVolunteer());
         foodTransfer.setTransferType(movement.getTransferType());
         foodTransfer.setWarehouseSource(movement.getWarehouseSource());
         foodTransfer.setWarehouseReceiver(movement.getWarehouseReceiver());
@@ -60,14 +57,14 @@ public class MovementService {
         for (ProductMovementRow detail : movement.getDetails()) {
             switch (movement.getTransferType()) {
                 case UNATTACHED_PICKUP -> {
-                    rows.add(createOutcomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
+                    rows.add(createIncomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                 }
                 case PICKUP_FROM_POINT, TRANSFER_TO_WAREHOUSE, TRANSFER_FROM_WAREHOUSE, TRANSFER_TO_VOLUNTEER -> {
                     rows.add(createIncomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                     rows.add(createOutcomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                 }
                 case FEED, TRANSFER_TO_BENEFICIARY, UNATTACHED_WRITEOFF  -> {
-                    rows.add(createIncomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
+                    rows.add(createOutcomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                 }
             }
         }
