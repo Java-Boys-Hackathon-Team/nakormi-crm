@@ -10,6 +10,7 @@ import ru.javaboys.nakormi.service.FoodTransferRowCSVGenerator;
 import ru.javaboys.nakormi.service.VolunteerCSVGenerator;
 import ru.javaboys.nakormi.service.WarehouseCSVGenerator;
 import ru.javaboys.nakormi.service.YandexUploader;
+import ru.javaboys.nakormi.utils.FileUtils;
 import ru.javaboys.nakormi.view.main.MainView;
 
 @Route(value = "foodTransferRows", layout = MainView.class)
@@ -20,18 +21,18 @@ import ru.javaboys.nakormi.view.main.MainView;
 public class FoodTransferRowListView extends StandardListView<FoodTransferRow> {
 
     @Autowired
-    private FoodTransferRowCSVGenerator csvGenerator;
+    private FoodTransferRowCSVGenerator foodTransferRowCSVGenerator;
     @Autowired
     private WarehouseCSVGenerator warehouseCSVGenerator;
     @Autowired
     VolunteerCSVGenerator volunteerCSVGenerator;
-
     @Autowired
     private YandexUploader yandexUploader;
 
     @Subscribe(id = "UploadReportBtn", subject = "clickListener")
     public void onUploadReportBtnClick(final ClickEvent<JmixButton> event) {
-        csvGenerator.generateCSV();
+        FileUtils.createFolder("csv");
+        foodTransferRowCSVGenerator.generateCSV();
         volunteerCSVGenerator.generateCSV();
         warehouseCSVGenerator.generateCSV();
         yandexUploader.uploadFiles();
