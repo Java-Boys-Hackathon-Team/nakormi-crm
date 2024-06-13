@@ -41,7 +41,6 @@ vaadin-vertical-layout:has(.attachments) {
     justify-content: center;
     align-items: center;
     width: 100%;
-    overflow: hidden;
 }
 
 .preview-wrapper {
