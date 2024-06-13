@@ -52,7 +52,7 @@
             </actions>
             <columns resizable="true">
                 <column property="date"/>
-                <column property="description"/>
+                <column property="numberFormatted"/>
                 <column property="volunteer"/>
                 <column property="transferType"/>
             </columns>

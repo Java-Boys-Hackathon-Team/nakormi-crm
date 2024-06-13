@@ -29,7 +29,7 @@
     <layout>
         <formLayout id="form" dataContainer="foodTransferDc">
             <dateTimePicker id="dateField" property="date"/>
-            <textField id="descriptionField" property="description"/>
+            <textField id="descriptionField" property="numberFormatted"/>
             <entityPicker id="volunteerField" property="volunteer">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>

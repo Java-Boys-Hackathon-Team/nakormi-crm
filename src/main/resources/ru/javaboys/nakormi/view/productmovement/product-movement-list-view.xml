@@ -35,12 +35,7 @@
                 <action id="edit" type="list_edit"/>
                 <action id="remove" type="list_remove"/>
             </actions>
-            <columns resizable="true">
-                <column property="description"/>
-                <column property="transferType"/>
-                <column property="warehouseSource"/>
-                <column property="warehouseReceiver"/>
-            </columns>
+            <columns resizable="true"/>
         </dataGrid>
         <hbox id="lookupActions" visible="false">
             <button id="selectBtn" action="selectAction"/>
