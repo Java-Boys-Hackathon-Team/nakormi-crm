@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://jmix.io/schema/flowui/menu">
 
-    <menu id="application" title="msg://ru.javaboys.nakormi/menu.application.title" opened="true">
+    <menu opened="true" id="application" title="msg://ru.javaboys.nakormi/menu.application.title">
         <item view="User.list" title="msg://ru.javaboys.nakormi.view.user/UserListView.title"/>
         <item view="District.list" title="msg://ru.javaboys.nakormi.view.district/districtListView.title"/>
         <item view="Address.list" title="msg://ru.javaboys.nakormi.view.address/addressListView.title"/>
         <item view="Person.list" title="msg://ru.javaboys.nakormi.view.person/personListView.title"/>
         <item view="Warehouse.list" title="msg://ru.javaboys.nakormi.view.warehouse/warehouseListView.title"/>
         <item view="Volunteer.list" title="msg://ru.javaboys.nakormi.view.volunteer/volunteerListView.title"/>
+        <item view="Animal.list" title="msg://ru.javaboys.nakormi.view.animal/animalListView.title"/>
+        <item view="Pride.list" title="msg://ru.javaboys.nakormi.view.pride/prideListView.title"/>
         <item view="FoodCategory.list"
               title="msg://ru.javaboys.nakormi.view.foodcategoryentity/foodCategoryEntityListView.title"/>
         <item view="Food.list" title="msg://ru.javaboys.nakormi.view.food/foodListView.title"/>
+    </menu>
+    <menu opened="true" id="document" description="msg://ru.javaboys.nakormi/menu_config.document.description"
+          title="msg://ru.javaboys.nakormi/menu_config.document.title">
         <item view="PuckUpOrder.list" title="msg://ru.javaboys.nakormi.view.puckuporder/puckUpOrderListView.title"/>
         <item view="FoodTransfer.list" title="msg://ru.javaboys.nakormi.view.foodtransfer/foodTransferListView.title"/>
+    </menu>
+    <item view="ProductMovement.list"
+          title="msg://ru.javaboys.nakormi.view.productmovement/productMovementListView.title"/>
+    <menu id="settings" description="msg://ru.javaboys.nakormi/menu_config.settings.description"
+          title="msg://ru.javaboys.nakormi/menu_config.settings.title">
         <item view="FoodTransferRow.list"
               title="msg://ru.javaboys.nakormi.view.foodtransferrow/foodTransferRowListView.title"/>
-        <item view="ProductMovement.list"
-              title="msg://ru.javaboys.nakormi.view.productmovement/productMovementListView.title"/>
-        <item view="Animal.list" title="msg://ru.javaboys.nakormi.view.animal/animalListView.title"/>
-        <item view="Pride.list" title="msg://ru.javaboys.nakormi.view.pride/prideListView.title"/>
-
     </menu>
 
 
