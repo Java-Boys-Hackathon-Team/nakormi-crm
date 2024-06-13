@@ -43,7 +43,7 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
     private Div uploadField;
 
     @ViewComponent
-    private Div previewField;
+    private Div previewWrapper;
 
     @Autowired
     private DataManager dataManager;
@@ -106,13 +106,13 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
 
     @Subscribe("attachmentsDataGrid")
     public void onAttachmentsDataGridItemClick(final ItemClickEvent<Attachment> event) {
-        previewField.removeAll();
-        previewField.add(getGetImageBySource(event.getItem().getSource()));
+        previewWrapper.removeAll();
+        previewWrapper.add(getGetImageBySource(event.getItem().getSource()));
     }
 
     @Subscribe(id = "attachmentsDataGridExclude", subject = "clickListener")
     public void onAttachmentsDataGridExcludeClick(final ClickEvent<JmixButton> event) {
-        previewField.removeAll();
+        previewWrapper.removeAll();
     }
 
     private boolean isImage(String contentType) {

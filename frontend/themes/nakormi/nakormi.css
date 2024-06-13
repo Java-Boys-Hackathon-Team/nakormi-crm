@@ -1,4 +1,8 @@
 /* Стили для десктопной версии */
+#uploadField {
+    width: 100% !important;
+}
+
 vaadin-vertical-layout:has(.attachments) {
     height: auto !important;
 }
@@ -39,12 +43,36 @@ vaadin-vertical-layout:has(.attachments) {
     width: 100%;
 }
 
+.preview-wrapper {
+    position: relative;
+    padding: 15px;
+    box-sizing: border-box;
+    height: 300px;
+    overflow: hidden;
+}
+
 .attachment-preview img {
     max-width: 100%;
-    max-height: 300px;
+    max-height: 100%;
     border: 3px solid #FFF;
     box-shadow: #cecece 0px 0px 20px;
     box-sizing: border-box;
+}
+
+.attachment-preview.dead img {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
+
+.dead .preview-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 1000px;
+    height: 20px;
+    background: #000;
+    left: -200px;
+    bottom: -210px;
+    transform: rotate(45deg);
 }
 
 /* Стили для мобильной версии */

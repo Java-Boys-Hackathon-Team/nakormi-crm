@@ -18,6 +18,7 @@
         <item view="ProductMovement.list"
               title="msg://ru.javaboys.nakormi.view.productmovement/productMovementListView.title"/>
         <item view="Animal.list" title="msg://ru.javaboys.nakormi.view.animal/animalListView.title"/>
+        <item view="Pride.list" title="msg://ru.javaboys.nakormi.view.pride/prideListView.title"/>
 
     </menu>
 

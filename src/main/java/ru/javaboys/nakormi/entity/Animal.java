@@ -21,7 +21,8 @@ import java.util.UUID;
 
 @JmixEntity
 @Table(name = "ANIMAL", indexes = {
-        @Index(name = "IDX_ANIMAL_DISTRICT", columnList = "DISTRICT_ID")
+        @Index(name = "IDX_ANIMAL_DISTRICT", columnList = "DISTRICT_ID"),
+        @Index(name = "IDX_ANIMAL_PRIDE", columnList = "PRIDE_ID")
 })
 @Entity
 public class Animal {
@@ -53,6 +54,10 @@ public class Animal {
     @Lob
     private String description;
 
+    @JoinColumn(name = "PRIDE_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Pride pride;
+
     @ManyToMany
     @JoinTable(
             name = "ANIMAL_ATTACHMENT", // Имя связующей таблицы
@@ -61,14 +66,6 @@ public class Animal {
     )
     private List<Attachment> attachments;
 
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
-    }
-
     @ManyToMany
     @JoinTable(
             name = "ANIMAL_VOLUNTEER", // Имя связующей таблицы
@@ -76,6 +73,14 @@ public class Animal {
             inverseJoinColumns = @JoinColumn(name = "VOLUNTEER_ID", referencedColumnName = "ID") // Колонка в связующей таблице для VOLUNTEER
     )
     private List<Volunteer> volunteers;
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
 
     public AnimalGenders getGender() {
         return gender == null ? null : AnimalGenders.fromId(gender);
@@ -91,6 +96,14 @@ public class Animal {
 
     public void setVolunteers(List<Volunteer> volunteers) {
         this.volunteers = volunteers;
+    }
+
+    public Pride getPride() {
+        return pride;
+    }
+
+    public void setPride(Pride pride) {
+        this.pride = pride;
     }
 
     public String getNickname() {

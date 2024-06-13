@@ -43,7 +43,7 @@ import java.util.Objects;
 public class AttachmentListView extends StandardListView<Attachment> {
 
     @ViewComponent
-    private Div previewField;
+    private Div previewWrapper;
 
     @Autowired
     private UiComponents uiComponents;
@@ -79,8 +79,8 @@ public class AttachmentListView extends StandardListView<Attachment> {
 
     @Subscribe("attachmentsDataGrid")
     public void onAttachmentsDataGridItemClick(final ItemClickEvent<Attachment> event) {
-        previewField.removeAll();
-        previewField.add(getGetImageBySource(event.getItem().getSource()));
+        previewWrapper.removeAll();
+        previewWrapper.add(getGetImageBySource(event.getItem().getSource()));
     }
 
     private Component getGetImageBySource(FileRef fileRef) {
@@ -152,6 +152,6 @@ public class AttachmentListView extends StandardListView<Attachment> {
 
     @Subscribe(id = "removeBtn", subject = "clickListener")
     public void onRemoveBtnClick(final ClickEvent<JmixButton> event) {
-        previewField.removeAll();
+        previewWrapper.removeAll();
     }
 }

@@ -69,7 +69,9 @@
                     </columns>
                 </dataGrid>
             </div>
-            <div id="previewField" classNames="attachment-preview item"/>
+            <div id="previewField" classNames="attachment-preview item">
+                <div id="previewWrapper" classNames="preview-wrapper"/>
+            </div>
         </div>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
