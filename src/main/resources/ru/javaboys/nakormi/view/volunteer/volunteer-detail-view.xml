@@ -6,12 +6,15 @@
         <instance id="volunteerDc"
                   class="ru.javaboys.nakormi.entity.Volunteer">
             <fetchPlan extends="_base">
-                <property name="person" fetchPlan="_base"/>
                 <property name="warehouse" fetchPlan="_base"/>
                 <property name="attachments" fetchPlan="_base"/>
+                <property name="animals" fetchPlan="_base">
+                    <property name="pride" fetch="JOIN" fetchPlan="_base"/>
+                </property>
             </fetchPlan>
             <loader/>
             <collection id="attachmentsDc" property="attachments"/>
+            <collection id="animalsDc" property="animals"/>
         </instance>
     </data>
     <facets>
@@ -39,8 +42,8 @@
             </entityPicker>
             <div id="uploadField"/>
         </formLayout>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Volunteer.attachments"/>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-<!--            <button action="attachmentsDataGrid.add"/>-->
             <button id="attachmentsDataGridExclude" action="attachmentsDataGrid.exclude"/>
         </hbox>
         <div id="attachments" classNames="attachments">
@@ -54,11 +57,35 @@
                     </actions>
                     <columns>
                         <column property="name"/>
-                        <column property="source" visible="false"/>
                     </columns>
                 </dataGrid>
             </div>
-            <div id="previewField" classNames="attachment-preview item"/>
+            <div id="previewField" classNames="attachment-preview item">
+                <div id="previewWrapper" classNames="preview-wrapper"/>
+            </div>
+        </div>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Volunteer.animals"/>
+        <hbox id="animalButtonsPanel" classNames="buttons-panel">
+            <button action="animalsDataGrid.add"/>
+            <button action="animalsDataGrid.exclude"/>
+        </hbox>
+        <div classNames="attachments">
+            <dataGrid id="animalsDataGrid"
+                      dataContainer="animalsDc"
+                      selectionMode="MULTI">
+                <actions>
+                    <action id="add" type="list_add"/>
+                    <action id="exclude" type="list_exclude"/>
+                </actions>
+                <columns>
+                    <column property="nickname"/>
+                    <column property="type"/>
+                    <column property="gender"/>
+                    <column property="isSterilized"/>
+                    <column property="description"/>
+                    <column property="pride.name"/>
+                </columns>
+            </dataGrid>
         </div>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

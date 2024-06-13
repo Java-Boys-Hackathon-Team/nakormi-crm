@@ -52,7 +52,7 @@
             </actions>
             <columns resizable="true">
                 <column property="date"/>
-                <column property="description"/>
+                <column property="numberFormatted" editable="false"/>
                 <column property="creator"/>
                 <column property="volunteer"/>
                 <column property="warehouse"/>

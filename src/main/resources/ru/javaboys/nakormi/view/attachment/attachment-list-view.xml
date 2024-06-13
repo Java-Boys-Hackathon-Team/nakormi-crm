@@ -73,7 +73,9 @@
                     <button id="saveBtn" text="msg:///actions.Save" icon="CHECK" themeNames="primary"/>
                     <button id="cancelBtn" text="msg:///actions.Cancel" icon="BAN"/>
                 </hbox>
-                <div id="previewField" classNames="attachment-preview item" css="margin: 20px 0 0 0;"/>
+                <div id="previewField" classNames="attachment-preview item" css="margin: 20px 0 0 0;">
+                    <div id="previewWrapper" classNames="preview-wrapper"/>
+                </div>
             </vbox>
         </formLayout>
     </layout>

@@ -3,7 +3,9 @@ package ru.javaboys.nakormi.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,9 +26,15 @@ public class PuckUpOrder {
     @Column(name = "DATE_")
     private LocalDateTime date;
 
+    @JmixGeneratedValue(sequenceName = "puckUpOrderNumberSequence")
+    @Column(name = "NUMBER_", nullable = false, updatable = false)
+    @NotNull
+    private Integer number;
+
     @InstanceName
-    @Column(name = "DESCRIPTION", length = 20)
-    private String description;
+    @Transient
+    @JmixProperty
+    private String numberFormatted;
 
     @JoinColumn(name = "CREATOR_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -75,12 +83,12 @@ public class PuckUpOrder {
         this.creator = creator;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getNumber() {
+        return number;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public LocalDateTime getDate() {
@@ -98,4 +106,18 @@ public class PuckUpOrder {
     public void setId(UUID id) {
         this.id = id;
     }
+
+    public String getNumberFormatted() {
+        return numberFormatted;
+    }
+
+    public void setNumberFormatted(String numberFormatted) {
+        this.numberFormatted = numberFormatted;
+    }
+
+    @PostLoad
+    public void postLoad() {
+        this.numberFormatted = String.format("P%03d", number);
+    }
+
 }
