@@ -19,22 +19,4 @@ import ru.javaboys.nakormi.view.main.MainView;
 @LookupComponent("foodTransferRowsDataGrid")
 @DialogMode(width = "64em")
 public class FoodTransferRowListView extends StandardListView<FoodTransferRow> {
-
-    @Autowired
-    private FoodTransferRowCSVGenerator foodTransferRowCSVGenerator;
-    @Autowired
-    private WarehouseCSVGenerator warehouseCSVGenerator;
-    @Autowired
-    VolunteerCSVGenerator volunteerCSVGenerator;
-    @Autowired
-    private YandexUploader yandexUploader;
-
-    @Subscribe(id = "UploadReportBtn", subject = "clickListener")
-    public void onUploadReportBtnClick(final ClickEvent<JmixButton> event) {
-        FileUtils.createFolder("csv");
-        foodTransferRowCSVGenerator.generateCSV();
-        volunteerCSVGenerator.generateCSV();
-        warehouseCSVGenerator.generateCSV();
-        yandexUploader.uploadFiles();
-    }
 }
