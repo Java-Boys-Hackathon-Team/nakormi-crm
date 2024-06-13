@@ -1,6 +1,8 @@
 package ru.javaboys.nakormi.service;
 
 import io.jmix.core.DataManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javaboys.nakormi.entity.FoodTransferRow;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Service
 public class FoodTransferRowCSVGenerator {
+
+    private static final Logger log = LoggerFactory.getLogger(FoodTransferRowCSVGenerator.class);
 
     @Autowired
     DataManager dataManager;
@@ -41,9 +45,9 @@ public class FoodTransferRowCSVGenerator {
                         .append("\n");
             }
 
-            System.out.println("CSV file has been generated successfully at: " + csvFileName);
+            log.info("CSV file has been generated successfully at: " + csvFileName);
         } catch (IOException e) {
-            System.err.println("Error writing CSV file: " + e.getMessage());
+            log.error("Error writing CSV file: " + e.getMessage());
         }
     }
 }
