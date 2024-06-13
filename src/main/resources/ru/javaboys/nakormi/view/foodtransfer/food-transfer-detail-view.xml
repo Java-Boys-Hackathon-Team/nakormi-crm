@@ -51,8 +51,9 @@
             </entityPicker>
             <div id="uploadField"/>
         </formLayout>
+        <h4 text="msg://ru.javaboys.nakormi.entity/FoodTransfer.attachments"/>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-        <button id="attachmentsDataGridExclude" action="attachmentsDataGrid.exclude"/>
+            <button id="attachmentsDataGridExclude" action="attachmentsDataGrid.exclude"/>
         </hbox>
         <div id="attachments" classNames="attachments">
             <div classNames="attachment-table item">

@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
-      title="msg://volunteerDetailView.title"
+      title="msg://animalDetailView.title"
       focusComponent="form">
     <data>
-        <instance id="volunteerDc"
-                  class="ru.javaboys.nakormi.entity.Volunteer">
+        <instance id="animalDc"
+                  class="ru.javaboys.nakormi.entity.Animal">
             <fetchPlan extends="_base">
-                <property name="person" fetchPlan="_base"/>
-                <property name="warehouse" fetchPlan="_base"/>
                 <property name="attachments" fetchPlan="_base"/>
-                <property name="animals" fetchPlan="_base"/>
+                <property name="district" fetchPlan="_base"/>
+                <property name="volunteers">
+                    <property name="person" fetch="JOIN">
+                        <property name="name"/>
+                        <property name="surname"/>
+                        <property name="phone"/>
+                    </property>
+                </property>
             </fetchPlan>
             <loader/>
             <collection id="attachmentsDc" property="attachments"/>
-            <collection id="animalsDc" property="animals"/>
+            <collection id="volunteersDc" property="volunteers"/>
         </instance>
     </data>
     <facets>
@@ -24,24 +29,22 @@
         <action id="closeAction" type="detail_close"/>
     </actions>
     <layout>
-        <formLayout id="form" dataContainer="volunteerDc">
-            <entityPicker id="personField" property="person">
+        <formLayout id="form" dataContainer="animalDc">
+            <textField id="nicknameField" property="nickname"/>
+            <select id="animalTypeField" property="type"/>
+            <entityPicker id="districtsPicker" dataContainer="animalDc" property="district">
                 <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityOpen" type="entity_open"/>
                 </actions>
             </entityPicker>
-            <textField id="passport_numberField" property="passportNumber"/>
-            <textField id="telegram_idField" property="telegramId"/>
-            <entityPicker id="warehouseField" property="warehouse">
-                <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
-                    <action id="entityClear" type="entity_clear"/>
-                </actions>
-            </entityPicker>
+            <select id="genderField" property="gender"/>
+            <checkbox id="isSterilizedField" property="isSterilized"/>
+            <textArea id="descriptionField" height="9.5em" property="description"/>
             <div id="uploadField"/>
         </formLayout>
-        <h4 text="msg://ru.javaboys.nakormi.entity/Volunteer.attachments"/>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Animal.attachments"/>
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="attachmentsDataGridExclude" action="attachmentsDataGrid.exclude"/>
         </hbox>
@@ -61,28 +64,24 @@
             </div>
             <div id="previewField" classNames="attachment-preview item"/>
         </div>
-        <h4 text="msg://ru.javaboys.nakormi.entity/Volunteer.animals"/>
-        <hbox id="animalButtonsPanel" classNames="buttons-panel">
-            <button action="animalsDataGrid.add"/>
-            <button action="animalsDataGrid.exclude"/>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Animal.volunteers"/>
+        <hbox id="volunteersButtonsPanel" classNames="buttons-panel">
+            <button action="volunteersDataGrid.add"/>
+            <button action="volunteersDataGrid.exclude"/>
         </hbox>
-        <div classNames="attachments">
-            <dataGrid id="animalsDataGrid"
-                      dataContainer="animalsDc"
-                      selectionMode="MULTI">
-                <actions>
-                    <action id="add" type="list_add"/>
-                    <action id="exclude" type="list_exclude"/>
-                </actions>
-                <columns>
-                    <column property="nickname"/>
-                    <column property="type"/>
-                    <column property="gender"/>
-                    <column property="isSterilized"/>
-                    <column property="description"/>
-                </columns>
-            </dataGrid>
-        </div>
+        <dataGrid id="volunteersDataGrid"
+                  dataContainer="volunteersDc"
+                  selectionMode="MULTI">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="exclude" type="list_exclude"/>
+            </actions>
+            <columns>
+                <column property="person.name"/>
+                <column property="person.surname"/>
+                <column property="person.phone"/>
+            </columns>
+        </dataGrid>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
             <button id="closeBtn" action="closeAction"/>

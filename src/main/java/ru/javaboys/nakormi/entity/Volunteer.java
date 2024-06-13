@@ -37,6 +37,22 @@ public class Volunteer {
 
     @ManyToMany
     @JoinTable(
+            name = "ANIMAL_VOLUNTEER", // Имя связующей таблицы
+            joinColumns = @JoinColumn(name = "VOLUNTEER_ID", referencedColumnName = "ID"), // Колонка в связующей таблице для VOLUNTEER
+            inverseJoinColumns = @JoinColumn(name = "ANIMAL_ID", referencedColumnName = "ID") // Колонка в связующей таблице для ANIMAL
+    )
+    private List<Animal> animals;
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
+    }
+
+    @ManyToMany
+    @JoinTable(
             name = "VOLUNTEER_ATTACHMENT", // Имя связующей таблицы
             joinColumns = @JoinColumn(name = "VOLUNTEER_ID", referencedColumnName = "ID"), // Колонка в связующей таблице для VOLUNTEER
             inverseJoinColumns = @JoinColumn(name = "ATTACHMENT_ID", referencedColumnName = "ID") // Колонка в связующей таблице для ATTACHMENT
