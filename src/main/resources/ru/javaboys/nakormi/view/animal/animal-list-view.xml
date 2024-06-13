@@ -52,6 +52,7 @@
             <columns resizable="true">
                 <column property="nickname"/>
                 <column property="type"/>
+                <column property="gender"/>
                 <column property="isSterilized"/>
                 <column property="description"/>
             </columns>
