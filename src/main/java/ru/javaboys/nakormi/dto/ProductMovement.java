@@ -27,12 +27,6 @@ public class ProductMovement {
     @JmixId
     private UUID id;
 
-    @InstanceName
-    @JmixProperty(mandatory = true)
-    @NotNull(message = "Номер обязателен для заполнения")
-    @NotBlank(message = "Номер обязателен для заполнения")
-    private String description;
-
     @JmixProperty(mandatory = true)
     @NotNull(message = "Тип перемещения обязателен для заполнения")
     private String transferType;
@@ -139,14 +133,6 @@ public class ProductMovement {
 
     public TransferTypes getTransferType() {
         return transferType == null ? null : TransferTypes.fromId(transferType);
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public UUID getId() {

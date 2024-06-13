@@ -23,7 +23,7 @@
     <layout>
         <formLayout id="form" dataContainer="puckUpOrderDc">
             <dateTimePicker id="dateField" property="date"/>
-            <textField id="descriptionField" property="description"/>
+            <textField id="numberField" property="numberFormatted" enabled="false"/>
             <entityPicker id="creatorField" property="creator">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>

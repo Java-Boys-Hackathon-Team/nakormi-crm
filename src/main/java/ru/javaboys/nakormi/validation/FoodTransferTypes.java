@@ -11,5 +11,7 @@ public class FoodTransferTypes {
     public interface Feed extends TransferType {}
     public interface TransferToBeneficiary extends TransferType {}
     public interface UnattachedWriteoff extends TransferType {}
+    public interface Transfer extends TransferType {}
+    public interface OrderToGet extends TransferType {}
 
 }

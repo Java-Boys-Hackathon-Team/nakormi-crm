@@ -19,7 +19,6 @@
     </actions>
     <layout>
         <formLayout id="form" dataContainer="productMovementDc">
-            <textField id="descriptionField" property="description"/>
             <select id="transferTypeField" property="transferType"/>
             <entityPicker id="volunteersPicker" dataContainer="productMovementDc" property="volunteer">
                 <actions>

@@ -14,7 +14,10 @@ public enum TransferTypes implements EnumClass<String> {
     TRANSFER_TO_VOLUNTEER("TTV"),
     FEED("FED"),
     TRANSFER_TO_BENEFICIARY("TTB"),
-    UNATTACHED_WRITEOFF("UWO");
+    UNATTACHED_WRITEOFF("UWO"),
+    ACCEPTANCE_TO_WAREHOUSE("ATW"),
+    SHIPMENT_FROM_WAREHOUSE("SFW")
+    ;
 
     private final String id;
 

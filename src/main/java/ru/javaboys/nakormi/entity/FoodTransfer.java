@@ -3,7 +3,23 @@ package ru.javaboys.nakormi.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.*;
+import io.jmix.core.metamodel.annotation.JmixProperty;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +31,7 @@ import java.util.UUID;
         @Index(name = "IDX_FOOD_TRANSFER_WAREHOUSE_RECEIVER", columnList = "WAREHOUSE_RECEIVER_ID"),
         @Index(name = "IDX_FOOD_TRANSFER_VOLUNTEER", columnList = "VOLUNTEER_ID")
 })
+@SequenceGenerator(name = "foodTransferNumberSequence", initialValue = 1, allocationSize = 1)
 @Entity
 public class FoodTransfer {
     @JmixGeneratedValue
@@ -22,12 +39,18 @@ public class FoodTransfer {
     @Id
     private UUID id;
 
+    @JmixGeneratedValue(sequenceName = "foodTransferNumberSequence")
+    @Column(name = "NUMBER_", nullable = false, updatable = false)
+    @NotNull
+    private Integer number;
+
     @Column(name = "DATE_")
     private LocalDateTime date;
 
     @InstanceName
-    @Column(name = "DESCRIPTION", length = 20)
-    private String description;
+    @Transient
+    @JmixProperty
+    private String numberFormatted;
 
     @JoinColumn(name = "VOLUNTEER_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -55,21 +78,20 @@ public class FoodTransfer {
     )
     private List<Attachment> attachments;
 
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
     public List<Attachment> getAttachments() {
         return attachments;
     }
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
-    }
-
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public List<FoodTransferRow> getRows() {
@@ -127,4 +149,18 @@ public class FoodTransfer {
     public void setId(UUID id) {
         this.id = id;
     }
+
+    public String getNumberFormatted() {
+        return numberFormatted;
+    }
+
+    public void setNumberFormatted(String numberFormatted) {
+        this.numberFormatted = numberFormatted;
+    }
+
+    @PostLoad
+    public void postLoad() {
+        this.numberFormatted = String.format("T%03d", number);
+    }
+
 }

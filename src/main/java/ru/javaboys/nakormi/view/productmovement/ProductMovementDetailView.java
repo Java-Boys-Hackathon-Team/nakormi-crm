@@ -74,7 +74,7 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
         movementService.executeMovement(entity);
         // Here you can save the entity to an external storage and return the saved instance.
         // Set the returned entity to the not-new state using EntityStates.setNew(entity, false).
-        // If the new entity ID is assigned by the storage, set the ID to the original instance too 
+        // If the new entity ID is assigned by the storage, set the ID to the original instance too
         // to let the framework match the saved instance with the original one.
         ProductMovement saved = entity;
         return Set.of(saved);
@@ -124,7 +124,9 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
             TransferTypes.TRANSFER_TO_VOLUNTEER,   new ElementsInfo(true,  true,  false),
             TransferTypes.FEED,                    new ElementsInfo(true,  false, false),
             TransferTypes.TRANSFER_TO_BENEFICIARY, new ElementsInfo(true,  false, true),
-            TransferTypes.UNATTACHED_WRITEOFF,     new ElementsInfo(true,  false, false)
+            TransferTypes.UNATTACHED_WRITEOFF,     new ElementsInfo(true,  false, false),
+            TransferTypes.ACCEPTANCE_TO_WAREHOUSE, new ElementsInfo(false,  true, false),
+            TransferTypes.SHIPMENT_FROM_WAREHOUSE, new ElementsInfo(true,  false, false)
     );
 
     private static class ElementsInfo {

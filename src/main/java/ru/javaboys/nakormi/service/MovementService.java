@@ -14,19 +14,12 @@ import ru.javaboys.nakormi.entity.FoodTransferRow;
 import ru.javaboys.nakormi.entity.MovementTypes;
 import ru.javaboys.nakormi.entity.TransferTypes;
 import ru.javaboys.nakormi.entity.Warehouse;
-import ru.javaboys.nakormi.repository.AttachmentRepository;
-import ru.javaboys.nakormi.repository.FoodTransferAttachmentRepository;
 import ru.javaboys.nakormi.repository.FoodTransferRepository;
-import ru.javaboys.nakormi.repository.FoodTransferRowRepository;
-import ru.javaboys.nakormi.validation.FoodTransferTypes;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static ru.javaboys.nakormi.entity.TransferTypes.*;
 import static ru.javaboys.nakormi.validation.FoodTransferTypes.*;
@@ -47,7 +40,6 @@ public class MovementService {
 
         FoodTransfer foodTransfer = dataManager.create(FoodTransfer.class);
         foodTransfer.setDate(now);
-        foodTransfer.setDescription(movement.getDescription());
         foodTransfer.setVolunteer(movement.getVolunteer());
         foodTransfer.setTransferType(movement.getTransferType());
         foodTransfer.setWarehouseSource(movement.getWarehouseSource());
@@ -56,14 +48,14 @@ public class MovementService {
         List<FoodTransferRow> rows = new ArrayList<>();
         for (ProductMovementRow detail : movement.getDetails()) {
             switch (movement.getTransferType()) {
-                case UNATTACHED_PICKUP -> {
+                case UNATTACHED_PICKUP, ACCEPTANCE_TO_WAREHOUSE -> {
                     rows.add(createIncomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                 }
                 case PICKUP_FROM_POINT, TRANSFER_TO_WAREHOUSE, TRANSFER_FROM_WAREHOUSE, TRANSFER_TO_VOLUNTEER -> {
                     rows.add(createIncomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                     rows.add(createOutcomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                 }
-                case FEED, TRANSFER_TO_BENEFICIARY, UNATTACHED_WRITEOFF  -> {
+                case FEED, TRANSFER_TO_BENEFICIARY, UNATTACHED_WRITEOFF, SHIPMENT_FROM_WAREHOUSE -> {
                     rows.add(createOutcomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                 }
             }
@@ -112,6 +104,8 @@ public class MovementService {
             TRANSFER_TO_VOLUNTEER,   TransferToVolunteer.class,
             FEED,                    Feed.class,
             TRANSFER_TO_BENEFICIARY, TransferToBeneficiary.class,
-            UNATTACHED_WRITEOFF,     UnattachedWriteoff.class
+            UNATTACHED_WRITEOFF,     UnattachedWriteoff.class,
+            ACCEPTANCE_TO_WAREHOUSE, Transfer.class,
+            SHIPMENT_FROM_WAREHOUSE, OrderToGet.class
     );
 }
