@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://productMovementDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="productMovementDc"
+                  class="ru.javaboys.nakormi.dto.ProductMovement">
+            <loader id="productMovementDl"/>
+            <collection id="detailsDc" property="details"/>
+            <collection id="attachmentsDc" property="attachments"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="productMovementDc">
+            <textField id="descriptionField" property="description"/>
+            <select id="transferTypeField" property="transferType"/>
+            <entityPicker id="volunteersPicker" dataContainer="productMovementDc" property="volunteer">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="personsPicker" dataContainer="productMovementDc" property="beneficiary" enabled="false">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="warehousesSourcePicker" dataContainer="productMovementDc" property="warehouseSource" enabled="false">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="warehousesReceiverPicker" dataContainer="productMovementDc" property="warehouseReceiver" enabled="false">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                </actions>
+            </entityPicker>
+            <div id="uploadField"/>
+            <div>
+                <hbox id="buttonsPanel" classNames="buttons-panel">
+                    <button action="productMovementRowsDataGrid.add"/>
+                    <button action="productMovementRowsDataGrid.exclude"/>
+                </hbox>
+                <dataGrid id="productMovementRowsDataGrid" dataContainer="detailsDc">
+                    <actions>
+                        <action id="add" type="list_add"/>
+                        <action id="exclude" type="list_exclude"/>
+                    </actions>
+                    <columns>
+                        <column property="food"/>
+                        <column property="amount"/>
+                    </columns>
+                </dataGrid>
+            </div>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

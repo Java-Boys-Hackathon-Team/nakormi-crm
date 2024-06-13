@@ -44,7 +44,7 @@ public class FoodTransfer {
     @OneToOne(fetch = FetchType.LAZY)
     private Warehouse warehouseReceiver;
 
-    @OneToMany(mappedBy = "foodTransfer")
+    @OneToMany(mappedBy = "foodTransfer", cascade = CascadeType.ALL)
     private List<FoodTransferRow> rows;
 
     @ManyToMany
