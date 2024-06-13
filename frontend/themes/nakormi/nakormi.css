@@ -1,1 +1,60 @@
-/* Define your styles here */
+/* Стили для десктопной версии */
+vaadin-vertical-layout:has(.attachments) {
+    height: auto !important;
+}
+
+#uploadField {
+    margin: 15px 0 0;
+}
+
+.attachments {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.attachments .item {
+    flex: 1 1 50%;
+    box-sizing: border-box;
+}
+
+.attachments .item:first-child {
+    padding: 0 1% 0 0;
+}
+
+.attachments .item:last-child {
+    padding: 0 0 0 1%;
+}
+
+.attachment-table #attachmentsDataGrid {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 300px !important;
+}
+
+.attachment-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.attachment-preview img {
+    max-width: 100%;
+    max-height: 300px;
+    border: 3px solid #FFF;
+    box-shadow: #cecece 0px 0px 20px;
+    box-sizing: border-box;
+}
+
+/* Стили для мобильной версии */
+@media (max-width: 600px) {
+    .attachments .item {
+        flex: 1 1 100%;
+        padding: 0 !important;
+    }
+
+    .attachment-preview img {
+        margin: 20px 0 0;
+    }
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://productMovementListView.title"
+      focusComponent="productMovementsDataGrid">
+    <data>
+        <collection id="productMovementsDc"
+                    class="ru.javaboys.nakormi.dto.ProductMovement">
+            <loader id="productMovementsDl" readOnly="true"/>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="productMovementsDataGrid.create"/>
+            <button id="editBtn" action="productMovementsDataGrid.edit"/>
+            <button id="removeBtn" action="productMovementsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="productMovementsDl"/>
+        </hbox>
+        <dataGrid id="productMovementsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="productMovementsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="description"/>
+                <column property="transferType"/>
+                <column property="warehouseSource"/>
+                <column property="warehouseReceiver"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

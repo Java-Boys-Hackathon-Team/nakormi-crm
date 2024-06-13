@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://attachmentListView.title"
+      focusComponent="attachmentsDataGrid">
+    <data>
+        <collection id="attachmentsDc"
+                    class="ru.javaboys.nakormi.entity.Attachment">
+            <fetchPlan extends="_base"/>
+            <loader id="attachmentsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Attachment e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="attachmentDc"
+                  class="ru.javaboys.nakormi.entity.Attachment">
+            <fetchPlan extends="_base"/>
+            <loader id="attachmentDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout padding="false">
+        <formLayout classNames="master-detail-layout" height="100%">
+            <vbox id="listLayout" height="100%">
+                <genericFilter id="genericFilter"
+                               dataLoader="attachmentsDl">
+                    <properties include=".*"/>
+                </genericFilter>
+                <hbox id="buttonsPanel" classNames="buttons-panel">
+                    <button id="createBtn" action="attachmentsDataGrid.create"/>
+                    <button id="editBtn" action="attachmentsDataGrid.edit"/>
+                    <button id="removeBtn" action="attachmentsDataGrid.remove"/>
+                    <simplePagination id="pagination" dataLoader="attachmentsDl"/>
+                </hbox>
+                <dataGrid id="attachmentsDataGrid"
+                          width="100%"
+                          minHeight="20em"
+                          dataContainer="attachmentsDc"
+                          columnReorderingAllowed="true"
+                          selectionMode="MULTI">
+                    <actions showInContextMenuEnabled="false">
+                        <action id="create" type="list_create"/>
+                        <action id="edit" type="list_edit"/>
+                        <action id="remove" type="list_remove"/>
+                    </actions>
+                    <columns resizable="true">
+                        <column property="name"/>
+                        <column property="source" visible="false"/>
+                    </columns>
+                </dataGrid>
+                <hbox id="lookupActions" visible="false">
+                    <button id="selectBtn" action="selectAction"/>
+                    <button id="discardBtn" action="discardAction"/>
+                </hbox>
+            </vbox>
+            <vbox id="detailsLayout" height="100%">
+                <formLayout id="form" dataContainer="attachmentDc">
+                    <textField id="nameField" property="name"/>
+                    <textField id="sourceField" property="source"/>
+                </formLayout>
+                <hbox id="detailActions">
+                    <button id="saveBtn" text="msg:///actions.Save" icon="CHECK" themeNames="primary"/>
+                    <button id="cancelBtn" text="msg:///actions.Cancel" icon="BAN"/>
+                </hbox>
+                <div id="previewField" classNames="attachment-preview item" css="margin: 20px 0 0 0;"/>
+            </vbox>
+        </formLayout>
+    </layout>
+</view>

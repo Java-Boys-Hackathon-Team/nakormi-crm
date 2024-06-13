@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://productMovementRowListView.title"
+      focusComponent="productMovementRowsDataGrid">
+    <data>
+        <collection id="productMovementRowsDc"
+                    class="ru.javaboys.nakormi.dto.ProductMovementRow">
+            <loader id="productMovementRowsDl" readOnly="true"/>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="productMovementRowsDataGrid.create"/>
+            <button id="editBtn" action="productMovementRowsDataGrid.edit"/>
+            <button id="removeBtn" action="productMovementRowsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="productMovementRowsDl"/>
+        </hbox>
+        <dataGrid id="productMovementRowsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="productMovementRowsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="food"/>
+                <column property="amount"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

@@ -26,7 +26,8 @@ dependencies {
     implementation 'io.jmix.security:jmix-security-starter'
     implementation 'io.jmix.security:jmix-security-flowui-starter'
     implementation 'io.jmix.security:jmix-security-data-starter'
-    implementation 'io.jmix.localfs:jmix-localfs-starter'
+    // Удаляем зависимость, так как используем S3
+    // implementation 'io.jmix.localfs:jmix-localfs-starter'
     implementation 'io.jmix.flowui:jmix-flowui-starter'
     implementation 'io.jmix.flowui:jmix-flowui-data-starter'
     implementation 'io.jmix.flowui:jmix-flowui-themes'
@@ -43,6 +44,8 @@ dependencies {
     testImplementation 'io.jmix.flowui:jmix-flowui-test-assist'
     implementation 'org.postgresql:postgresql'
     implementation 'io.jmix.translations:jmix-translations-ru'
+
+    implementation 'io.jmix.awsfs:jmix-awsfs-starter'
 
     implementation 'org.apache.poi:poi:5.2.2'
     implementation 'org.apache.poi:poi-ooxml:5.2.2'
