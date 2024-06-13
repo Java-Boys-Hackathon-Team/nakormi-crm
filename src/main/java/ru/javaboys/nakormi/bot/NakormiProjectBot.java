@@ -1,9 +1,8 @@
 package ru.javaboys.nakormi.bot;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.BotSession;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.starter.AfterBotRegistration;
@@ -11,7 +10,6 @@ import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @Slf4j
@@ -22,9 +20,9 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
 
     private final TelegramClient telegramClient;
 
-    public NakormiProjectBot(@Value("${bot.token}") String token) {
-        this.token = token;
-        telegramClient = new OkHttpTelegramClient(token);
+    public NakormiProjectBot(TelegramContext telegramContext) {
+        this.token = telegramContext.getToken();
+        this.telegramClient = telegramContext.getTelegramClient();
     }
 
     @Override
@@ -37,6 +35,7 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
         return this;
     }
 
+    @SneakyThrows
     @Override
     public void consume(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -49,11 +48,8 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
                     .chatId(chat_id)
                     .text(message_text)
                     .build();
-            try {
-                telegramClient.execute(message);
-            } catch (TelegramApiException e) {
-                log.error("Error", e);
-            }
+
+            telegramClient.execute(message);
         }
     }
 

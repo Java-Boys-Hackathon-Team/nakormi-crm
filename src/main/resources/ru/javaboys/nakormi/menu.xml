@@ -13,6 +13,8 @@
         <item view="FoodCategory.list"
               title="msg://ru.javaboys.nakormi.view.foodcategoryentity/foodCategoryEntityListView.title"/>
         <item view="Food.list" title="msg://ru.javaboys.nakormi.view.food/foodListView.title"/>
+        <item view="InvitationCode.list"
+              title="msg://ru.javaboys.nakormi.view.invitationcode/invitationCodeListView.title"/>
     </menu>
     <menu opened="true" id="document" description="msg://ru.javaboys.nakormi/menu_config.document.description"
           title="msg://ru.javaboys.nakormi/menu_config.document.title">

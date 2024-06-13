@@ -45,6 +45,16 @@ public class Person {
 
     @Column(name = "PERSON_TYPE", nullable = false)
     private String type;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "person")
+    private InvitationCode invitationCode;
+
+    public InvitationCode getInvitationCode() {
+        return invitationCode;
+    }
+
+    public void setInvitationCode(InvitationCode invitationCode) {
+        this.invitationCode = invitationCode;
+    }
 
     @InstanceName
     @DependsOnProperties({"name", "surname"})
