@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<view xmlns="http://jmix.io/schema/flowui/view"
+<view xmlns="http://jmix.io/schema/flowui/view" xmlns:maps="http://jmix.io/schema/maps/ui"
       title="msg://addressLookupView.title">
+    <actions>
+        <action id="select"
+                icon="CHECK"
+                actionVariant="PRIMARY"
+                enabled="false"/>
+        <action id="cancel"
+                type="view_close"/>
+    </actions>
     <data>
         <collection id="addressesDc" class="ru.javaboys.nakormi.entity.Address">
             <loader id="addressesDl" readOnly="true">
@@ -12,16 +20,41 @@
         </collection>
     </data>
     <layout>
+        <entityPicker id="currentLocationField"
+                      metaClass="Address"
+                      readOnly="true"
+                      width="20em"
+                      label="msg://addressLookupView.title"/>
         <hbox padding="false"
               height="100%"
               width="100%">
             <vbox padding="false" width="25em">
-                <select id="locationTypeField"
-                        emptySelectionAllowed="true"
-                        width="20em"
-                        itemsEnum="com.company.onboarding.entity.LocationType"/>
+                <listBox id="listBox"
+                         itemsContainer="addressesDc"
+                         minHeight="0"
+                         width="20em"/>
             </vbox>
+            <maps:geoMap id="map"
+                         height="100%"
+                         width="100%">
+                <maps:mapView centerX="0" centerY="51">
+                    <maps:extent minX="-15" minY="30" maxX="40" maxY="60"/>
+                </maps:mapView>
+                <maps:layers>
+                    <maps:tile>
+                        <maps:osmSource/>
+                    </maps:tile>
+                    <maps:vector id="dataVectorLayer">
+                        <maps:dataVectorSource id="buildingSource"
+                                               dataContainer="addressesDc"
+                                               property="coordinate"/>
+                    </maps:vector>
+                </maps:layers>
+            </maps:geoMap>
         </hbox>
-        <hbox id="controlLayout"/>
+        <hbox id="controlLayout">
+            <button id="selectBtn" action="select"/>
+            <button id="cancelBtn" action="cancel"/>
+        </hbox>
     </layout>
 </view>
