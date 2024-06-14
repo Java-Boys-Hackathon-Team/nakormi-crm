@@ -88,6 +88,38 @@ vaadin-vertical-layout:has(.attachments) {
     flex-direction: column;
 }
 
+#volunteerTopByFoodImg {
+    max-width: 100%;
+}
+
+.jmix-main-view-navigation ul {
+    padding: 0 10px 0 0;
+}
+
+.jmix-main-view-navigation li a {
+    border-radius: 5px !important;
+    overflow: hidden;
+}
+
+.main-menu-btn {
+    margin: 0 0 10px;
+    padding: 8px 0px 8px 12px !important;
+    color: #fff !important;
+    background: #006af5;
+}
+
+.main-menu-btn[highlight] {
+    border-radius: 5px !important;
+    margin: 0 10px 10px 0;
+    padding: 8px 0px 8px 12px !important;
+    color: #1169dd !important;
+    background: #006af5;
+}
+
+.main-menu-btn span {
+    font-size: 15px;
+}
+
 /* Стили для мобильной версии */
 @media (max-width: 600px) {
     .attachments .item {
