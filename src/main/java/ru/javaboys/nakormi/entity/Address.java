@@ -3,15 +3,9 @@ package ru.javaboys.nakormi.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.locationtech.jts.geom.Point;
 
 import java.util.UUID;
 
@@ -35,6 +29,18 @@ public class Address {
     @InstanceName
     @Column(name = "ADDRESS_TEXT", nullable = false, length = 1000)
     private String addressText;
+
+    @Column(name = "COORDINATE", nullable = false)
+    @NotNull
+    private Point coordinate;
+
+    public Point getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Point coordinate) {
+        this.coordinate = coordinate;
+    }
 
     public String getAddressText() {
         return addressText;

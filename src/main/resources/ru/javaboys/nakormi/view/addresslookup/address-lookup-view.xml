@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://addressLookupView.title"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition">
+    <data>
+        <collection id="AddressDc" class="ru.javaboys.nakormi.entity.Address">
+            <fetchPlan extends="_base"/>
+            <loader id="AddressDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Address e]]>
+                    <condition>
+                        <c:jpql>
+                            <c:where>e.type = :component_locationTypeField</c:where>
+                        </c:jpql>
+                    </condition>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <layout>
+        <entityPicker id="currentAddressField"
+                      metaClass="Address"
+                      readOnly="true"
+                      width="20em"
+                      label="msg://currentAddressField.label"/>
+        <hbox padding="false"
+              height="100%"
+              width="100%">
+            <vbox padding="false"
+                  width="25em">
+                <listBox id="listBox"
+                         itemsContainer="AddressDc"
+                         minHeight="20em"
+                         width="20em"/>
+            </vbox>
+        </hbox>
+        <hbox id="controlLayout"/>
+    </layout>
+</view>
