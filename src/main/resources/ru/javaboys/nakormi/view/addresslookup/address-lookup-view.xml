@@ -23,11 +23,5 @@
             </vbox>
         </hbox>
         <hbox id="controlLayout"/>
-        <entityPicker id="addressesPicker"
-                      metaClass="Address"
-                      readOnly="true"
-                      width="20em"
-                      label="msg://currentLocationField.label">
-        </entityPicker>
     </layout>
 </view>
