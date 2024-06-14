@@ -37,7 +37,7 @@ public class FoodTransferRowCSVGenerator {
                         .append(",")
                         .append(row.getMovement() != null ? row.getMovement().getId() : "")
                         .append(",")
-                        .append(row.getWarehouse().getId().toString())
+                        .append(row.getWarehouse() != null ? row.getWarehouse().getId().toString() : "")
                         .append(",")
                         .append(row.getFood().getId().toString())
                         .append(",")
