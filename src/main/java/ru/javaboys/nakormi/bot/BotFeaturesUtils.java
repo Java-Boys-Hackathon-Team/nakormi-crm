@@ -58,4 +58,14 @@ public class BotFeaturesUtils {
 
         telegramContext.getTelegramClient().execute(sm);
     }
+
+    public void sendMessage(Update update, String text) throws TelegramApiException {
+        SendMessage message = SendMessage
+                .builder()
+                .chatId(update.getMessage().getChatId())
+                .text(text)
+                .build();
+
+        telegramContext.getTelegramClient().execute(message);
+    }
 }

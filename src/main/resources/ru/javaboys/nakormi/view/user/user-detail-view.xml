@@ -7,6 +7,7 @@
                   class="ru.javaboys.nakormi.entity.User">
             <fetchPlan extends="_base">
                 <property name="person" fetchPlan="_base"/>
+                <property name="telegramUser" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
         </instance>
@@ -40,9 +41,12 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-            <textField id="telegramUserIdField" property="telegramUserId"/>
-            <textField id="telegramChatIdField" property="telegramChatId"/>
-            <textField id="telegramUserNameField" property="telegramUserName"/>
+            <entityPicker id="telegramUserField" property="telegramUser">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

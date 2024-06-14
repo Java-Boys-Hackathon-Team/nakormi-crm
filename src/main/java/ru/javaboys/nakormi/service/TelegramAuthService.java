@@ -49,27 +49,24 @@ public class TelegramAuthService {
 
     public void registerUser(String username,
                              String password,
-                             String firstName,
-                             String lastName,
-                             String email,
+//                             String firstName,
+//                             String lastName,
+//                             String email,
                              String telegramUserName,
                              Long telegramUserId,
-                             Long telegramChatId) throws Exception {
+                             Long telegramChatId) {
 
         User user = metadata.create(User.class);
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
-
-        user.setTelegramUserName(telegramUserName);
-        user.setTelegramUserId(telegramUserId);
-        user.setTelegramChatId(telegramChatId);
+//        user.setFirstName(firstName);
+//        user.setLastName(lastName);
+//        user.setEmail(email);
+        
 
         List<String> errors = passwordValidation.validate(user, password);
         if (!errors.isEmpty()) {
-            throw new Exception(String.join("\n", errors));
+            throw new RuntimeException(String.join("\n", errors));
         } else {
             RoleAssignmentEntity roleAssignment = unconstrainedDataManager.create(RoleAssignmentEntity.class);
             roleAssignment.setUsername(user.getUsername());

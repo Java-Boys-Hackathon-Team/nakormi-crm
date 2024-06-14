@@ -29,7 +29,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "USER_", indexes = {
         @Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true),
-        @Index(name = "IDX_USER__PERSON", columnList = "PERSON_ID")
+        @Index(name = "IDX_USER__PERSON", columnList = "PERSON_ID"),
+        @Index(name = "IDX_USER__TELEGRAM_USER", columnList = "TELEGRAM_USER_ID")
 })
 public class User implements JmixUserDetails, HasTimeZone {
 
@@ -38,14 +39,9 @@ public class User implements JmixUserDetails, HasTimeZone {
     @JmixGeneratedValue
     private UUID id;
 
-    @Column(name = "TELEGRAM_USER_ID")
-    private Long telegramUserId;
-
-    @Column(name = "TELEGRAM_CHAT_ID")
-    private Long telegramChatId;
-
-    @Column(name = "TELEGRAM_USER_NAME")
-    private String telegramUserName;
+    @JoinColumn(name = "TELEGRAM_USER_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private TelegamUser telegramUser;
 
     @JoinColumn(name = "PERSON_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -82,28 +78,12 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
 
-    public Long getTelegramChatId() {
-        return telegramChatId;
+    public TelegamUser getTelegramUser() {
+        return telegramUser;
     }
 
-    public void setTelegramChatId(Long telegramChatId) {
-        this.telegramChatId = telegramChatId;
-    }
-
-    public String getTelegramUserName() {
-        return telegramUserName;
-    }
-
-    public void setTelegramUserName(String telegramUserName) {
-        this.telegramUserName = telegramUserName;
-    }
-
-    public Long getTelegramUserId() {
-        return telegramUserId;
-    }
-
-    public void setTelegramUserId(Long telegramUserId) {
-        this.telegramUserId = telegramUserId;
+    public void setTelegramUser(TelegamUser telegramUser) {
+        this.telegramUser = telegramUser;
     }
 
     public Person getPerson() {

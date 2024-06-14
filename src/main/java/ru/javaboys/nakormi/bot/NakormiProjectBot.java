@@ -43,9 +43,10 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
         if (update.hasMessage() && update.getMessage().hasText()) {
 
             String messageTest = update.getMessage().getText();
+            CommandArgs commandArgs = BotUtils.parseCommand(messageTest);
 
-            switch (messageTest) {
-                case Commands.START -> loginScreen.processUpdate(update);
+            switch (commandArgs.getCommand()) {
+                case Commands.START, Commands.CODE, Commands.LOGIN, Commands.REG -> loginScreen.processUpdate(update);
             }
         } else if (update.hasCallbackQuery()) {
             String callbackData = update.getCallbackQuery().getData();
