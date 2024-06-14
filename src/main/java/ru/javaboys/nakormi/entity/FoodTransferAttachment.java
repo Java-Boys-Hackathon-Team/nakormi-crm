@@ -33,6 +33,7 @@ public class FoodTransferAttachment {
     @ManyToOne(fetch = FetchType.LAZY)
     private FoodTransfer foodTransfer;
 
+    @OnDeleteInverse(DeletePolicy.CASCADE)
     @JoinColumn(name = "ATTACHMENT_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private Attachment attachment;
