@@ -19,52 +19,68 @@
     </actions>
     <layout>
         <formLayout id="form" dataContainer="productMovementDc">
-            <select id="transferTypeField" property="transferType"/>
-            <entityPicker id="volunteersPicker" dataContainer="productMovementDc" property="volunteer">
-                <actions>
-                    <action id="entityClear" type="entity_clear"/>
-                    <action id="entityLookup" type="entity_lookup"/>
-                </actions>
-            </entityPicker>
-            <entityPicker id="personsPicker" dataContainer="productMovementDc" property="beneficiary" enabled="false">
-                <actions>
-                    <action id="entityClear" type="entity_clear"/>
-                    <action id="entityLookup" type="entity_lookup"/>
-                </actions>
-            </entityPicker>
-            <entityPicker id="warehousesSourcePicker" dataContainer="productMovementDc" property="warehouseSource" enabled="false">
-                <actions>
-                    <action id="entityClear" type="entity_clear"/>
-                    <action id="entityLookup" type="entity_lookup"/>
-                </actions>
-            </entityPicker>
-            <entityPicker id="warehousesReceiverPicker" dataContainer="productMovementDc" property="warehouseReceiver" enabled="false">
-                <actions>
-                    <action id="entityClear" type="entity_clear"/>
-                    <action id="entityLookup" type="entity_lookup"/>
-                </actions>
-            </entityPicker>
-            <div id="uploadField"/>
-            <div>
-                <hbox id="buttonsPanel" classNames="buttons-panel">
-                    <button action="productMovementRowsDataGrid.add"/>
-                    <button action="productMovementRowsDataGrid.exclude"/>
-                </hbox>
-                <dataGrid id="productMovementRowsDataGrid" dataContainer="detailsDc">
+            <formLayout id="firstScreen">
+                <entityPicker id="volunteersPicker" dataContainer="productMovementDc" property="volunteer">
                     <actions>
-                        <action id="add" type="list_add"/>
-                        <action id="exclude" type="list_exclude"/>
+                        <action id="entityClear" type="entity_clear"/>
+                        <action id="entityLookup" type="entity_lookup"/>
                     </actions>
-                    <columns>
-                        <column property="food"/>
-                        <column property="amount"/>
-                    </columns>
-                </dataGrid>
-            </div>
+                </entityPicker>
+                <select id="transferTypeField" property="transferType"/>
+                <formLayout id="variableFields">
+                    <entityPicker id="personsPicker" dataContainer="productMovementDc" property="beneficiary" enabled="false">
+                        <actions>
+                            <action id="entityClear" type="entity_clear"/>
+                            <action id="entityLookup" type="entity_lookup"/>
+                        </actions>
+                    </entityPicker>
+                    <entityPicker id="warehousesSourcePicker" dataContainer="productMovementDc" property="warehouseSource" enabled="false">
+                        <actions>
+                            <action id="entityClear" type="entity_clear"/>
+                            <action id="entityLookup" type="entity_lookup"/>
+                        </actions>
+                    </entityPicker>
+                    <entityPicker id="warehousesReceiverPicker" dataContainer="productMovementDc" property="warehouseReceiver" enabled="false">
+                        <actions>
+                            <action id="entityClear" type="entity_clear"/>
+                            <action id="entityLookup" type="entity_lookup"/>
+                        </actions>
+                    </entityPicker>
+                </formLayout>
+            </formLayout>
+            <formLayout id="secondScreen">
+                <formLayout id="navigateButtonsSecondScreen">
+                    <button id="prevStepSecondScreenButton" text="msg://prevStepButton.text"/>
+                </formLayout>
+                <div>
+                    <hbox id="buttonsPanel" classNames="buttons-panel">
+                        <button action="productMovementRowsDataGrid.add"/>
+                        <button action="productMovementRowsDataGrid.exclude"/>
+                    </hbox>
+                    <dataGrid id="productMovementRowsDataGrid" dataContainer="detailsDc">
+                        <actions>
+                            <action id="add" type="list_add"/>
+                            <action id="exclude" type="list_exclude"/>
+                        </actions>
+                        <columns>
+                            <column property="food"/>
+                            <column property="amount"/>
+                        </columns>
+                    </dataGrid>
+                </div>
+            </formLayout>
+            <formLayout id="thirdScreen">
+                <formLayout id="navigateButtonsThirdScreen">
+                    <button id="prevStepThirdScreenButton" text="msg://prevStepButton.text"/>
+                </formLayout>
+                <div id="uploadField"/>
+            </formLayout>
         </formLayout>
-        <hbox id="detailActions">
+        <formLayout id="detailActions">
+            <button id="nextStepFirstScreenButton" text="msg://nextStepButton.text" themeNames="primary"/>
+            <button id="nextStepSecondScreenButton" text="msg://nextStepButton.text" themeNames="primary"/>
             <button id="saveAndCloseBtn" action="saveAction"/>
             <button id="closeBtn" action="closeAction"/>
-        </hbox>
+        </formLayout>
     </layout>
 </view>
