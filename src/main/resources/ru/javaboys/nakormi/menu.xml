@@ -11,10 +11,6 @@
         <item view="Person.list" title="msg://ru.javaboys.nakormi.view.person/personListView.title"/>
         <item view="Warehouse.list" title="msg://ru.javaboys.nakormi.view.warehouse/warehouseListView.title"/>
         <item view="Volunteer.list" title="msg://ru.javaboys.nakormi.view.volunteer/volunteerListView.title"/>
-        <item view="WarehouseSelect.list"
-              title="msg://ru.javaboys.nakormi.view.warehouse/warehouseListViewSelect.title"/>
-        <item view="PersonSelect.list" title="msg://ru.javaboys.nakormi.view.person/personListViewSelect.title"/>
-        <item view="FoodSelect.list" title="msg://ru.javaboys.nakormi.view.food/foodListViewSelect.title"/>
     </menu>
     <menu id="animals" description="msg://ru.javaboys.nakormi/menu_config.animals.description"
           title="msg://ru.javaboys.nakormi/menu_config.animals.title" opened="true">
