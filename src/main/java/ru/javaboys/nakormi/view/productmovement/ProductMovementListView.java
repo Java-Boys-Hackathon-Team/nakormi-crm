@@ -47,6 +47,9 @@ public class ProductMovementListView extends StandardListView<ProductMovement> {
 
     @Subscribe
     public void onBeforeShow(final BeforeShowEvent event) {
+        productMovementsDataGrid.setVisible(false);
+        editBtn.setVisible(false);
+        removeBtn.setVisible(false);
         createBtn.click();
     }
 }
