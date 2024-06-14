@@ -81,7 +81,9 @@ public class LoginScreen implements BotScreen {
 
                     botFeaturesUtils.sendMessage(update, """
                             Ваш код действителен. Мы создадим Вам учетную запись волонтера!
+                            
                             Придумайте логин и пароль для своей учетной записи.
+                            
                             Пример: /reg ivan qwerty
                             """);
                 } else {
@@ -112,11 +114,13 @@ public class LoginScreen implements BotScreen {
                 botFeaturesUtils.sendMessage(update, """
                         Отлично! Вам была создана учетна запись в системе "Накорми CRM".
                         Для входа в систему перейдите по ссылке:
+                        
                         https://nakormi.kuramshin-dev.ru/
                         """);
 
                 botFeaturesUtils.sendMessage(update, """
                         Для завершения регистрации укажите Имя, Фамилию, Район проживания, Улицу проживания, email, номер телефона именно в таком порядке.
+                        
                         Пример: /person Иван Петровский Северный Вятская ivan@mail.ru +79001234567
                         """);
             }

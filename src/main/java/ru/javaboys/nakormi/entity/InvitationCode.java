@@ -38,12 +38,13 @@ public class InvitationCode {
     @Column(name = "CODE")
     private String code;
 
-    @Column(name = "USED")
-    private Boolean used;
+    @Column(name = "USED", columnDefinition = "boolean default false")
+    private Boolean used = false;
 
     @JoinColumn(name = "PERSON_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private Person person;
+
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "invitationCode")
     private TelegamUser telegamUser;
 
