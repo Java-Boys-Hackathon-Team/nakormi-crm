@@ -1,6 +1,8 @@
 package ru.javaboys.nakormi.view.productmovement;
 
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.upload.Upload;
@@ -15,6 +17,7 @@ import io.jmix.core.SaveContext;
 import io.jmix.flowui.action.entitypicker.EntityLookupAction;
 import io.jmix.flowui.component.valuepicker.EntityPicker;
 import io.jmix.flowui.kit.action.Action;
+import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.view.EditedEntityContainer;
 import io.jmix.flowui.view.Install;
@@ -52,12 +55,31 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     @Autowired private DataManager dataManager;
     @Autowired private FileStorageLocator fileStorageLocator;
     @Autowired private MovementService movementService;
+    @ViewComponent
+    private FormLayout firstScreen;
+    @ViewComponent
+    private FormLayout secondScreen;
+    @ViewComponent
+    private FormLayout thirdScreen;
+    @ViewComponent
+    private JmixButton prevStepSecondScreenButton;
+    @ViewComponent
+    private JmixButton prevStepThirdScreenButton;
+    @ViewComponent
+    private JmixButton nextStepFirstScreenButton;
+    @ViewComponent
+    private JmixButton nextStepSecondScreenButton;
+    @ViewComponent
+    private FormLayout variableFields;
+    @ViewComponent
+    private JmixButton saveAndCloseBtn;
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         transferTypeField.addValueChangeListener(this::onTransferTypeFieldValueChange);
         uploadField.add(getUpload());
-
+        firstScreenOpened();
+        variableFields.setVisible(false);
     }
 
     @Install(to = "productMovementDl", target = Target.DATA_LOADER)
@@ -81,15 +103,19 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     }
 
     private void onTransferTypeFieldValueChange(HasValue.ValueChangeEvent<TransferTypes> event) {
+        variableFields.setVisible(true);
         var visibilityInfo = visibleElementsMapInfo.getOrDefault(event.getValue(), new ElementsInfo(false, false, false));
+        warehousesSourcePicker.setVisible(visibilityInfo.isWarehouseSourceEnable());
         warehousesSourcePicker.setEnabled(visibilityInfo.isWarehouseSourceEnable());
         if (!visibilityInfo.isWarehouseSourceEnable()) {
             warehousesSourcePicker.setValue(null);
         }
+        warehousesReceiverPicker.setVisible(visibilityInfo.isWarehouseReceiverEnable());
         warehousesReceiverPicker.setEnabled(visibilityInfo.isWarehouseReceiverEnable());
         if (!visibilityInfo.isWarehouseReceiverEnable()) {
             warehousesReceiverPicker.setValue(null);
         }
+        personsPicker.setVisible(visibilityInfo.isBeneficiaryEnable());
         personsPicker.setEnabled(visibilityInfo.isBeneficiaryEnable());
         if (!visibilityInfo.isBeneficiaryEnable()) {
             personsPicker.setValue(null);
@@ -128,6 +154,57 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
             TransferTypes.ACCEPTANCE_TO_WAREHOUSE, new ElementsInfo(false,  true, false),
             TransferTypes.SHIPMENT_FROM_WAREHOUSE, new ElementsInfo(true,  false, false)
     );
+
+    private void firstScreenOpened() {
+        setVisibleOnScreen(true, false, false);
+        setVisibleOnNextButtons(true, false, false);
+    }
+
+    private void secondScreenOpened() {
+        setVisibleOnScreen(false, true, false);
+        setVisibleOnNextButtons(false, true, false);
+    }
+
+    private void thirdScreenOpened() {
+        setVisibleOnScreen(false, false, true);
+        setVisibleOnNextButtons(false, false, true);
+    }
+
+    private void setVisibleOnScreen(boolean firstScreenVisible,
+                                  boolean secondScreenVisible,
+                                  boolean thirdScreenVisible) {
+        firstScreen.setVisible(firstScreenVisible);
+        secondScreen.setVisible(secondScreenVisible);
+        thirdScreen.setVisible(thirdScreenVisible);
+    }
+
+    private void setVisibleOnNextButtons(boolean nextStepFirstScreenButtonVisible,
+                                         boolean nextStepSecondScreenButtonVisible,
+                                         boolean saveAndCloseBtnVisible) {
+        nextStepFirstScreenButton.setVisible(nextStepFirstScreenButtonVisible);
+        nextStepSecondScreenButton.setVisible(nextStepSecondScreenButtonVisible);
+        saveAndCloseBtn.setVisible(saveAndCloseBtnVisible);
+    }
+
+    @Subscribe(id = "nextStepFirstScreenButton", subject = "clickListener")
+    public void onNextStepFirstScreenButtonClick(final ClickEvent<JmixButton> event) {
+        secondScreenOpened();
+    }
+
+    @Subscribe(id = "nextStepSecondScreenButton", subject = "clickListener")
+    public void onNextStepSecondScreenButtonClick(final ClickEvent<JmixButton> event) {
+        thirdScreenOpened();
+    }
+
+    @Subscribe(id = "prevStepSecondScreenButton", subject = "clickListener")
+    public void onPrevStepSecondScreenButtonClick(final ClickEvent<JmixButton> event) {
+        firstScreenOpened();
+    }
+
+    @Subscribe(id = "prevStepThirdScreenButton", subject = "clickListener")
+    public void onPrevStepThirdScreenButtonClick(final ClickEvent<JmixButton> event) {
+        secondScreenOpened();
+    }
 
     private static class ElementsInfo {
         private final boolean warehouseSourceEnable;
