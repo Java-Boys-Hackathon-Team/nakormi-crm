@@ -40,6 +40,9 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
+            <textField id="telegramUserIdField" property="telegramUserId"/>
+            <textField id="telegramChatIdField" property="telegramChatId"/>
+            <textField id="telegramUserNameField" property="telegramUserName"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

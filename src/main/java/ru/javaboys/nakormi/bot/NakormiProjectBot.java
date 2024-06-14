@@ -8,7 +8,6 @@ import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsume
 import org.telegram.telegrambots.longpolling.starter.AfterBotRegistration;
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
@@ -20,9 +19,12 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
 
     private final TelegramClient telegramClient;
 
-    public NakormiProjectBot(TelegramContext telegramContext) {
+    private final LoginScreen loginScreen;
+
+    public NakormiProjectBot(TelegramContext telegramContext, LoginScreen loginScreen) {
         this.token = telegramContext.getToken();
         this.telegramClient = telegramContext.getTelegramClient();
+        this.loginScreen = loginScreen;
     }
 
     @Override
@@ -40,16 +42,18 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
     public void consume(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
 
-            String message_text = update.getMessage().getText();
-            long chat_id = update.getMessage().getChatId();
+            String messageTest = update.getMessage().getText();
 
-            SendMessage message = SendMessage
-                    .builder()
-                    .chatId(chat_id)
-                    .text(message_text)
-                    .build();
+            switch (messageTest) {
+                case Commands.START -> loginScreen.processUpdate(update);
+            }
+        } else if (update.hasCallbackQuery()) {
+            String callbackData = update.getCallbackQuery().getData();
 
-            telegramClient.execute(message);
+            switch (callbackData) {
+                case Callbacks.LOGIN_HAVE_CODE, Callbacks.LOGIN_ENTER -> loginScreen.processCallback(update, callbackData);
+            }
+
         }
     }
 

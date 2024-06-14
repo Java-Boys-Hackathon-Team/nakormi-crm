@@ -8,7 +8,16 @@ import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.security.authentication.JmixUserDetails;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -28,6 +37,15 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "ID", nullable = false)
     @JmixGeneratedValue
     private UUID id;
+
+    @Column(name = "TELEGRAM_USER_ID")
+    private Long telegramUserId;
+
+    @Column(name = "TELEGRAM_CHAT_ID")
+    private Long telegramChatId;
+
+    @Column(name = "TELEGRAM_USER_NAME")
+    private String telegramUserName;
 
     @JoinColumn(name = "PERSON_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -63,6 +81,30 @@ public class User implements JmixUserDetails, HasTimeZone {
 
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
+
+    public Long getTelegramChatId() {
+        return telegramChatId;
+    }
+
+    public void setTelegramChatId(Long telegramChatId) {
+        this.telegramChatId = telegramChatId;
+    }
+
+    public String getTelegramUserName() {
+        return telegramUserName;
+    }
+
+    public void setTelegramUserName(String telegramUserName) {
+        this.telegramUserName = telegramUserName;
+    }
+
+    public Long getTelegramUserId() {
+        return telegramUserId;
+    }
+
+    public void setTelegramUserId(Long telegramUserId) {
+        this.telegramUserId = telegramUserId;
+    }
 
     public Person getPerson() {
         return person;
