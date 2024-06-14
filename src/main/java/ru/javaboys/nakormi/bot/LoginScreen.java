@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.javaboys.nakormi.entity.InvitationCode;
-import ru.javaboys.nakormi.service.TelegramAuthService;
+import ru.javaboys.nakormi.service.TelegramService;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class LoginScreen implements BotScreen {
 
     private final DataManager dataManager;
 
-    private final TelegramAuthService telegramAuthService;
+    private final TelegramService telegramService;
 
     @Override
     public void processUpdate(Update update) throws TelegramApiException {
@@ -73,12 +73,9 @@ public class LoginScreen implements BotScreen {
                 var auth = commandArgs.getArguments().split(" ");
 
                 systemAuthenticator.withSystem(() -> {
-                    telegramAuthService.registerUser(
+                    telegramService.registerUser(
                             auth[0],
-                            auth[1],
-                            update.getMessage().getFrom().getUserName(),
-                            update.getMessage().getFrom().getId(),
-                            update.getMessage().getChatId()
+                            auth[1]
                     );
 
                     return null;

@@ -20,6 +20,21 @@ public class TelegamUser {
     @Id
     private UUID id;
 
+    @Column(name = "TELEGRAM_USER_FIRST_NAME")
+    private String telegramUserFirstName;
+
+    @Column(name = "TELEGRAM_USER_LAST_NAME")
+    private String telegramUserLastName;
+
+    @Column(name = "INVITATION_CODE_OK")
+    private Boolean invitationCodeOk;
+
+    @Column(name = "NAKORMI_CRM_REGISTRATION_OK")
+    private Boolean nakormiCrmRegistrationOk;
+
+    @Column(name = "NAKORMI_CRM_ACCOUNT_OK")
+    private Boolean nakormiCrmAccountOk;
+
     @Column(name = "TELEGRAM_USER_ID")
     private Long telegramUserId;
 
@@ -28,8 +43,49 @@ public class TelegamUser {
 
     @Column(name = "TELEGRAM_USER_NAME")
     private String telegramUserName;
+
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "telegramUser")
     private User user;
+
+    public String getTelegramUserLastName() {
+        return telegramUserLastName;
+    }
+
+    public void setTelegramUserLastName(String telegramUserLastName) {
+        this.telegramUserLastName = telegramUserLastName;
+    }
+
+    public String getTelegramUserFirstName() {
+        return telegramUserFirstName;
+    }
+
+    public void setTelegramUserFirstName(String telegramUserFirstName) {
+        this.telegramUserFirstName = telegramUserFirstName;
+    }
+
+    public Boolean getNakormiCrmRegistrationOk() {
+        return nakormiCrmRegistrationOk;
+    }
+
+    public void setNakormiCrmRegistrationOk(Boolean nakormiCrmRegistrationOk) {
+        this.nakormiCrmRegistrationOk = nakormiCrmRegistrationOk;
+    }
+
+    public Boolean getNakormiCrmAccountOk() {
+        return nakormiCrmAccountOk;
+    }
+
+    public void setNakormiCrmAccountOk(Boolean nakormiCrmAccountOk) {
+        this.nakormiCrmAccountOk = nakormiCrmAccountOk;
+    }
+
+    public Boolean getInvitationCodeOk() {
+        return invitationCodeOk;
+    }
+
+    public void setInvitationCodeOk(Boolean invitationCodeOk) {
+        this.invitationCodeOk = invitationCodeOk;
+    }
 
     public User getUser() {
         return user;
