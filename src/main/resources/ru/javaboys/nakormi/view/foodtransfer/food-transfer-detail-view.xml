@@ -71,6 +71,7 @@
             </div>
             <div id="previewField" classNames="attachment-preview item">
                 <div id="previewWrapper" classNames="preview-wrapper"/>
+                <div id="downloadLink" classNames="link-wrapper"/>
             </div>
         </div>
         <hbox id="detailActions">

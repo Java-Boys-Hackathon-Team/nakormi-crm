@@ -33,6 +33,7 @@ public class AnimalAttachment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Animal animal;
 
+    @OnDeleteInverse(DeletePolicy.CASCADE)
     @JoinColumn(name = "ATTACHMENT_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private Attachment attachment;

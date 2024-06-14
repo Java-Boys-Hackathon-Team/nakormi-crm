@@ -41,6 +41,17 @@ public class Food {
     @Column(name = "MEASURE", columnDefinition = "VARCHAR(255)", nullable = false)
     private String measure;
 
+    @Column(name = "WEIGHT")
+    private Integer weight;
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
     public void setCategory(List<FoodCategory> category) {
         this.category = category;
     }

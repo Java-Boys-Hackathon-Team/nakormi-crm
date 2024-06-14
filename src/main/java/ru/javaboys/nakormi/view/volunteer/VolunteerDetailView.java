@@ -2,7 +2,7 @@ package ru.javaboys.nakormi.view.volunteer;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
@@ -16,7 +16,7 @@ import io.jmix.core.FileRef;
 import io.jmix.core.FileStorage;
 import io.jmix.core.FileStorageLocator;
 import io.jmix.flowui.UiComponents;
-import io.jmix.flowui.component.grid.DataGrid;
+import io.jmix.flowui.download.Downloader;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.view.EditedEntityContainer;
@@ -43,7 +43,13 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
     private Div uploadField;
 
     @ViewComponent
+    private Div downloadLink;
+
+    @ViewComponent
     private Div previewWrapper;
+
+    @Autowired
+    private Downloader downloader;
 
     @Autowired
     private DataManager dataManager;
@@ -55,24 +61,25 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
     private FileStorageLocator fileStorageLocator;
 
     @ViewComponent
-    private DataGrid<Attachment> attachmentsDataGrid;
-
-    @ViewComponent
     private CollectionContainer<Attachment> attachmentsDc;
 
     @Subscribe
     public void onInit(final InitEvent event) {
         uploadField.add(getUpload());
-//        attachmentsDataGrid.setColumnPosition(getAttachmentPicture(), attachmentsDataGrid.getColumns().size() - 1);
     }
 
-    private Grid.Column<Attachment> getAttachmentPicture() {
-        return attachmentsDataGrid.addComponentColumn(attachment -> getGetImageBySource(attachment.getSource()))
-                .setHeader("Attachment")
-                .setFlexGrow(0);
+    public Button createDownloadButton(FileRef fileRef) {
+        Button downloadButton = uiComponents.create(Button.class);
+        downloadButton.setText("Скачать файл");
+
+        downloadButton.addClickListener(event -> {
+            downloader.download(fileRef);
+        });
+
+        return downloadButton;
     }
 
-    private Component getGetImageBySource(FileRef fileRef) {
+    private Component createPreviewImage(FileRef fileRef) {
         if (Objects.isNull(fileRef) || !isImage(fileRef.getContentType())) {
             return new Span("Отсутствует превью файла.");
         }
@@ -89,8 +96,6 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
         Upload upload = new Upload(buffer);
         upload.setAutoUpload(true);
         upload.setDropAllowed(true);
-//        upload.setMaxFileSize(11 * 1024 * 1024);
-//        upload.setMaxFiles(10);
         FileStorage fileStorage = fileStorageLocator.getDefault();
         upload.addSucceededListener(e -> {
             InputStream fileStream = buffer.getInputStream(e.getFileName());
@@ -107,12 +112,15 @@ public class VolunteerDetailView extends StandardDetailView<Volunteer> {
     @Subscribe("attachmentsDataGrid")
     public void onAttachmentsDataGridItemClick(final ItemClickEvent<Attachment> event) {
         previewWrapper.removeAll();
-        previewWrapper.add(getGetImageBySource(event.getItem().getSource()));
+        previewWrapper.add(createPreviewImage(event.getItem().getSource()));
+        downloadLink.removeAll();
+        downloadLink.add(createDownloadButton(event.getItem().getSource()));
     }
 
     @Subscribe(id = "attachmentsDataGridExclude", subject = "clickListener")
     public void onAttachmentsDataGridExcludeClick(final ClickEvent<JmixButton> event) {
         previewWrapper.removeAll();
+        downloadLink.removeAll();
     }
 
     private boolean isImage(String contentType) {
