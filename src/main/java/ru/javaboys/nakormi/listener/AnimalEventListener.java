@@ -13,6 +13,7 @@ import ru.javaboys.nakormi.entity.Animal;
 import ru.javaboys.nakormi.entity.Attachment;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class AnimalEventListener {
@@ -28,7 +29,12 @@ public class AnimalEventListener {
     public void onAnimalSaving(EntitySavingEvent<Animal> event) {
         Animal animal = event.getEntity();
         // Загрузка текущего состояния сущности Animal из базы данных для сравнения
-        Animal previousState = dataManager.load(Id.of(animal)).one();
+        Animal previousState = dataManager.load(Id.of(animal))
+                .optional()
+                .orElse(null);
+        if (Objects.isNull(previousState)) {
+            return;
+        }
 
         List<Attachment> previousAttachments = previousState.getAttachments();
         List<Attachment> currentAttachments = animal.getAttachments();

@@ -13,6 +13,7 @@ import ru.javaboys.nakormi.entity.Attachment;
 import ru.javaboys.nakormi.entity.FoodTransfer;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class FoodTransferEventListener {
@@ -28,7 +29,12 @@ public class FoodTransferEventListener {
     public void onFoodTransferSaving(EntitySavingEvent<FoodTransfer> event) {
         FoodTransfer foodTransfer = event.getEntity();
         // Загрузка текущего состояния сущности FoodTransfer из базы данных для сравнения
-        FoodTransfer previousState = dataManager.load(Id.of(foodTransfer)).one();
+        FoodTransfer previousState = dataManager.load(Id.of(foodTransfer))
+                .optional()
+                .orElse(null);
+        if (Objects.isNull(previousState)) {
+            return;
+        }
 
         List<Attachment> previousAttachments = previousState.getAttachments();
         List<Attachment> currentAttachments = foodTransfer.getAttachments();

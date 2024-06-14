@@ -13,6 +13,7 @@ import ru.javaboys.nakormi.entity.Attachment;
 import ru.javaboys.nakormi.entity.Volunteer;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class VolunteerEventListener {
@@ -28,7 +29,12 @@ public class VolunteerEventListener {
     public void onVolunteerSaving(EntitySavingEvent<Volunteer> event) {
         Volunteer volunteer = event.getEntity();
         // Загрузка текущего состояния сущности Volunteer из базы данных для сравнения
-        Volunteer previousState = dataManager.load(Id.of(volunteer)).one();
+        Volunteer previousState = dataManager.load(Id.of(volunteer))
+                .optional()
+                .orElse(null);
+        if (Objects.isNull(previousState)) {
+            return;
+        }
 
         List<Attachment> previousAttachments = previousState.getAttachments();
         List<Attachment> currentAttachments = volunteer.getAttachments();
