@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://topVolunteerView.title">
+    <data>
+        <keyValueCollection id="volunteerTopByFoodDc">
+            <properties>
+                <property datatype="string" name="fio"/>
+                <property datatype="decimal" name="cnt"/>
+            </properties>
+        </keyValueCollection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <layout>
+        <tabSheet width="100%">
+            <tab id="tab1" label="По количеству реализованного корма">
+                <vbox>
+<!--                    <image id="volunteerTopByFoodImg" height="250px" themeNames="contain"/>-->
+                    <dataGrid id="topFoodDataGrid"
+                              width="100%"
+                              minHeight="20em"
+                              dataContainer="volunteerTopByFoodDc">
+                        <columns>
+                            <column property="fio" header="Имя Фамилия"/>
+                            <column property="cnt" header="Количество реализоованного корма (г.)"/>
+                        </columns>
+                    </dataGrid>
+                </vbox>
+            </tab>
+            <tab id="tab2" label="По количеству курируемых животных">
+                <vbox>
+                    <span text="Span 2"/>
+                    <textField label="TextField 2"/>
+                    <button text="Button 2"/>
+                </vbox>
+            </tab>
+        </tabSheet>
+
+    </layout>
+</view>

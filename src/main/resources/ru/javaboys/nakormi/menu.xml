@@ -17,6 +17,7 @@
               title="msg://ru.javaboys.nakormi.view.foodtransferrow/foodTransferRowListView.title"/>
         <item view="ProductMovement.list"
               title="msg://ru.javaboys.nakormi.view.productmovement/productMovementListView.title"/>
+        <item view="TopVolunteerView" title="msg://ru.javaboys.nakormi.view.topvolunteer/topVolunteerView.title"/>
 
     </menu>
 
