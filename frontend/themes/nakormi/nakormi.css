@@ -8,6 +8,19 @@
     }
 }
 
+@keyframes drive {
+    from {
+        margin-left: -120%;
+    }
+    to {
+        margin-left: 120%;
+    }
+}
+
+body:has(.jmix-login-main-layout) {
+    overflow: hidden;
+}
+
 #uploadField {
     width: 100% !important;
 }
@@ -133,15 +146,19 @@ vaadin-vertical-layout:has(.attachments) {
     display: inline-block;
     border-radius: 50%;
     box-sizing: border-box;
-    border: 6px #fff solid;
+    border: 5px #fff solid;
     box-shadow: 0 0 30px 10px #cecece;
     transition: 10s all linear;
-    /*animation: spin 2s linear infinite;*/
-    max-width: 200px;
+    max-width: 150px;
 }
 
 .jmix-login-main-layout > img:hover {
     transform: rotate(3600deg);
+}
+
+img:has(+ * [focused]) {
+    /*animation: drive 2s linear infinite, spin 1s linear infinite;*/
+    animation: spin 2s linear infinite;
 }
 
 h2 img {
