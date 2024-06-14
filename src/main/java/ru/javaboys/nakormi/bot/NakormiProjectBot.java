@@ -51,7 +51,8 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
             String callbackData = update.getCallbackQuery().getData();
 
             switch (callbackData) {
-                case Callbacks.LOGIN_HAVE_CODE, Callbacks.LOGIN_ENTER, Callbacks.BACK_FROM_INVITATION_CODE_INPUT, Callbacks.BACK_FROM_LOGIN_PASSWORD_INPUT -> loginScreen.processCallback(update, callbackData);
+                case Callbacks.LOGIN_HAVE_CODE, Callbacks.LOGIN_ENTER, Callbacks.BACK_FROM_INVITATION_CODE_INPUT,
+                     Callbacks.BACK_FROM_LOGIN_PASSWORD_INPUT -> loginScreen.processCallback(update, callbackData);
             }
 
         }

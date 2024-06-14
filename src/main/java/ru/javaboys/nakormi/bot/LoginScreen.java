@@ -17,29 +17,6 @@ public class LoginScreen implements BotScreen {
 
     @Override
     public void processUpdate(Update update) throws TelegramApiException {
-
-//        SendMessage sm = SendMessage.builder()
-//                .chatId(update.getMessage().getChatId())
-//                .text("Добро пожаловать! Зарегистрируйтесь или войдите в систему.")
-//                .replyMarkup(InlineKeyboardMarkup
-//                        .builder()
-//                        .keyboardRow(
-//                                new InlineKeyboardRow(List.of(
-//                                        InlineKeyboardButton.builder()
-//                                                .text("У меня есть код")
-//                                                .callbackData(Callbacks.LOGIN_HAVE_CODE)
-//                                                .build(),
-//                                        InlineKeyboardButton.builder()
-//                                                .text("Войти")
-//                                                .callbackData(Callbacks.LOGIN_ENTER)
-//                                                .build()
-//                                ))
-//                        )
-//                        .build())
-//                .build();
-//
-//        telegramContext.getTelegramClient().execute(sm);
-
         Map<String, String> buttons = Map.of(
                 Callbacks.LOGIN_HAVE_CODE,"У меня есть код!",
                 Callbacks.LOGIN_ENTER, "Войти"
