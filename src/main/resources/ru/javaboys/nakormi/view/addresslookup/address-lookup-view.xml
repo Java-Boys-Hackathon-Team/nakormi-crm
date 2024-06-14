@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://addressLookupView.title">
+    <data>
+        <collection id="addressesDc" class="ru.javaboys.nakormi.entity.Address">
+            <loader id="addressesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Address e]]>
+                </query>
+            </loader>
+            <fetchPlan extends="_base"/>
+        </collection>
+    </data>
+    <layout>
+        <hbox padding="false"
+              height="100%"
+              width="100%">
+            <vbox padding="false" width="25em">
+                <select id="locationTypeField"
+                        emptySelectionAllowed="true"
+                        width="20em"
+                        itemsEnum="com.company.onboarding.entity.LocationType"/>
+            </vbox>
+        </hbox>
+        <hbox id="controlLayout"/>
+        <entityPicker id="addressesPicker"
+                      metaClass="Address"
+                      readOnly="true"
+                      width="20em"
+                      label="msg://currentLocationField.label">
+        </entityPicker>
+    </layout>
+</view>
