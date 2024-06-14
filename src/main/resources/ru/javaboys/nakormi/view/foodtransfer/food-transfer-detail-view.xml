@@ -10,13 +10,18 @@
                 <property name="warehouseSource" fetchPlan="_base"/>
                 <property name="warehouseReceiver" fetchPlan="_base"/>
                 <property name="rows" fetchPlan="_base">
-                    <property name="warehouse" fetchPlan="_base"/>
-                    <property name="food" fetchPlan="_base"/>
+                    <property name="warehouse" fetch="JOIN">
+                        <property name="description"/>
+                    </property>
+                    <property name="food" fetch="JOIN">
+                        <property name="name"/>
+                    </property>
                 </property>
                 <property name="attachments" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
             <collection id="attachmentsDc" property="attachments"/>
+            <collection id="rowsDc" property="rows"/>
         </instance>
     </data>
     <facets>
@@ -74,6 +79,20 @@
                 <div id="downloadLink" classNames="link-wrapper"/>
             </div>
         </div>
+        <h4 text="msg://ru.javaboys.nakormi.entity/FoodTransfer.rows"/>
+        <dataGrid dataContainer="rowsDc" id="foodTransferRowsDataGrid" selectionMode="MULTI">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="exclude" type="list_exclude"/>
+            </actions>
+            <columns>
+                <column property="date"/>
+                <column property="warehouse.description"/>
+                <column property="movement"/>
+                <column property="food.name"/>
+                <column property="quantity"/>
+            </columns>
+        </dataGrid>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
             <button id="closeBtn" action="closeAction"/>
