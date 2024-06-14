@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://prideDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="prideDc"
+                  class="ru.javaboys.nakormi.entity.Pride">
+            <fetchPlan extends="_base">
+                <property name="district" fetchPlan="_base"/>
+                <property name="animals" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+            <collection id="animalsDc" property="animals"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="prideDc">
+            <textField id="nameField" property="name"/>
+            <entityPicker id="districtsPicker" dataContainer="prideDc" property="district">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityOpen" type="entity_open"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Pride.animals"/>
+        <hbox id="animalButtonsPanel" classNames="buttons-panel">
+            <button action="animalsDataGrid.add"/>
+            <button action="animalsDataGrid.exclude"/>
+        </hbox>
+        <div classNames="attachments">
+            <dataGrid id="animalsDataGrid"
+                      dataContainer="animalsDc"
+                      selectionMode="MULTI">
+                <actions>
+                    <action id="add" type="list_add"/>
+                    <action id="exclude" type="list_exclude"/>
+                </actions>
+                <columns>
+                    <column property="nickname"/>
+                    <column property="type"/>
+                    <column property="gender"/>
+                    <column property="isSterilized"/>
+                    <column property="description"/>
+                </columns>
+            </dataGrid>
+        </div>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

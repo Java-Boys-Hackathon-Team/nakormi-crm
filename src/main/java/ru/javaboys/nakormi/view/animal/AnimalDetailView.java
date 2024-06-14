@@ -1,4 +1,4 @@
-package ru.javaboys.nakormi.view.foodtransfer;
+package ru.javaboys.nakormi.view.animal;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Component;
@@ -26,18 +26,18 @@ import io.jmix.flowui.view.ViewComponent;
 import io.jmix.flowui.view.ViewController;
 import io.jmix.flowui.view.ViewDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.javaboys.nakormi.entity.Animal;
 import ru.javaboys.nakormi.entity.Attachment;
-import ru.javaboys.nakormi.entity.FoodTransfer;
 import ru.javaboys.nakormi.view.main.MainView;
 
 import java.io.InputStream;
 import java.util.Objects;
 
-@Route(value = "foodTransfers/:id", layout = MainView.class)
-@ViewController("FoodTransfer.detail")
-@ViewDescriptor("food-transfer-detail-view.xml")
-@EditedEntityContainer("foodTransferDc")
-public class FoodTransferDetailView extends StandardDetailView<FoodTransfer> {
+@Route(value = "animals/:id", layout = MainView.class)
+@ViewController("Animal.detail")
+@ViewDescriptor("animal-detail-view.xml")
+@EditedEntityContainer("animalDc")
+public class AnimalDetailView extends StandardDetailView<Animal> {
 
     @ViewComponent
     private Div uploadField;

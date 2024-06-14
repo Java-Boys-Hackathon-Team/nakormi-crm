@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="nakormi">
+        <createTable tableName="ANIMAL">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ANIMAL"/>
+            </column>
+            <column name="NICKNAME" type="VARCHAR(255)"/>
+            <column name="ANIMAL_TYPE" type="VARCHAR(255)"/>
+            <column name="DISTRICT_ID" type="UUID"/>
+            <column name="GENDER" type="VARCHAR(255)"/>
+            <column defaultValueBoolean="false" name="IS_STERILIZED" type="BOOLEAN"/>
+            <column name="DESCRIPTION" type="CLOB"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="nakormi">
+        <createTable tableName="ANIMAL_ATTACHMENT">
+            <column defaultValueComputed="uuid_generate_v4()" name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ANIMAL_ATTACHMENT"/>
+            </column>
+            <column name="ANIMAL_ID" type="UUID"/>
+            <column name="ATTACHMENT_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="nakormi">
+        <createTable tableName="ANIMAL_VOLUNTEER">
+            <column defaultValueComputed="uuid_generate_v4()" name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ANIMAL_VOLUNTEER"/>
+            </column>
+            <column name="ANIMAL_ID" type="UUID"/>
+            <column name="VOLUNTEER_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="nakormi">
+        <createIndex indexName="IDX_ANIMAL_ATTACHMENT_ANIMAL" tableName="ANIMAL_ATTACHMENT">
+            <column name="ANIMAL_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ANIMAL_ID" baseTableName="ANIMAL_ATTACHMENT"
+                                 constraintName="FK_ANIMAL_ATTACHMENT_ON_ANIMAL" onDelete="CASCADE"
+                                 referencedColumnNames="ID" referencedTableName="ANIMAL"/>
+    </changeSet>
+    <changeSet id="5" author="nakormi">
+        <createIndex indexName="IDX_ANIMAL_ATTACHMENT_ATTACHMENT" tableName="ANIMAL_ATTACHMENT">
+            <column name="ATTACHMENT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ATTACHMENT_ID" baseTableName="ANIMAL_ATTACHMENT"
+                                 constraintName="FK_ANIMAL_ATTACHMENT_ON_ATTACHMENT" referencedColumnNames="ID"
+                                 referencedTableName="ATTACHMENT"/>
+    </changeSet>
+    <changeSet id="6" author="nakormi">
+        <createIndex indexName="IDX_ANIMAL_DISTRICT" tableName="ANIMAL">
+            <column name="DISTRICT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DISTRICT_ID" baseTableName="ANIMAL"
+                                 constraintName="FK_ANIMAL_ON_DISTRICT" referencedColumnNames="ID"
+                                 referencedTableName="DISTRICT"/>
+    </changeSet>
+    <changeSet id="7" author="nakormi">
+        <createIndex indexName="IDX_ANIMAL_VOLUNTEER_ANIMAL" tableName="ANIMAL_VOLUNTEER">
+            <column name="ANIMAL_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ANIMAL_ID" baseTableName="ANIMAL_VOLUNTEER"
+                                 constraintName="FK_ANIMAL_VOLUNTEER_ON_ANIMAL" onDelete="CASCADE"
+                                 referencedColumnNames="ID" referencedTableName="ANIMAL"/>
+    </changeSet>
+    <changeSet id="8" author="nakormi">
+        <createIndex indexName="IDX_ANIMAL_VOLUNTEER_VOLUNTEER" tableName="ANIMAL_VOLUNTEER">
+            <column name="VOLUNTEER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="VOLUNTEER_ID" baseTableName="ANIMAL_VOLUNTEER"
+                                 constraintName="FK_ANIMAL_VOLUNTEER_ON_VOLUNTEER" referencedColumnNames="ID"
+                                 referencedTableName="VOLUNTEER"/>
+    </changeSet>
+</databaseChangeLog>

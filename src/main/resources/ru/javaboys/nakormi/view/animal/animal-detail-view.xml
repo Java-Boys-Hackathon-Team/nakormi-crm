@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://animalDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="animalDc"
+                  class="ru.javaboys.nakormi.entity.Animal">
+            <fetchPlan extends="_base">
+                <property name="attachments" fetchPlan="_base"/>
+                <property name="district" fetchPlan="_base"/>
+                <property name="volunteers">
+                    <property name="person" fetch="JOIN">
+                        <property name="name"/>
+                        <property name="surname"/>
+                        <property name="phone"/>
+                    </property>
+                </property>
+                <property name="pride" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader/>
+            <collection id="attachmentsDc" property="attachments"/>
+            <collection id="volunteersDc" property="volunteers"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="animalDc">
+            <textField id="nicknameField" property="nickname"/>
+            <select id="animalTypeField" property="type"/>
+            <entityPicker id="districtsPicker" dataContainer="animalDc" property="district">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityOpen" type="entity_open"/>
+                </actions>
+            </entityPicker>
+            <select id="genderField" property="gender"/>
+            <checkbox id="isSterilizedField" property="isSterilized"/>
+            <textArea id="descriptionField" height="9.5em" property="description"/>
+            <entityPicker id="pridesPicker" dataContainer="animalDc" property="pride">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityOpen" type="entity_open"/>
+                </actions>
+            </entityPicker>
+            <div id="uploadField"/>
+        </formLayout>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Animal.attachments"/>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="attachmentsDataGridExclude" action="attachmentsDataGrid.exclude"/>
+        </hbox>
+        <div id="attachments" classNames="attachments">
+            <div classNames="attachment-table item">
+                <dataGrid id="attachmentsDataGrid"
+                          dataContainer="attachmentsDc"
+                          selectionMode="MULTI">
+                    <actions showInContextMenuEnabled="false">
+                        <action id="add" type="list_add"/>
+                        <action id="exclude" type="list_exclude"/>
+                    </actions>
+                    <columns>
+                        <column property="name"/>
+                    </columns>
+                </dataGrid>
+            </div>
+            <div id="previewField" classNames="attachment-preview item">
+                <div id="previewWrapper" classNames="preview-wrapper"/>
+            </div>
+        </div>
+        <h4 text="msg://ru.javaboys.nakormi.entity/Animal.volunteers"/>
+        <hbox id="volunteersButtonsPanel" classNames="buttons-panel">
+            <button action="volunteersDataGrid.add"/>
+            <button action="volunteersDataGrid.exclude"/>
+        </hbox>
+        <dataGrid id="volunteersDataGrid"
+                  dataContainer="volunteersDc"
+                  selectionMode="MULTI">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="exclude" type="list_exclude"/>
+            </actions>
+            <columns>
+                <column property="person.name"/>
+                <column property="person.surname"/>
+                <column property="person.phone"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
