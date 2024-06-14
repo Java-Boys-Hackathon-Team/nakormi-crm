@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://volunteerListViewSelect.title"
+      focusComponent="volunteersDataGrid">
+    <data>
+        <collection id="volunteersDc"
+                    class="ru.javaboys.nakormi.entity.Volunteer">
+            <fetchPlan extends="_base"/>
+            <loader id="volunteersDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Volunteer e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <dataGrid id="volunteersDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="volunteersDc"
+                  columnReorderingAllowed="true">
+            <columns resizable="true">
+                <column property="person"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

@@ -19,6 +19,7 @@
     </actions>
     <layout>
         <formLayout id="firstScreen" classNames="flex-layout" dataContainer="productMovementDc">
+            <h3 text="msg://titleFirstScreen.text"/>
             <entityPicker id="volunteersPicker" dataContainer="productMovementDc" property="volunteer">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
@@ -49,7 +50,7 @@
             </entityPicker>
         </formLayout>
         <flexLayout id="secondScreen" classNames="flex-layout">
-            <h4 text="msg://ru.javaboys.nakormi.view.food/foodListView.title"/>
+            <h3 text="msg://titleSecondScreen.text"/>
             <hbox id="buttonsPanel" classNames="buttons-panel">
                 <button action="productMovementRowsDataGrid.add"/>
                 <button action="productMovementRowsDataGrid.exclude"/>
@@ -66,7 +67,7 @@
             </dataGrid>
         </flexLayout>
         <formLayout id="thirdScreen" classNames="flex-layout" dataContainer="productMovementDc">
-            <h4 text="msg://ru.javaboys.nakormi.view.attachment/attachmentListView.title"/>
+            <h3 text="msg://titleThirdScreen.text"/>
             <div id="uploadField"/>
         </formLayout>
         <hbox id="detailActions">
