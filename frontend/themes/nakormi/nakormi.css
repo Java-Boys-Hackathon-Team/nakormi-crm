@@ -33,17 +33,21 @@ vaadin-vertical-layout:has(.attachments) {
 .attachment-table #attachmentsDataGrid {
     width: 100% !important;
     height: auto !important;
-    min-height: 300px !important;
+    min-height: 344px !important;
 }
 
 .attachment-preview {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
 }
 
 .preview-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     padding: 15px;
     box-sizing: border-box;
@@ -73,6 +77,10 @@ vaadin-vertical-layout:has(.attachments) {
     left: -200px;
     bottom: -210px;
     transform: rotate(45deg);
+}
+
+.link-wrapper {
+
 }
 
 /* Стили для мобильной версии */
