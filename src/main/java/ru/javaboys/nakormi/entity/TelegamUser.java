@@ -6,13 +6,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "TELEGAM_USER")
+@Table(name = "TELEGAM_USER", indexes = {
+        @Index(name = "IDX_TELEGAM_USER_INVITATION_CODE", columnList = "INVITATION_CODE_ID")
+})
 @Entity
 public class TelegamUser {
     @JmixGeneratedValue
@@ -22,6 +26,10 @@ public class TelegamUser {
 
     @Column(name = "TELEGRAM_USER_FIRST_NAME")
     private String telegramUserFirstName;
+
+    @JoinColumn(name = "INVITATION_CODE_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private InvitationCode invitationCode;
 
     @Column(name = "TELEGRAM_USER_LAST_NAME")
     private String telegramUserLastName;
@@ -46,6 +54,14 @@ public class TelegamUser {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "telegramUser")
     private User user;
+
+    public InvitationCode getInvitationCode() {
+        return invitationCode;
+    }
+
+    public void setInvitationCode(InvitationCode invitationCode) {
+        this.invitationCode = invitationCode;
+    }
 
     public String getTelegramUserLastName() {
         return telegramUserLastName;

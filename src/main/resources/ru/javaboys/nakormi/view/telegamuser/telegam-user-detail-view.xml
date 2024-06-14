@@ -5,7 +5,9 @@
     <data>
         <instance id="telegamUserDc"
                   class="ru.javaboys.nakormi.entity.TelegamUser">
-            <fetchPlan extends="_base"/>
+            <fetchPlan extends="_base">
+                <property name="invitationCode" fetchPlan="_base"/>
+            </fetchPlan>
             <loader/>
         </instance>
     </data>
@@ -21,6 +23,17 @@
             <textField id="telegramUserIdField" property="telegramUserId"/>
             <textField id="telegramChatIdField" property="telegramChatId"/>
             <textField id="telegramUserNameField" property="telegramUserName"/>
+            <checkbox id="invitationCodeOkField" property="invitationCodeOk"/>
+            <checkbox id="nakormiCrmRegistrationOkField" property="nakormiCrmRegistrationOk"/>
+            <checkbox id="nakormiCrmAccountOkField" property="nakormiCrmAccountOk"/>
+            <entityPicker id="invitationCodeField" property="invitationCode">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <textField id="telegramUserFirstNameField" property="telegramUserFirstName"/>
+            <textField id="telegramUserLastNameField" property="telegramUserLastName"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

@@ -42,6 +42,16 @@ public class InvitationCode {
     @JoinColumn(name = "PERSON_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private Person person;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "invitationCode")
+    private TelegamUser telegamUser;
+
+    public TelegamUser getTelegamUser() {
+        return telegamUser;
+    }
+
+    public void setTelegamUser(TelegamUser telegamUser) {
+        this.telegamUser = telegamUser;
+    }
 
     public Person getPerson() {
         return person;

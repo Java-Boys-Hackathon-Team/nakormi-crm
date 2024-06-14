@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.javaboys.nakormi.entity.InvitationCode;
+import ru.javaboys.nakormi.entity.TelegamUser;
 import ru.javaboys.nakormi.service.TelegramService;
 
 import java.time.LocalDate;
@@ -23,6 +24,8 @@ public class LoginScreen implements BotScreen {
     private final DataManager dataManager;
 
     private final TelegramService telegramService;
+
+    private final TelegramContext telegramContext;
 
     @Override
     public void processUpdate(Update update) throws TelegramApiException {
@@ -59,6 +62,16 @@ public class LoginScreen implements BotScreen {
                         return;
                     }
 
+                    systemAuthenticator.begin();
+
+                    TelegamUser telegamUser = telegramContext.getTelegamUser();
+                    telegamUser.setInvitationCode(code);
+                    telegamUser.setInvitationCodeOk(true);
+
+                    telegramContext.setTelegamUser(dataManager.save(telegamUser));
+
+                    systemAuthenticator.end();
+
                     botFeaturesUtils.sendMessage(update, """
                             Ваш код действителен. Мы создадим Вам учетную запись волонтера!
                             Придумайте логин и пароль для своей учетной записи.
@@ -77,6 +90,14 @@ public class LoginScreen implements BotScreen {
                             auth[0],
                             auth[1]
                     );
+
+                    TelegamUser telegamUser = telegramContext.getTelegamUser();
+                    InvitationCode invitationCode = telegamUser.getInvitationCode();
+                    invitationCode.setUsed(true);
+
+                    telegamUser.setInvitationCode(dataManager.save(invitationCode));
+                    telegamUser.setNakormiCrmRegistrationOk(true);
+                    telegramContext.setTelegamUser(dataManager.save(telegamUser));
 
                     return null;
                 });
