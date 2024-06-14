@@ -16,7 +16,7 @@
         <tabSheet width="100%">
             <tab id="tab1" label="По количеству реализованного корма">
                 <vbox>
-<!--                    <image id="volunteerTopByFoodImg" height="250px" themeNames="contain"/>-->
+                    <image id="volunteerTopByFoodImg" height="450px" themeNames="contain"/>
                     <dataGrid id="topFoodDataGrid"
                               width="100%"
                               minHeight="20em"
@@ -30,9 +30,7 @@
             </tab>
             <tab id="tab2" label="По количеству курируемых животных">
                 <vbox>
-                    <span text="Span 2"/>
-                    <textField label="TextField 2"/>
-                    <button text="Button 2"/>
+
                 </vbox>
             </tab>
         </tabSheet>

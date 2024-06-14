@@ -21,12 +21,11 @@
     </menu>
     <item view="ProductMovement.list"
           title="msg://ru.javaboys.nakormi.view.productmovement/productMovementListView.title"/>
+    <item view="TopVolunteerView" title="msg://ru.javaboys.nakormi.view.topvolunteer/topVolunteerView.title"/>
     <menu id="settings" description="msg://ru.javaboys.nakormi/menu_config.settings.description"
           title="msg://ru.javaboys.nakormi/menu_config.settings.title">
         <item view="FoodTransferRow.list"
               title="msg://ru.javaboys.nakormi.view.foodtransferrow/foodTransferRowListView.title"/>
-        <item view="TopVolunteerView" title="msg://ru.javaboys.nakormi.view.topvolunteer/topVolunteerView.title"/>
     </menu>
-
 
 </menu-config>

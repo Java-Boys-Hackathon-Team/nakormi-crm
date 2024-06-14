@@ -39,13 +39,14 @@ public class TopVolunteerView extends StandardView {
         List<KeyValueEntity> keyValueEntities = volunteerStatDataList.stream()
                 .map(sd -> {
                     KeyValueEntity keyValueEntity = new KeyValueEntity();
-                    keyValueEntity.setValue(sd.getPerson().getDisplayName(), sd.getCnt());
+                    keyValueEntity.setValue("fio", sd.getPerson().getDisplayName());
+                    keyValueEntity.setValue("cnt", sd.getCnt());
                     return keyValueEntity;
                 }).toList();
         volunteerTopByFoodDc.setItems(keyValueEntities);
 
-//        BufferedImage statImage = volunteerTopByFoodImgService.buildImage(volunteerStatDataList);
-//        volunteerTopByFoodImg.setValueSource(new InMemoryImageSource(statImage));
+        BufferedImage statImage = volunteerTopByFoodImgService.buildImage(volunteerStatDataList);
+        volunteerTopByFoodImg.setValueSource(new InMemoryImageSource(statImage));
 
     }
 
