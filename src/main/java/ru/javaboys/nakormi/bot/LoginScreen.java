@@ -57,14 +57,30 @@ public class LoginScreen implements BotScreen {
         switch (callbackData) {
             case Callbacks.LOGIN_HAVE_CODE -> processCode(update);
             case Callbacks.LOGIN_ENTER -> processEnter(update);
+            case Callbacks.BACK_FROM_INVITATION_CODE_INPUT, Callbacks.BACK_FROM_LOGIN_PASSWORD_INPUT -> processBack(update);
         }
     }
 
-    private void processCode(Update update) {
-
+    private void processCode(Update update) throws TelegramApiException {
+        Map<String, String> buttons = Map.of(Callbacks.BACK_FROM_INVITATION_CODE_INPUT,"Назад");
+        botFeaturesUtils.updateInlineKeyboard(update, "Введите ваш пригласительный код", buttons);
     }
 
-    private void processEnter(Update update) {
+    private void processEnter(Update update) throws TelegramApiException {
+        Map<String, String> buttons = Map.of(Callbacks.BACK_FROM_LOGIN_PASSWORD_INPUT,"Назад");
+        botFeaturesUtils.updateInlineKeyboard(update, "Введите ваши логин и пароль", buttons);
+    }
 
+    private void processBack(Update update) throws TelegramApiException {
+        Map<String, String> buttons = Map.of(
+                Callbacks.LOGIN_HAVE_CODE,"У меня есть код!",
+                Callbacks.LOGIN_ENTER, "Войти"
+        );
+
+        botFeaturesUtils.updateInlineKeyboard(
+                update,
+                "Добро пожаловать! Зарегистрируйтесь или войдите в систему.",
+                buttons
+        );
     }
 }
