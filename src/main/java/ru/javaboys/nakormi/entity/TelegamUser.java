@@ -1,6 +1,7 @@
 package ru.javaboys.nakormi.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,6 +50,7 @@ public class TelegamUser {
     @Column(name = "TELEGRAM_CHAT_ID")
     private Long telegramChatId;
 
+    @InstanceName
     @Column(name = "TELEGRAM_USER_NAME")
     private String telegramUserName;
 

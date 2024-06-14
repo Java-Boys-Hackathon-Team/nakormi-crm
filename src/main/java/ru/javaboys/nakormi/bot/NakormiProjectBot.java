@@ -51,7 +51,7 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
             CommandArgs commandArgs = BotUtils.parseCommand(messageTest);
 
             switch (commandArgs.getCommand()) {
-                case Commands.START, Commands.CODE, Commands.LOGIN, Commands.REG -> loginScreen.processUpdate(update);
+                case Commands.START, Commands.CODE, Commands.LOGIN, Commands.REG, Commands.PERSON -> loginScreen.processUpdate(update);
             }
         } else if (update.hasCallbackQuery()) {
             String callbackData = update.getCallbackQuery().getData();

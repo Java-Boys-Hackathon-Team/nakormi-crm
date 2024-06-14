@@ -1,6 +1,7 @@
 package ru.javaboys.nakormi.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.Column;
@@ -33,6 +34,7 @@ public class InvitationCode {
     @Column(name = "EXPIRATION_DATE")
     private LocalDate expirationDate;
 
+    @InstanceName
     @Column(name = "CODE")
     private String code;
 

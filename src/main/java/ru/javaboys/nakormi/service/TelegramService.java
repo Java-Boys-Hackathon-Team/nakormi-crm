@@ -18,7 +18,7 @@ import ru.javaboys.nakormi.bot.TelegramContext;
 import ru.javaboys.nakormi.entity.TelegamUser;
 import ru.javaboys.nakormi.entity.User;
 import ru.javaboys.nakormi.security.DatabaseUserRepository;
-import ru.javaboys.nakormi.security.UiMinimalRole;
+import ru.javaboys.nakormi.security.FullAccessRole;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public class TelegramService {
         } else {
             RoleAssignmentEntity roleAssignment = unconstrainedDataManager.create(RoleAssignmentEntity.class);
             roleAssignment.setUsername(user.getUsername());
-            roleAssignment.setRoleCode(UiMinimalRole.CODE);
+            roleAssignment.setRoleCode(FullAccessRole.CODE);
             roleAssignment.setRoleType(RoleAssignmentRoleType.RESOURCE);
 
             unconstrainedDataManager.save(user, roleAssignment);

@@ -6,8 +6,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.javaboys.nakormi.entity.Address;
+import ru.javaboys.nakormi.entity.District;
 import ru.javaboys.nakormi.entity.InvitationCode;
+import ru.javaboys.nakormi.entity.Person;
+import ru.javaboys.nakormi.entity.PersonTypes;
 import ru.javaboys.nakormi.entity.TelegamUser;
+import ru.javaboys.nakormi.entity.Volunteer;
+import ru.javaboys.nakormi.entity.Warehouse;
+import ru.javaboys.nakormi.entity.WarehouseTypes;
 import ru.javaboys.nakormi.service.TelegramService;
 
 import java.time.LocalDate;
@@ -104,8 +111,68 @@ public class LoginScreen implements BotScreen {
 
                 botFeaturesUtils.sendMessage(update, """
                         Отлично! Вам была создана учетна запись в системе "Накорми CRM".
-                        Дла входа в систему перейдите по ссылке:
+                        Для входа в систему перейдите по ссылке:
                         https://nakormi.kuramshin-dev.ru/
+                        """);
+
+                botFeaturesUtils.sendMessage(update, """
+                        Для завершения регистрации укажите Имя, Фамилию, Район проживания, Улицу проживания, email, номер телефона именно в таком порядке.
+                        Пример: /person Иван Петровский Северный Вятская ivan@mail.ru +79001234567
+                        """);
+            }
+
+            case Commands.PERSON -> {
+                var personData = commandArgs.getArguments().split(" ");
+
+                systemAuthenticator.begin();
+
+                var district = dataManager.create(District.class);
+                district.setName(personData[2]);
+                district = dataManager.save(district);
+
+                var address = dataManager.create(Address.class);
+                address.setDistrict(district);
+                address.setAddressText(personData[3]);
+                address = dataManager.save(address);
+
+                var person = dataManager.create(Person.class);
+                person.setName(personData[0]);
+                person.setSurname(personData[1]);
+                person.setPhone(personData[5]);
+                person.setAddress(address);
+                person.setType(PersonTypes.VOLUNTEER);
+                person = dataManager.save(person);
+
+                var warehouse = dataManager.create(Warehouse.class);
+                warehouse.setDescription(String.format("Склад %s %s", person.getName(), person.getSurname()));
+                warehouse.setAddress(address);
+                warehouse.setStorageType(WarehouseTypes.PERSONAL);
+                warehouse.setContacts(person.getPhone());
+                warehouse.setSupervisor(person);
+                warehouse = dataManager.save(warehouse);
+
+                var volunteer = dataManager.create(Volunteer.class);
+                volunteer.setPerson(person);
+                volunteer.setTelegramId(telegramContext.getTelegamUser().getTelegramUserName());
+                volunteer.setWarehouse(warehouse);
+                dataManager.save(volunteer);
+
+                var user = telegramContext.getTelegamUser().getUser();
+                user.setPerson(person);
+                user.setFirstName(person.getName());
+                user.setLastName(person.getSurname());
+                user.setEmail(personData[4]);
+                user = dataManager.save(user);
+
+                var telegramUser = telegramContext.getTelegamUser();
+                telegramUser.setUser(user);
+                telegramContext.setTelegamUser(dataManager.save(telegramUser));
+
+                systemAuthenticator.end();
+
+                botFeaturesUtils.sendMessage(update, """
+                        Для завершения регистрации нам потребуются скан-копия вашего паспорта.
+                        Отправьте её как файл.
                         """);
             }
 
