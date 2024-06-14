@@ -22,6 +22,7 @@
                             href="."
                             text="msg://applicationTitle.text"
                             classNames="jmix-main-view-application-title-base-link"/>
+                    <image resource="/icons/icon.png"/>
                 </h2>
                 <nav id="navigation"
                      classNames="jmix-main-view-navigation"

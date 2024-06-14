@@ -1,4 +1,13 @@
 /* Стили для десктопной версии */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 #uploadField {
     width: 100% !important;
 }
@@ -118,6 +127,28 @@ vaadin-vertical-layout:has(.attachments) {
 
 .main-menu-btn span {
     font-size: 15px;
+}
+
+.jmix-login-main-layout > img {
+    display: inline-block;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 6px #fff solid;
+    box-shadow: 0 0 30px 10px #cecece;
+    transition: 10s all linear;
+    /*animation: spin 2s linear infinite;*/
+    max-width: 200px;
+}
+
+.jmix-login-main-layout > img:hover {
+    transform: rotate(3600deg);
+}
+
+h2 img {
+    max-height: 20px;
+    margin: 0 0 0 8px;
+    box-sizing: border-box;
+    border-radius: 50%;
 }
 
 /* Стили для мобильной версии */
