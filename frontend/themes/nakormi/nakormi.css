@@ -83,6 +83,11 @@ vaadin-vertical-layout:has(.attachments) {
 
 }
 
+.flex-layout {
+    width: 100%;
+    flex-direction: column;
+}
+
 /* Стили для мобильной версии */
 @media (max-width: 600px) {
     .attachments .item {
