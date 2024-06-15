@@ -16,7 +16,7 @@ public class CommonKeyboards {
 
     public void sendHelloAndAccountKeyboard(Update update) throws TelegramApiException {
         Map<String, String> buttons = Map.of(
-                Callbacks.GO_TO_VOLUNTEER_ACCOUNT,"Перейти в Личный Кабинет Волонтера"
+                Callbacks.GO_TO_VOLUNTEER_ACCOUNT,"📊 Перейти в Личный Кабинет Волонтера"
         );
 
         botFeaturesUtils.sendInlineKeyboard(
