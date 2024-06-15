@@ -43,6 +43,8 @@ public class LoginScreen implements BotScreen {
 
     private final AttachmentService attachmentService;
 
+    private final CommonKeyboards commonKeyboards;
+
     @Override
     @Transactional
     public void processUpdate(Update update) throws TelegramApiException {
@@ -252,15 +254,7 @@ public class LoginScreen implements BotScreen {
                         Вы стали волонтером проекта "Накорми".
                         """);
 
-                Map<String, String> buttons = Map.of(
-                        Callbacks.LOGIN_HAVE_CODE,"Перейти в Личный Кабинет Волонтера"
-                );
-
-                botFeaturesUtils.sendInlineKeyboard(
-                        update,
-                        "Добро пожаловать в систему \"Накорми CRM\"!",
-                        buttons
-                );
+                commonKeyboards.sendHelloAndAccountKeyboard(update);
             }
         }
     }
