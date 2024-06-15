@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.javaboys.nakormi.bot.TelegramContext;
 import ru.javaboys.nakormi.entity.TelegamUser;
@@ -44,6 +45,7 @@ public class TelegramService {
 
     private final TelegramContext telegramContext;
 
+    @Transactional
     public boolean authenticate(String username, String password) {
         User user = databaseUserRepository.loadUserByUsername(username);
 
@@ -58,8 +60,8 @@ public class TelegramService {
         }
     }
 
-    public void registerUser(String username,
-                             String password) {
+    @Transactional
+    public void registerUser(String username, String password) {
 
         User user = metadata.create(User.class);
         user.setUsername(username);
@@ -76,10 +78,20 @@ public class TelegramService {
             roleAssignment.setRoleType(RoleAssignmentRoleType.RESOURCE);
 
             unconstrainedDataManager.save(user, roleAssignment);
+
+            dataManager.load(User.class)
+                    .query("e.id = ?1", user.getId())
+                    .optional()
+                    .ifPresent(u -> {
+                        var telegramUser = telegramContext.getTelegamUser();
+                        telegramUser.setUser(user);
+                        telegramContext.setTelegamUser(dataManager.save(telegramUser));
+                    });
         }
 
     }
 
+    @Transactional
     public TelegamUser upsertTelegramUser(Update update) {
 
         String firstName = "";
@@ -92,19 +104,23 @@ public class TelegramService {
         TelegamUser telegamUser;
 
         if (update.hasMessage() && update.getMessage().hasText()) {
+
             firstName = update.getMessage().getChat().getFirstName();
             lastName = update.getMessage().getChat().getLastName();
             userName = update.getMessage().getChat().getUserName();
 
             userId = update.getMessage().getFrom().getId();
             chatId = update.getMessage().getChatId();
+
         } else if (update.hasCallbackQuery()) {
+
             firstName = update.getCallbackQuery().getMessage().getChat().getFirstName();
             lastName = update.getCallbackQuery().getMessage().getChat().getLastName();
             userName = update.getCallbackQuery().getMessage().getChat().getUserName();
 
             userId = update.getCallbackQuery().getMessage().getChat().getId();
             chatId = update.getCallbackQuery().getMessage().getChatId();
+
         }
 
         systemAuthenticator.begin();

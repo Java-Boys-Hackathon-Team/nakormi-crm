@@ -4,6 +4,7 @@ import io.jmix.core.DataManager;
 import io.jmix.core.security.SystemAuthenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.javaboys.nakormi.entity.Address;
@@ -35,6 +36,7 @@ public class LoginScreen implements BotScreen {
     private final TelegramContext telegramContext;
 
     @Override
+    @Transactional
     public void processUpdate(Update update) throws TelegramApiException {
         CommandArgs commandArgs = BotUtils.parseCommand(update.getMessage().getText());
 
@@ -51,9 +53,16 @@ public class LoginScreen implements BotScreen {
                         buttons
                 );
             }
+
             case Commands.CODE -> {
+                var userCode = commandArgs.getArguments();
+                if (!BotUtils.validateArgsCount(userCode, 1)) {
+                    botFeaturesUtils.sendMessage(update, "Неверное кол-во аргументов команды /code");
+                    return;
+                }
+
                 var optionalCode = systemAuthenticator.withSystem(() -> dataManager.load(InvitationCode.class)
-                        .query("e.code = ?1", commandArgs.getArguments())
+                        .query("e.code = ?1", userCode)
                         .optional());
 
                 if (optionalCode.isPresent()) {
@@ -93,12 +102,13 @@ public class LoginScreen implements BotScreen {
 
             case Commands.REG -> {
                 var auth = commandArgs.getArguments().split(" ");
+                if (!BotUtils.validateArgsCount(auth, 2)) {
+                    botFeaturesUtils.sendMessage(update, "Неверное кол-во аргументов команды /reg");
+                    return;
+                }
 
                 systemAuthenticator.withSystem(() -> {
-                    telegramService.registerUser(
-                            auth[0],
-                            auth[1]
-                    );
+                    telegramService.registerUser(auth[0], auth[1]);
 
                     TelegamUser telegamUser = telegramContext.getTelegamUser();
                     InvitationCode invitationCode = telegamUser.getInvitationCode();
@@ -127,6 +137,10 @@ public class LoginScreen implements BotScreen {
 
             case Commands.PERSON -> {
                 var personData = commandArgs.getArguments().split(" ");
+                if (!BotUtils.validateArgsCount(personData, 6)) {
+                    botFeaturesUtils.sendMessage(update, "Неверное кол-во аргументов команды /person");
+                    return;
+                }
 
                 systemAuthenticator.begin();
 
@@ -166,11 +180,7 @@ public class LoginScreen implements BotScreen {
                 user.setFirstName(person.getName());
                 user.setLastName(person.getSurname());
                 user.setEmail(personData[4]);
-                user = dataManager.save(user);
-
-                var telegramUser = telegramContext.getTelegamUser();
-                telegramUser.setUser(user);
-                telegramContext.setTelegamUser(dataManager.save(telegramUser));
+                dataManager.save(user);
 
                 systemAuthenticator.end();
 

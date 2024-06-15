@@ -5,6 +5,7 @@ import io.jmix.core.security.SystemAuthenticator;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.longpolling.BotSession;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.starter.AfterBotRegistration;
@@ -23,10 +24,13 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
 
     private final TelegramService telegramService;
 
-    public NakormiProjectBot(TelegramContext telegramContext, LoginScreen loginScreen, SystemAuthenticator systemAuthenticator, DataManager dataManager, TelegramService telegramService) {
+    private final BotFeaturesUtils botFeaturesUtils;
+
+    public NakormiProjectBot(TelegramContext telegramContext, LoginScreen loginScreen, SystemAuthenticator systemAuthenticator, DataManager dataManager, TelegramService telegramService, BotFeaturesUtils botFeaturesUtils) {
         this.token = telegramContext.getToken();
         this.loginScreen = loginScreen;
         this.telegramService = telegramService;
+        this.botFeaturesUtils = botFeaturesUtils;
     }
 
     @Override
@@ -41,6 +45,7 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
 
     @SneakyThrows
     @Override
+    @Transactional
     public void consume(Update update) {
 
         telegramService.upsertTelegramUser(update);
@@ -52,13 +57,16 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
 
             switch (commandArgs.getCommand()) {
                 case Commands.START, Commands.CODE, Commands.LOGIN, Commands.REG, Commands.PERSON -> loginScreen.processUpdate(update);
+                default -> botFeaturesUtils.sendMessage(update, "Команда не распознана. Неизвестная команда");
             }
+
         } else if (update.hasCallbackQuery()) {
             String callbackData = update.getCallbackQuery().getData();
 
             switch (callbackData) {
                 case Callbacks.LOGIN_HAVE_CODE, Callbacks.LOGIN_ENTER, Callbacks.BACK_FROM_INVITATION_CODE_INPUT,
                      Callbacks.BACK_FROM_LOGIN_PASSWORD_INPUT -> loginScreen.processCallback(update, callbackData);
+                default -> botFeaturesUtils.sendMessage(update, "Команда не распознана. Неизвестная команда");
             }
 
         }

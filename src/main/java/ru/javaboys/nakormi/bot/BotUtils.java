@@ -1,19 +1,30 @@
 package ru.javaboys.nakormi.bot;
 
-import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
-@Component
 public class BotUtils {
+
     public static CommandArgs parseCommand(String input) {
         if (input == null || input.isBlank()) {
             throw new IllegalArgumentException("Input cannot be null or blank");
         }
 
-        // Разделение строки на части по первому пробелу
         String[] parts = input.split(" ", 2);
-        String command = parts[0];  // Команда
-        String arguments = parts.length > 1 ? parts[1] : "";  // Аргументы
+        String command = parts[0];
+        String arguments = parts.length > 1 ? parts[1] : "";
 
         return new CommandArgs(command, arguments);
+    }
+
+    public static boolean isCommand(Update update) {
+        return update.hasMessage() && update.getMessage().hasText();
+    }
+
+    public static boolean validateArgsCount(String args, int expectedCount) {
+        return  args.split(" ").length == expectedCount;
+    }
+
+    public static boolean validateArgsCount(String[] args, int expectedCount) {
+        return  args.length == expectedCount;
     }
 }
