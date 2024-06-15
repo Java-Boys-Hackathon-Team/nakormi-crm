@@ -122,7 +122,6 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
         builder.open();
     }
 
-
     @Subscribe("warehouseReceiverPicker.entityLookup")
     public void onWarehouseReceiverPickerLookup(final ActionPerformedEvent event) {
         DialogWindow<WarehouseListViewSelect> builder = dialogWindows.lookup(warehouseReceiverPicker)

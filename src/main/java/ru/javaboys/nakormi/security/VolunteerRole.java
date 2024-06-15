@@ -94,8 +94,9 @@ public interface VolunteerRole {
     @EntityAttributePolicy(entityClass = User.class, attributes = {"telegramUser", "person", "version", "username", "firstName", "lastName", "email", "active", "timeZoneId"}, action = EntityAttributePolicyAction.VIEW)
     void user();
 
-    @EntityAttributePolicy(entityClass = PuckUpOrder.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
-    @EntityPolicy(entityClass = PuckUpOrder.class, actions = EntityPolicyAction.READ)
+    @EntityAttributePolicy(entityClass = PuckUpOrder.class, attributes = "status", action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = PuckUpOrder.class, attributes = {"id", "date", "number", "creator", "volunteer", "warehouse", "numberFormatted"}, action = EntityAttributePolicyAction.VIEW)
+    @EntityPolicy(entityClass = PuckUpOrder.class, actions = {EntityPolicyAction.READ, EntityPolicyAction.UPDATE})
     void puckUpOrder();
 
     @EntityAttributePolicy(entityClass = Volunteer.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
@@ -110,8 +111,8 @@ public interface VolunteerRole {
     @EntityPolicy(entityClass = Warehouse.class, actions = EntityPolicyAction.READ)
     void warehouse();
 
-    @MenuPolicy(menuIds = {"ProductMovement.list", "VolunteerRemainderView", "VolunteerAnimalsView"})
-    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list", "VolunteerRemainderView", "VolunteerAnimalsView"})
+    @MenuPolicy(menuIds = {"ProductMovement.list", "VolunteerRemainderView", "VolunteerAnimalsView", "VolunteerOrderView"})
+    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list", "VolunteerRemainderView", "VolunteerAnimalsView", "VolunteerOrderView"})
     void screens();
 
     @SpecificPolicy(resources = "ui.loginToUi")

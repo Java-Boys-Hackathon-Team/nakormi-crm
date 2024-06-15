@@ -1,7 +1,6 @@
 package ru.javaboys.nakormi.entity;
 
 import io.jmix.core.metamodel.datatype.EnumClass;
-
 import org.springframework.lang.Nullable;
 
 public enum PersonGenderType implements EnumClass<String> {

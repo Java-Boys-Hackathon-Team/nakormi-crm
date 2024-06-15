@@ -10,12 +10,9 @@ import io.jmix.flowui.view.Subscribe;
 import io.jmix.flowui.view.ViewComponent;
 import io.jmix.flowui.view.ViewController;
 import io.jmix.flowui.view.ViewDescriptor;
-import org.apache.poi.util.IntegerField;
 import ru.javaboys.nakormi.entity.Food;
 import ru.javaboys.nakormi.entity.FoodMeasureType;
-import ru.javaboys.nakormi.entity.TransferTypes;
 import ru.javaboys.nakormi.view.main.MainView;
-import ru.javaboys.nakormi.view.productmovement.ProductMovementDetailView;
 
 @Route(value = "foods/:id", layout = MainView.class)
 @ViewController("Food.detail")

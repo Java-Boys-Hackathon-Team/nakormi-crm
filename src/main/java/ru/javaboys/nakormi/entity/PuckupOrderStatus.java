@@ -3,15 +3,16 @@ package ru.javaboys.nakormi.entity;
 import io.jmix.core.metamodel.datatype.EnumClass;
 import org.springframework.lang.Nullable;
 
-public enum WarehouseTypes implements EnumClass<String> {
 
-    PICKUP_POINT("PP"),
-    STORAGE("S"),
-    PERSONAL("P");
+public enum PuckupOrderStatus implements EnumClass<String> {
+
+    CREATED("C"),
+    REJECTED("R"),
+    EXECUTED("E");
 
     private final String id;
 
-    WarehouseTypes(String id) {
+    PuckupOrderStatus(String id) {
         this.id = id;
     }
 
@@ -20,8 +21,8 @@ public enum WarehouseTypes implements EnumClass<String> {
     }
 
     @Nullable
-    public static WarehouseTypes fromId(String id) {
-        for (WarehouseTypes at : WarehouseTypes.values()) {
+    public static PuckupOrderStatus fromId(String id) {
+        for (PuckupOrderStatus at : PuckupOrderStatus.values()) {
             if (at.getId().equals(id)) {
                 return at;
             }

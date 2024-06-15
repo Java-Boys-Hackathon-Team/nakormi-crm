@@ -18,7 +18,6 @@ import ru.javaboys.nakormi.view.main.MainView;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Route(value = "top-volunteer-view", layout = MainView.class)
 @ViewController("TopVolunteerView")
