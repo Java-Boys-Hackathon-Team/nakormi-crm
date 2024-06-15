@@ -24,6 +24,7 @@ import io.jmix.flowui.view.DialogWindow;
 import io.jmix.flowui.view.EditedEntityContainer;
 import io.jmix.flowui.view.Install;
 import io.jmix.flowui.view.StandardDetailView;
+import io.jmix.flowui.view.StandardOutcome;
 import io.jmix.flowui.view.Subscribe;
 import io.jmix.flowui.view.Target;
 import io.jmix.flowui.view.ViewComponent;
@@ -33,6 +34,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import ru.javaboys.nakormi.dto.ProductMovement;
+import ru.javaboys.nakormi.dto.ProductMovementRow;
 import ru.javaboys.nakormi.entity.Attachment;
 import ru.javaboys.nakormi.entity.Person;
 import ru.javaboys.nakormi.entity.PersonTypes;
@@ -45,6 +47,7 @@ import ru.javaboys.nakormi.repository.VolunteerRepository;
 import ru.javaboys.nakormi.service.MovementService;
 import ru.javaboys.nakormi.view.main.MainView;
 import ru.javaboys.nakormi.view.person.PersonListViewSelect;
+import ru.javaboys.nakormi.view.productmovementrow.ProductMovementRowDetailView;
 import ru.javaboys.nakormi.view.warehouse.WarehouseListViewSelect;
 
 import java.io.InputStream;
@@ -65,6 +68,7 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     @ViewComponent private EntityPicker<Warehouse> warehouseReceiverPicker;
     @ViewComponent private EntityPicker<Person> beneficiaryPersonPicker;
     @ViewComponent private CollectionContainer<Attachment> attachmentsDc;
+    @ViewComponent private CollectionContainer<ProductMovementRow> detailsDc;
 
     @ViewComponent private Component firstScreen;
     @ViewComponent private JmixButton nextStepFirstScreenButton;
@@ -160,6 +164,21 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     @Subscribe(id = "prevStepThirdScreenButton", subject = "clickListener")
     public void onPrevStepThirdScreenButtonClick(final ClickEvent<JmixButton> event) {
         secondScreenOpened();
+    }
+
+    @Subscribe("productMovementRowsDataGrid.add")
+    public void onProductAdd(final ActionPerformedEvent event) {
+        dialogWindows.detail(this, ProductMovementRow.class)
+                .withViewClass(ProductMovementRowDetailView.class)
+                .newEntity()
+                .withAfterCloseListener(e -> {
+                    if (e.closedWith(StandardOutcome.SAVE)) {
+                        ProductMovementRow entity = e.getSource().getView().getEditedEntity();
+                        detailsDc.getMutableItems().add(entity);
+                    }
+                })
+                .build()
+                .open();
     }
 
     // Важно оставить метод, так как сейчас нет времени разбираться
