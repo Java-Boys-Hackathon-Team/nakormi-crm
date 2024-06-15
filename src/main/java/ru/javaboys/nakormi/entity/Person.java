@@ -57,7 +57,6 @@ public class Person {
     }
 
     @Column(name = "GENDER", nullable = false)
-    @NotNull
     private String gender;
 
     public PersonGenderType getGender() {
