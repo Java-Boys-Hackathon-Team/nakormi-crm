@@ -12,6 +12,8 @@
         <item view="Warehouse.list" title="msg://ru.javaboys.nakormi.view.warehouse/warehouseListView.title"/>
         <item view="Volunteer.list" title="msg://ru.javaboys.nakormi.view.volunteer/volunteerListView.title"/>
         <item view="AddressLookupView" title="msg://ru.javaboys.nakormi.view.addresslookup/addressLookupView.title"/>
+        <item view="VolunteerRemainderView"
+              title="msg://ru.javaboys.nakormi.view.volunteerremainder/volunteerRemainderView.title"/>
     </menu>
     <menu id="animals" description="msg://ru.javaboys.nakormi/menu_config.animals.description"
           title="msg://ru.javaboys.nakormi/menu_config.animals.title" opened="true">

@@ -3,10 +3,14 @@ package ru.javaboys.nakormi.service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
+import ru.javaboys.nakormi.entity.Food;
 import ru.javaboys.nakormi.entity.Person;
+import ru.javaboys.nakormi.entity.Volunteer;
 import ru.javaboys.nakormi.model.VolunteerStatData;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,5 +37,30 @@ public class StatisticService {
                 .map(o -> new VolunteerStatData((Person) o[0], (Long) o[1]))
                 .collect(Collectors.toList());
     }
+
+    public Map<Food, Long> findRemaindersForVolunteer(Volunteer volunteer) {
+        List<Object[]> resultList = entityManager.createQuery("""
+            select
+              r.food as food,
+              sum(case
+                when (r.movement = 'I') then r.quantity
+                when (r.movement = 'O') then (r.quantity * :minus_one)
+                else 0
+              end) as cnt
+            from FoodTransferRow r
+              join Food f on f = r.food
+            where r.foodTransfer.volunteer = :volunteer
+            group by r.food
+            order by cnt desc
+        """, Object[].class).setParameter("volunteer", volunteer).setParameter("minus_one", -1).getResultList();
+
+        Map<Food, Long> resultMap = new HashMap<>();
+        resultList.forEach(o -> {
+            resultMap.put((Food) o[0], (Long) o[1]);
+        });
+
+        return resultMap;
+    }
+
 
 }

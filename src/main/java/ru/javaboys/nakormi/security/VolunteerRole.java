@@ -1,5 +1,6 @@
 package ru.javaboys.nakormi.security;
 
+import io.jmix.core.entity.KeyValueEntity;
 import io.jmix.security.model.EntityAttributePolicyAction;
 import io.jmix.security.model.EntityPolicyAction;
 import io.jmix.security.role.annotation.EntityAttributePolicy;
@@ -109,8 +110,8 @@ public interface VolunteerRole {
     @EntityPolicy(entityClass = Warehouse.class, actions = EntityPolicyAction.READ)
     void warehouse();
 
-    @MenuPolicy(menuIds = "ProductMovement.list")
-    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list"})
+    @MenuPolicy(menuIds = {"ProductMovement.list", "VolunteerRemainderView"})
+    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list", "VolunteerRemainderView"})
     void screens();
 
     @SpecificPolicy(resources = "ui.loginToUi")
@@ -118,4 +119,8 @@ public interface VolunteerRole {
 
     @EntityPolicy(entityClass = FoodTransfer.class, actions = EntityPolicyAction.CREATE)
     void foodTransfer();
+
+    @EntityAttributePolicy(entityClass = KeyValueEntity.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
+    @EntityPolicy(entityClass = KeyValueEntity.class, actions = EntityPolicyAction.READ)
+    void keyValueEntity();
 }
