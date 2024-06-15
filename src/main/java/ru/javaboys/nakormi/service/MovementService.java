@@ -48,10 +48,10 @@ public class MovementService {
         List<FoodTransferRow> rows = new ArrayList<>();
         for (ProductMovementRow detail : movement.getDetails()) {
             switch (movement.getTransferType()) {
-                case UNATTACHED_PICKUP, ACCEPTANCE_TO_WAREHOUSE -> {
+                case PICKUP_FROM_POINT, UNATTACHED_PICKUP, ACCEPTANCE_TO_WAREHOUSE -> {
                     rows.add(createIncomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                 }
-                case PICKUP_FROM_POINT, TRANSFER_TO_WAREHOUSE, TRANSFER_FROM_WAREHOUSE, TRANSFER_TO_VOLUNTEER -> {
+                case TRANSFER_TO_WAREHOUSE, TRANSFER_FROM_WAREHOUSE, TRANSFER_TO_VOLUNTEER -> {
                     rows.add(createIncomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                     rows.add(createOutcomeRow(foodTransfer, now, detail.getFood(), detail.getAmount()));
                 }
@@ -65,7 +65,6 @@ public class MovementService {
         foodTransfer.setAttachments(movement.getAttachments());
 
         foodTransferRepository.save(foodTransfer);
-
     }
 
     private FoodTransferRow createIncomeRow(FoodTransfer foodTransfer, LocalDateTime now, Food food, Integer amount) {
