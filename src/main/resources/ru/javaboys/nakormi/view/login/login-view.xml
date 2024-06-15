@@ -3,6 +3,7 @@
       focusComponent="login"
       title="msg://LoginView.title">
     <layout justifyContent="CENTER" alignItems="CENTER" classNames="jmix-login-main-layout">
+        <image resource="/icons/icon.png"/>
         <loginForm id="login"
                    rememberMeVisible="true"
                    forgotPasswordButtonVisible="false">

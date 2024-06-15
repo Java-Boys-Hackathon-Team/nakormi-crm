@@ -30,6 +30,7 @@
                 </actions>
             </entityPicker>
             <select id="typeField" property="type"/>
+            <select id="genderField" property="gender"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>

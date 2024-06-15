@@ -1,4 +1,26 @@
 /* Стили для десктопной версии */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes drive {
+    from {
+        margin-left: -120%;
+    }
+    to {
+        margin-left: 120%;
+    }
+}
+
+body:has(.jmix-login-main-layout) {
+    overflow: hidden;
+}
+
 #uploadField {
     width: 100% !important;
 }
@@ -33,17 +55,21 @@ vaadin-vertical-layout:has(.attachments) {
 .attachment-table #attachmentsDataGrid {
     width: 100% !important;
     height: auto !important;
-    min-height: 300px !important;
+    min-height: 344px !important;
 }
 
 .attachment-preview {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
 }
 
 .preview-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     padding: 15px;
     box-sizing: border-box;
@@ -73,6 +99,73 @@ vaadin-vertical-layout:has(.attachments) {
     left: -200px;
     bottom: -210px;
     transform: rotate(45deg);
+}
+
+.link-wrapper {
+
+}
+
+.flex-layout {
+    width: 100%;
+    flex-direction: column;
+}
+
+#volunteerTopByFoodImg {
+    max-width: 100%;
+}
+
+.jmix-main-view-navigation ul {
+    padding: 0 10px 0 0;
+}
+
+.jmix-main-view-navigation li a {
+    border-radius: 5px !important;
+    overflow: hidden;
+}
+
+.main-menu-btn {
+    margin: 0 0 10px;
+    padding: 8px 0px 8px 12px !important;
+    color: #fff !important;
+    background: #006af5;
+}
+
+.main-menu-btn[highlight] {
+    border-radius: 5px !important;
+    margin: 0 10px 10px 0;
+    padding: 8px 0px 8px 12px !important;
+    color: #1169dd !important;
+    background: #006af5;
+}
+
+.main-menu-btn span {
+    font-size: 15px;
+}
+
+.jmix-login-main-layout > img {
+    display: inline-block;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 5px #fff solid;
+    box-shadow: 0 0 30px 10px #cecece;
+    transition: 10s all linear;
+    max-width: 150px;
+}
+
+.jmix-login-main-layout > img:hover {
+    transform: rotate(3600deg);
+}
+
+img:has(+ * [focused]) {
+    /*animation: drive 2s linear infinite, spin 1s linear infinite;*/
+    animation: spin 2s linear infinite;
+}
+
+h2 img {
+    max-height: 20px;
+    margin: 0 0 0 8px;
+    box-sizing: border-box;
+    border-radius: 50%;
 }
 
 /* Стили для мобильной версии */

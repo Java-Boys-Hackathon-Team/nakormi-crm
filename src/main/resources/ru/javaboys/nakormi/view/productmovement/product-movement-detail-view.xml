@@ -18,51 +18,63 @@
         <action id="closeAction" type="detail_close"/>
     </actions>
     <layout>
-        <formLayout id="form" dataContainer="productMovementDc">
-            <select id="transferTypeField" property="transferType"/>
+        <formLayout id="firstScreen" classNames="flex-layout" dataContainer="productMovementDc">
+            <h3 text="msg://titleFirstScreen.text"/>
             <entityPicker id="volunteersPicker" dataContainer="productMovementDc" property="volunteer">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>
                 </actions>
             </entityPicker>
-            <entityPicker id="personsPicker" dataContainer="productMovementDc" property="beneficiary" enabled="false">
+            <select id="transferTypeField" property="transferType"/>
+            <entityPicker id="warehousesSourcePicker" dataContainer="productMovementDc" property="warehouseSource"
+                          enabled="false" visible="false">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>
                 </actions>
             </entityPicker>
-            <entityPicker id="warehousesSourcePicker" dataContainer="productMovementDc" property="warehouseSource" enabled="false">
+            <entityPicker id="warehousesReceiverPicker" dataContainer="productMovementDc" property="warehouseReceiver"
+                          enabled="false" visible="false">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>
                 </actions>
             </entityPicker>
-            <entityPicker id="warehousesReceiverPicker" dataContainer="productMovementDc" property="warehouseReceiver" enabled="false">
+            <entityPicker id="personsPicker" dataContainer="productMovementDc" property="beneficiary" enabled="false"
+                          visible="false">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>
                 </actions>
             </entityPicker>
+        </formLayout>
+        <flexLayout id="secondScreen" classNames="flex-layout">
+            <h3 text="msg://titleSecondScreen.text"/>
+            <hbox id="buttonsPanel" classNames="buttons-panel">
+                <button action="productMovementRowsDataGrid.add"/>
+                <button action="productMovementRowsDataGrid.exclude"/>
+            </hbox>
+            <dataGrid id="productMovementRowsDataGrid" dataContainer="detailsDc">
+                <actions>
+                    <action id="add" type="list_add"/>
+                    <action id="exclude" type="list_exclude"/>
+                </actions>
+                <columns>
+                    <column property="food"/>
+                    <column property="amount"/>
+                </columns>
+            </dataGrid>
+        </flexLayout>
+        <formLayout id="thirdScreen" classNames="flex-layout" dataContainer="productMovementDc">
+            <h3 text="msg://titleThirdScreen.text"/>
             <div id="uploadField"/>
-            <div>
-                <hbox id="buttonsPanel" classNames="buttons-panel">
-                    <button action="productMovementRowsDataGrid.add"/>
-                    <button action="productMovementRowsDataGrid.exclude"/>
-                </hbox>
-                <dataGrid id="productMovementRowsDataGrid" dataContainer="detailsDc">
-                    <actions>
-                        <action id="add" type="list_add"/>
-                        <action id="exclude" type="list_exclude"/>
-                    </actions>
-                    <columns>
-                        <column property="food"/>
-                        <column property="amount"/>
-                    </columns>
-                </dataGrid>
-            </div>
         </formLayout>
         <hbox id="detailActions">
+            <button id="prevStepSecondScreenButton" text="msg://prevStepButton.text" visible="false"/>
+            <button id="prevStepThirdScreenButton" text="msg://prevStepButton.text" visible="false"/>
+            <button id="nextStepFirstScreenButton" text="msg://nextStepButton.text" themeNames="primary"/>
+            <button id="nextStepSecondScreenButton" text="msg://nextStepButton.text" themeNames="primary"/>
             <button id="saveAndCloseBtn" action="saveAction"/>
             <button id="closeBtn" action="closeAction"/>
         </hbox>

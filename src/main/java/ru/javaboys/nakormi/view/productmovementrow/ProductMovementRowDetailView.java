@@ -1,17 +1,20 @@
 package ru.javaboys.nakormi.view.productmovementrow;
 
+import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.LoadContext;
 import io.jmix.core.SaveContext;
-import io.jmix.flowui.view.EditedEntityContainer;
-import io.jmix.flowui.view.Install;
-import io.jmix.flowui.view.StandardDetailView;
-import io.jmix.flowui.view.Target;
-import io.jmix.flowui.view.ViewController;
-import io.jmix.flowui.view.ViewDescriptor;
+import io.jmix.flowui.component.valuepicker.EntityPicker;
+import io.jmix.flowui.kit.component.valuepicker.CustomValueSetEvent;
+import io.jmix.flowui.view.*;
+import org.springframework.stereotype.Component;
 import ru.javaboys.nakormi.dto.ProductMovementRow;
+import ru.javaboys.nakormi.entity.Food;
+import ru.javaboys.nakormi.entity.FoodMeasureType;
 import ru.javaboys.nakormi.view.main.MainView;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Route(value = "productMovementRows/:id", layout = MainView.class)
@@ -19,6 +22,9 @@ import java.util.Set;
 @ViewDescriptor("product-movement-row-detail-view.xml")
 @EditedEntityContainer("productMovementRowDc")
 public class ProductMovementRowDetailView extends StandardDetailView<ProductMovementRow> {
+
+    @ViewComponent
+    private TextField measureTextField;
 
     @Install(to = "productMovementRowDl", target = Target.DATA_LOADER)
     private ProductMovementRow customerDlLoadDelegate(final LoadContext<ProductMovementRow> loadContext) {
@@ -37,5 +43,29 @@ public class ProductMovementRowDetailView extends StandardDetailView<ProductMove
         // to let the framework match the saved instance with the original one.
         ProductMovementRow saved = entity;
         return Set.of(saved);
+    }
+
+    @Subscribe("foodField")
+    public void onFoodFieldComponentValueChange(final AbstractField.ComponentValueChangeEvent<EntityPicker<Food>, Food> event) {
+        Food food = event.getValue();
+        if (food == null) {
+            measureTextField.setValue("");
+            return;
+        }
+
+        FoodMeasureType foodMeasureType = food.getMeasure();
+        if (foodMeasureType == null) {
+            measureTextField.setValue("");
+            return;
+        }
+
+        String measureText = "";
+        String measureId = foodMeasureType.getId();
+        if (measureId.equals("W")) {
+            measureText = "гр.";
+        } else if (measureId.equals("P")) {
+            measureText = "шт.";
+        }
+        measureTextField.setValue(measureText);
     }
 }

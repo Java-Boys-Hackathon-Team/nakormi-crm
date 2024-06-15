@@ -23,6 +23,7 @@
         <formLayout id="form" dataContainer="foodDc">
             <textField id="nameField" property="name"/>
             <select id="measureField" property="measure"/>
+            <integerField id="weightField" property="weight"/>
         </formLayout>
         <h4 text="msg://ru.javaboys.nakormi.entity/Food.category"/>
         <hbox id="buttonsPanel" classNames="buttons-panel">

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://jmix.io/schema/flowui/menu">
 
+    <item view="ProductMovement.list"
+          title="msg://ru.javaboys.nakormi.view.productmovement/productMovementListView.title" classNames="main-menu-btn"/>
+    <item view="TopVolunteerView" title="msg://ru.javaboys.nakormi.view.topvolunteer/topVolunteerView.title" classNames="main-menu-btn"/>
     <menu opened="true" id="application" title="msg://ru.javaboys.nakormi/menu.application.title">
         <item view="User.list" title="msg://ru.javaboys.nakormi.view.user/UserListView.title"/>
         <item view="District.list" title="msg://ru.javaboys.nakormi.view.district/districtListView.title"/>
@@ -8,11 +11,18 @@
         <item view="Person.list" title="msg://ru.javaboys.nakormi.view.person/personListView.title"/>
         <item view="Warehouse.list" title="msg://ru.javaboys.nakormi.view.warehouse/warehouseListView.title"/>
         <item view="Volunteer.list" title="msg://ru.javaboys.nakormi.view.volunteer/volunteerListView.title"/>
+    </menu>
+    <menu id="animals" description="msg://ru.javaboys.nakormi/menu_config.animals.description"
+          title="msg://ru.javaboys.nakormi/menu_config.animals.title" opened="true">
         <item view="Animal.list" title="msg://ru.javaboys.nakormi.view.animal/animalListView.title"/>
         <item view="Pride.list" title="msg://ru.javaboys.nakormi.view.pride/prideListView.title"/>
+    </menu>
+    <menu id="feeds" description="msg://ru.javaboys.nakormi/menu_config.feeds.description"
+          title="msg://ru.javaboys.nakormi/menu_config.feeds.title" opened="true">
+        <item view="Food.list" title="msg://ru.javaboys.nakormi.view.food/foodListView.title"/>
         <item view="FoodCategory.list"
               title="msg://ru.javaboys.nakormi.view.foodcategoryentity/foodCategoryEntityListView.title"/>
-        <item view="Food.list" title="msg://ru.javaboys.nakormi.view.food/foodListView.title"/>
+
         <item view="InvitationCode.list"
               title="msg://ru.javaboys.nakormi.view.invitationcode/invitationCodeListView.title"/>
         <item view="TelegamUser.list" title="msg://ru.javaboys.nakormi.view.telegamuser/telegamUserListView.title"/>
@@ -22,13 +32,4 @@
         <item view="PuckUpOrder.list" title="msg://ru.javaboys.nakormi.view.puckuporder/puckUpOrderListView.title"/>
         <item view="FoodTransfer.list" title="msg://ru.javaboys.nakormi.view.foodtransfer/foodTransferListView.title"/>
     </menu>
-    <item view="ProductMovement.list"
-          title="msg://ru.javaboys.nakormi.view.productmovement/productMovementListView.title"/>
-    <menu id="settings" description="msg://ru.javaboys.nakormi/menu_config.settings.description"
-          title="msg://ru.javaboys.nakormi/menu_config.settings.title">
-        <item view="FoodTransferRow.list"
-              title="msg://ru.javaboys.nakormi.view.foodtransferrow/foodTransferRowListView.title"/>
-    </menu>
-
-
 </menu-config>

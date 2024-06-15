@@ -56,6 +56,18 @@ public class Person {
         this.invitationCode = invitationCode;
     }
 
+    @Column(name = "GENDER", nullable = false)
+    @NotNull
+    private String gender;
+
+    public PersonGenderType getGender() {
+        return gender == null ? null : PersonGenderType.fromId(gender);
+    }
+
+    public void setGender(PersonGenderType gender) {
+        this.gender = gender == null ? null : gender.getId();
+    }
+
     @InstanceName
     @DependsOnProperties({"name", "surname"})
     public String getDisplayName() {
