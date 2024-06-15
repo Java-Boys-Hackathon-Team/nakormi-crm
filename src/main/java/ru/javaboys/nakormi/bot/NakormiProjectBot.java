@@ -71,6 +71,8 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
 
         } else if (update.hasMessage() && update.getMessage().hasDocument()) {
             loginScreen.processDocument(update);
+        } else if (update.hasMessage() && update.getMessage().hasPhoto()) {
+            loginScreen.processPhoto(update);
         }
     }
 

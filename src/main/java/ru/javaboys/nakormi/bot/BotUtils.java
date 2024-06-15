@@ -2,6 +2,9 @@ package ru.javaboys.nakormi.bot;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class BotUtils {
 
     public static CommandArgs parseCommand(String input) {
@@ -26,5 +29,11 @@ public class BotUtils {
 
     public static boolean validateArgsCount(String[] args, int expectedCount) {
         return  args.length == expectedCount;
+    }
+
+    public static String generatePhotoName() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        return "photo_" + now.format(formatter) + ".jpg";
     }
 }

@@ -1,18 +1,15 @@
 package ru.javaboys.nakormi.bot;
 
 import io.jmix.core.DataManager;
-import io.jmix.core.FileRef;
-import io.jmix.core.FileStorage;
-import io.jmix.core.FileStorageLocator;
 import io.jmix.core.security.SystemAuthenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Document;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.javaboys.nakormi.entity.Address;
-import ru.javaboys.nakormi.entity.Attachment;
 import ru.javaboys.nakormi.entity.District;
 import ru.javaboys.nakormi.entity.InvitationCode;
 import ru.javaboys.nakormi.entity.Person;
@@ -21,11 +18,13 @@ import ru.javaboys.nakormi.entity.TelegamUser;
 import ru.javaboys.nakormi.entity.Volunteer;
 import ru.javaboys.nakormi.entity.Warehouse;
 import ru.javaboys.nakormi.entity.WarehouseTypes;
+import ru.javaboys.nakormi.service.AttachmentService;
 import ru.javaboys.nakormi.service.TelegramService;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -42,7 +41,7 @@ public class LoginScreen implements BotScreen {
 
     private final TelegramContext telegramContext;
 
-    private final FileStorageLocator fileStorageLocator;
+    private final AttachmentService attachmentService;
 
     @Override
     @Transactional
@@ -221,18 +220,21 @@ public class LoginScreen implements BotScreen {
 
         var file = botFeaturesUtils.downloadFile(document.getFileId());
 
-        FileStorage fileStorage = fileStorageLocator.getDefault();
+        attachmentService.save(file, document.getFileId(), document.getFileName());
+    }
 
-        FileRef fileRef = fileStorage.saveStream(document.getFileName(), new FileInputStream(file));
+    @Override
+    public void processPhoto(Update update) throws TelegramApiException, FileNotFoundException {
 
-        systemAuthenticator.begin();
+        List<PhotoSize> photos = update.getMessage().getPhoto();
 
-        Attachment attachment = dataManager.create(Attachment.class);
-        attachment.setName(fileRef.getFileName());
-        attachment.setSource(fileRef);
-        Attachment savedAttachment = dataManager.save(attachment);
+        String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize))
+                .map(PhotoSize::getFileId)
+                .orElse("");
 
-        systemAuthenticator.end();
+        var file = botFeaturesUtils.downloadFile(fileId);
+
+        attachmentService.save(file, fileId, BotUtils.generatePhotoName());
     }
 
     private void processCode(Update update) throws TelegramApiException {

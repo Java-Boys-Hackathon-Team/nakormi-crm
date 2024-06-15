@@ -9,4 +9,5 @@ public interface BotScreen {
     void processUpdate(Update update) throws TelegramApiException;
     void processCallback(Update update, String callbackData) throws TelegramApiException;
     void processDocument(Update update) throws TelegramApiException, FileNotFoundException;
+    void processPhoto(Update update) throws TelegramApiException, FileNotFoundException;
 }
