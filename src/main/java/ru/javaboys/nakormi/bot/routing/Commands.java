@@ -1,4 +1,4 @@
-package ru.javaboys.nakormi.bot;
+package ru.javaboys.nakormi.bot.routing;
 
 public class Commands {
     public static final String START = "/start";

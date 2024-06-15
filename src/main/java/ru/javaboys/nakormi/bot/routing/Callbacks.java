@@ -1,4 +1,4 @@
-package ru.javaboys.nakormi.bot;
+package ru.javaboys.nakormi.bot.routing;
 
 public class Callbacks {
     public static final String LOGIN_HAVE_CODE = "login_have_code";

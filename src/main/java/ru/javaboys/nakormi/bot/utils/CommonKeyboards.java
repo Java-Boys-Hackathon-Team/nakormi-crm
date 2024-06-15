@@ -1,9 +1,10 @@
-package ru.javaboys.nakormi.bot;
+package ru.javaboys.nakormi.bot.utils;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.javaboys.nakormi.bot.routing.Callbacks;
 
 import java.util.Map;
 

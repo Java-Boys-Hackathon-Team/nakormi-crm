@@ -1,4 +1,4 @@
-package ru.javaboys.nakormi.bot;
+package ru.javaboys.nakormi.bot.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package ru.javaboys.nakormi.bot;
+package ru.javaboys.nakormi.bot.screen;
 
 import io.jmix.core.DataManager;
 import io.jmix.core.security.SystemAuthenticator;
@@ -9,6 +9,13 @@ import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.javaboys.nakormi.bot.routing.Callbacks;
+import ru.javaboys.nakormi.bot.utils.CommandArgs;
+import ru.javaboys.nakormi.bot.routing.Commands;
+import ru.javaboys.nakormi.bot.utils.CommonKeyboards;
+import ru.javaboys.nakormi.bot.utils.TelegramContext;
+import ru.javaboys.nakormi.bot.utils.BotFeaturesUtils;
+import ru.javaboys.nakormi.bot.utils.BotUtils;
 import ru.javaboys.nakormi.entity.Address;
 import ru.javaboys.nakormi.entity.District;
 import ru.javaboys.nakormi.entity.InvitationCode;

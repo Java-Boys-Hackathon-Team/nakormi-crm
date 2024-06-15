@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.javaboys.nakormi.bot.TelegramContext;
+import ru.javaboys.nakormi.bot.utils.TelegramContext;
 import ru.javaboys.nakormi.entity.TelegamUser;
 import ru.javaboys.nakormi.entity.User;
 import ru.javaboys.nakormi.security.DatabaseUserRepository;

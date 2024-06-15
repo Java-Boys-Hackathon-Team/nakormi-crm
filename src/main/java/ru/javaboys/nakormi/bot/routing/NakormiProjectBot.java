@@ -1,4 +1,4 @@
-package ru.javaboys.nakormi.bot;
+package ru.javaboys.nakormi.bot.routing;
 
 import io.jmix.core.DataManager;
 import io.jmix.core.security.SystemAuthenticator;
@@ -12,6 +12,11 @@ import org.telegram.telegrambots.longpolling.starter.AfterBotRegistration;
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.javaboys.nakormi.bot.screen.LoginScreen;
+import ru.javaboys.nakormi.bot.utils.BotFeaturesUtils;
+import ru.javaboys.nakormi.bot.utils.BotUtils;
+import ru.javaboys.nakormi.bot.utils.CommandArgs;
+import ru.javaboys.nakormi.bot.utils.TelegramContext;
 import ru.javaboys.nakormi.service.TelegramService;
 
 @Slf4j
