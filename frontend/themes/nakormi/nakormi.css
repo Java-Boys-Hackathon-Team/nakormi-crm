@@ -148,18 +148,19 @@ vaadin-vertical-layout:has(.attachments) {
     box-sizing: border-box;
     border: 5px #fff solid;
     box-shadow: 0 0 30px 10px #cecece;
-    transition: 10s all linear;
+    /*transition: 10s all linear;*/
     max-width: 150px;
 }
 
+/*
 .jmix-login-main-layout > img:hover {
     transform: rotate(3600deg);
 }
 
 img:has(+ * [focused]) {
-    /*animation: drive 2s linear infinite, spin 1s linear infinite;*/
-    animation: spin 2s linear infinite;
+    animation: drive 2s linear infinite, spin 1s linear infinite;
 }
+*/
 
 h2 img {
     max-height: 20px;
