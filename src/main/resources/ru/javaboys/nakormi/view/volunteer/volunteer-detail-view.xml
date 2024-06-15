@@ -33,7 +33,6 @@
                 </actions>
             </entityPicker>
             <textField id="passport_numberField" property="passportNumber"/>
-            <textField id="telegram_idField" property="telegramId"/>
             <entityPicker id="warehouseField" property="warehouse">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>

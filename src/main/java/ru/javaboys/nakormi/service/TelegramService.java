@@ -22,6 +22,7 @@ import ru.javaboys.nakormi.security.DatabaseUserRepository;
 import ru.javaboys.nakormi.security.FullAccessRole;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -94,6 +95,8 @@ public class TelegramService {
     @Transactional
     public TelegamUser upsertTelegramUser(Update update) {
 
+        TelegamUser telegamUser;
+
         String firstName = "";
         String lastName  = "";
         String userName  = "";
@@ -101,9 +104,7 @@ public class TelegramService {
         Long userId = 0L;
         Long chatId = 0L;
 
-        TelegamUser telegamUser;
-
-        if (update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage()) {
 
             firstName = update.getMessage().getChat().getFirstName();
             lastName = update.getMessage().getChat().getLastName();
@@ -122,6 +123,12 @@ public class TelegramService {
             chatId = update.getCallbackQuery().getMessage().getChatId();
 
         }
+
+
+        if (userId == 0L || chatId == 0L || Objects.equals(firstName, "") || Objects.equals(lastName, "") || Objects.equals(userName, "")) {
+            throw new RuntimeException("Telegram user properties cannot be empty");
+        }
+
 
         systemAuthenticator.begin();
 

@@ -56,6 +56,16 @@ public class TelegamUser {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "telegramUser")
     private User user;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "telegramUser")
+    private Volunteer volunteer;
+
+    public Volunteer getVolunteer() {
+        return volunteer;
+    }
+
+    public void setVolunteer(Volunteer volunteer) {
+        this.volunteer = volunteer;
+    }
 
     public InvitationCode getInvitationCode() {
         return invitationCode;

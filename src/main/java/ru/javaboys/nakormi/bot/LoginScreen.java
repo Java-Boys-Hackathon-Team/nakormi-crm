@@ -179,7 +179,7 @@ public class LoginScreen implements BotScreen {
 
                 var volunteer = dataManager.create(Volunteer.class);
                 volunteer.setPerson(person);
-                volunteer.setTelegramId(telegramContext.getTelegamUser().getTelegramUserName());
+                volunteer.setTelegramUser(telegramContext.getTelegamUser());
                 volunteer.setWarehouse(warehouse);
                 dataManager.save(volunteer);
 
@@ -195,6 +195,8 @@ public class LoginScreen implements BotScreen {
                 botFeaturesUtils.sendMessage(update, """
                         Для завершения регистрации нам потребуются скан-копия вашего паспорта.
                         Отправьте её как файл.
+                        
+                        При отправке добавьте файлу подпись "паспорт".
                         """);
             }
 
@@ -216,11 +218,31 @@ public class LoginScreen implements BotScreen {
     @Override
     public void processDocument(Update update) throws TelegramApiException, FileNotFoundException {
 
-        Document document = update.getMessage().getDocument();
+        String caption = update.getMessage().getCaption();
 
-        var file = botFeaturesUtils.downloadFile(document.getFileId());
+        switch (caption) {
 
-        attachmentService.save(file, document.getFileId(), document.getFileName());
+            case "паспорт" -> {
+
+                Document document = update.getMessage().getDocument();
+                var file = botFeaturesUtils.downloadFile(document.getFileId());
+                var attachment = attachmentService.save(file, document.getFileId(), document.getFileName());
+
+                systemAuthenticator.begin();
+
+                var volunteerId = telegramContext.getTelegamUser().getVolunteer().getId();
+
+                dataManager.load(Volunteer.class)
+                        .id(volunteerId)
+                        .optional()
+                        .ifPresent(v -> {
+                            v.setAttachments(List.of(attachment));
+                            dataManager.save(v);
+                        });
+
+                systemAuthenticator.end();
+            }
+        }
     }
 
     @Override
@@ -234,7 +256,7 @@ public class LoginScreen implements BotScreen {
 
         var file = botFeaturesUtils.downloadFile(fileId);
 
-        attachmentService.save(file, fileId, BotUtils.generatePhotoName());
+        var attachment = attachmentService.save(file, fileId, BotUtils.generatePhotoName());
     }
 
     private void processCode(Update update) throws TelegramApiException {
