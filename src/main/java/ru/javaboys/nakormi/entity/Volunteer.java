@@ -20,8 +20,7 @@ import java.util.UUID;
 @JmixEntity
 @Table(name = "VOLUNTEER", indexes = {
         @Index(name = "IDX_VOLUNTEER_PERSON", columnList = "PERSON_ID"),
-        @Index(name = "IDX_VOLUNTEER_WAREHOUSE", columnList = "WAREHOUSE_ID"),
-        @Index(name = "IDX_VOLUNTEER_TELEGRAM_USER", columnList = "TELEGRAM_USER_ID")
+        @Index(name = "IDX_VOLUNTEER_WAREHOUSE", columnList = "WAREHOUSE_ID")
 })
 @Entity
 public class Volunteer {
@@ -58,9 +57,16 @@ public class Volunteer {
     )
     private List<Attachment> attachments;
 
-    @JoinColumn(name = "TELEGRAM_USER_ID")
-    @OneToOne(fetch = FetchType.LAZY)
-    private TelegamUser telegramUser;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "volunteer")
+    private TelegamUser telegamUser;
+
+    public TelegamUser getTelegamUser() {
+        return telegamUser;
+    }
+
+    public void setTelegamUser(TelegamUser telegamUser) {
+        this.telegamUser = telegamUser;
+    }
 
     public List<Animal> getAnimals() {
         return animals;
@@ -68,14 +74,6 @@ public class Volunteer {
 
     public void setAnimals(List<Animal> animals) {
         this.animals = animals;
-    }
-
-    public TelegamUser getTelegramUser() {
-        return telegramUser;
-    }
-
-    public void setTelegramUser(TelegamUser telegramUser) {
-        this.telegramUser = telegramUser;
     }
 
     public List<Attachment> getAttachments() {

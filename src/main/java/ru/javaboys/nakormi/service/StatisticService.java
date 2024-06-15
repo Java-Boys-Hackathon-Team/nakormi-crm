@@ -49,10 +49,10 @@ public class StatisticService {
               end) as cnt
             from FoodTransferRow r
               join Food f on f = r.food
-            where r.foodTransfer.volunteer = :volunteer
+            where r.warehouse = :warehouse
             group by r.food
             order by cnt desc
-        """, Object[].class).setParameter("volunteer", volunteer).setParameter("minus_one", -1).getResultList();
+        """, Object[].class).setParameter("warehouse", volunteer.getWarehouse()).setParameter("minus_one", -1).getResultList();
 
         Map<Food, Long> resultMap = new HashMap<>();
         resultList.forEach(o -> {
