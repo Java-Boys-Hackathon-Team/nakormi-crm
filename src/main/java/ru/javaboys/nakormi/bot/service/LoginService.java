@@ -141,7 +141,7 @@ public class LoginService {
                         Отлично! Вам была создана учетна запись в системе "Накорми CRM".
                         Для входа в систему перейдите по ссылке:
                         
-                        https://nakormi.kuramshin-dev.ru/
+                        https://nakormi-crm.ru/
                         """);
 
         botFeaturesUtils.sendMessage(update, """
