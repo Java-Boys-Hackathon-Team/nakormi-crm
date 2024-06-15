@@ -18,6 +18,13 @@ repositories {
     maven {
         url 'https://global.repo.jmix.io/repository/public'
     }
+    maven {
+        url = 'https://global.repo.jmix.io/repository/premium'
+        credentials {
+            username = rootProject['premiumRepoUser.0']
+            password = rootProject['premiumRepoPass.0']
+        }
+    }
 }
 
 dependencies {
