@@ -14,19 +14,42 @@ import io.jmix.core.FileStorage;
 import io.jmix.core.FileStorageLocator;
 import io.jmix.core.LoadContext;
 import io.jmix.core.SaveContext;
+import io.jmix.core.security.CurrentAuthentication;
+import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.component.valuepicker.EntityPicker;
+import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.model.CollectionContainer;
-import io.jmix.flowui.view.*;
+import io.jmix.flowui.view.DialogWindow;
+import io.jmix.flowui.view.EditedEntityContainer;
+import io.jmix.flowui.view.Install;
+import io.jmix.flowui.view.StandardDetailView;
+import io.jmix.flowui.view.Subscribe;
+import io.jmix.flowui.view.Target;
+import io.jmix.flowui.view.ViewComponent;
+import io.jmix.flowui.view.ViewController;
+import io.jmix.flowui.view.ViewDescriptor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import ru.javaboys.nakormi.dto.ProductMovement;
-import ru.javaboys.nakormi.entity.*;
+import ru.javaboys.nakormi.entity.Attachment;
+import ru.javaboys.nakormi.entity.Person;
+import ru.javaboys.nakormi.entity.PersonTypes;
+import ru.javaboys.nakormi.entity.TransferTypes;
+import ru.javaboys.nakormi.entity.User;
+import ru.javaboys.nakormi.entity.Volunteer;
+import ru.javaboys.nakormi.entity.Warehouse;
+import ru.javaboys.nakormi.entity.WarehouseTypes;
+import ru.javaboys.nakormi.repository.VolunteerRepository;
 import ru.javaboys.nakormi.service.MovementService;
 import ru.javaboys.nakormi.view.main.MainView;
+import ru.javaboys.nakormi.view.person.PersonListViewSelect;
+import ru.javaboys.nakormi.view.warehouse.WarehouseListViewSelect;
 
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 @Route(value = "productMovements/:id", layout = MainView.class)
 @ViewController("ProductMovement.detail")
@@ -34,62 +57,150 @@ import java.util.Set;
 @EditedEntityContainer("productMovementDc")
 public class ProductMovementDetailView extends StandardDetailView<ProductMovement> {
 
-    @ViewComponent
-    private Div uploadField;
+    @ViewComponent private Select<TransferTypes> transferTypeField;
+    @ViewComponent private EntityPicker<Volunteer> volunteerSourcePicker;
+    @ViewComponent private EntityPicker<Volunteer> volunteerReceiverPicker;
+    @ViewComponent private EntityPicker<Warehouse> warehouseSourcePicker;
+    @ViewComponent private EntityPicker<Warehouse> warehouseReceiverPicker;
+    @ViewComponent private EntityPicker<Person> beneficiaryPersonPicker;
+    @ViewComponent private CollectionContainer<Attachment> attachmentsDc;
 
-    @ViewComponent
-    private Select<TransferTypes> transferTypeField;
+    @ViewComponent private Component firstScreen;
+    @ViewComponent private JmixButton nextStepFirstScreenButton;
 
-    @ViewComponent
-    private EntityPicker<Warehouse> warehousesSourcePicker;
+    @ViewComponent private Component secondScreen;
+    @ViewComponent private JmixButton prevStepSecondScreenButton;
+    @ViewComponent private JmixButton nextStepSecondScreenButton;
 
-    @ViewComponent
-    private EntityPicker<Warehouse> warehousesReceiverPicker;
+    @ViewComponent private Component thirdScreen;
+    @ViewComponent private JmixButton prevStepThirdScreenButton;
 
-    @ViewComponent
-    private EntityPicker<Person> personsPicker;
+    @ViewComponent private Div uploadField;
+    @ViewComponent private JmixButton saveAndCloseBtn;
 
-    @ViewComponent
-    private CollectionContainer<Attachment> attachmentsDc;
+    @Autowired private DataManager dataManager;
+    @Autowired private FileStorageLocator fileStorageLocator;
+    @Autowired private MovementService movementService;
+    @Autowired private ApplicationContext appCtx;
+    @Autowired private VolunteerRepository volunteerRepository;
+    @Autowired private DialogWindows dialogWindows;
 
-    @Autowired
-    private DataManager dataManager;
-
-    @Autowired
-    private FileStorageLocator fileStorageLocator;
-
-    @Autowired
-    private MovementService movementService;
-
-    @ViewComponent
-    private Component firstScreen;
-
-    @ViewComponent
-    private Component secondScreen;
-
-    @ViewComponent
-    private Component thirdScreen;
-
-    @ViewComponent
-    private JmixButton prevStepSecondScreenButton;
-
-    @ViewComponent
-    private JmixButton prevStepThirdScreenButton;
-
-    @ViewComponent
-    private JmixButton nextStepFirstScreenButton;
-
-    @ViewComponent
-    private JmixButton nextStepSecondScreenButton;
-
-    @ViewComponent
-    private JmixButton saveAndCloseBtn;
+    // Поля заполняются при инициализации страницы
+    private User currentUser;
+    private Person currentPerson;
+    private Volunteer currentVolunteer;
+    private FirstScreenMeta firstScreenMeta = FirstScreenMeta.disabled();
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         transferTypeField.addValueChangeListener(this::onTransferTypeFieldValueChange);
+        volunteerSourcePicker.addValueChangeListener(this::onSourceVolunteerChange);
+        volunteerReceiverPicker.addValueChangeListener(this::onReceiverVolunteerChange);
+
         uploadField.add(getUpload());
+        this.updateFirstScreen(FirstScreenMeta.disabled());
+        this.initUserData();
+        this.firstScreenOpened();
+    }
+
+    @Subscribe("warehouseSourcePicker.entityLookup")
+    public void onWarehouseSourcePickerLookup(final ActionPerformedEvent event) {
+        DialogWindow<WarehouseListViewSelect> builder = dialogWindows.lookup(warehouseSourcePicker)
+                .withViewClass(WarehouseListViewSelect.class)
+                .build();
+
+        WarehousePickerMeta meta = firstScreenMeta.getWarehousesSourceMeta();
+
+        builder.getView().setType(meta.getType());
+        builder.open();
+    }
+
+
+    @Subscribe("warehouseReceiverPicker.entityLookup")
+    public void onWarehouseReceiverPickerLookup(final ActionPerformedEvent event) {
+        DialogWindow<WarehouseListViewSelect> builder = dialogWindows.lookup(warehouseReceiverPicker)
+                .withViewClass(WarehouseListViewSelect.class)
+                .build();
+
+        WarehousePickerMeta meta = firstScreenMeta.getWarehousesReceiverMeta();
+
+        builder.getView().setType(meta.getType());
+        builder.open();
+    }
+
+    @Subscribe("beneficiaryPersonPicker.entityLookup")
+    public void onBeneficiaryPersonPickerLookup(final ActionPerformedEvent event) {
+        DialogWindow<PersonListViewSelect> builder = dialogWindows.lookup(beneficiaryPersonPicker)
+                .withViewClass(PersonListViewSelect.class)
+                .build();
+
+        PersonPickerMeta meta = firstScreenMeta.getBeneficiaryPersonMeta();
+
+        builder.getView().setType(meta.getType());
+        builder.open();
+    }
+
+    @Subscribe(id = "nextStepFirstScreenButton", subject = "clickListener")
+    public void onNextStepFirstScreenButtonClick(final ClickEvent<JmixButton> event) {
+        onFirstScreenFinished();
+        secondScreenOpened();
+    }
+
+    @Subscribe(id = "nextStepSecondScreenButton", subject = "clickListener")
+    public void onNextStepSecondScreenButtonClick(final ClickEvent<JmixButton> event) {
+        thirdScreenOpened();
+    }
+
+    @Subscribe(id = "prevStepSecondScreenButton", subject = "clickListener")
+    public void onPrevStepSecondScreenButtonClick(final ClickEvent<JmixButton> event) {
         firstScreenOpened();
+    }
+
+    @Subscribe(id = "prevStepThirdScreenButton", subject = "clickListener")
+    public void onPrevStepThirdScreenButtonClick(final ClickEvent<JmixButton> event) {
+        secondScreenOpened();
+    }
+
+    // Важно оставить метод, так как сейчас нет времени разбираться
+    // почему иногда при выборе волонтера не подтягивается его личный склад
+    private void onFirstScreenFinished() {
+        if (volunteerSourcePicker.getValue() != null) {
+            warehouseSourcePicker.setValue(volunteerSourcePicker.getValue().getWarehouse());
+        }
+        if (volunteerReceiverPicker.getValue() != null) {
+            warehouseReceiverPicker.setValue(volunteerReceiverPicker.getValue().getWarehouse());
+        }
+    }
+
+    private void onSourceVolunteerChange(HasValue.ValueChangeEvent<Volunteer> event) {
+        if (event.getValue() == null) {
+            warehouseSourcePicker.setValue(null);
+        } else {
+            warehouseSourcePicker.setValue(event.getValue().getWarehouse());
+        }
+    }
+
+    private void onReceiverVolunteerChange(HasValue.ValueChangeEvent<Volunteer> event) {
+        if (event.getValue() == null) {
+            warehouseReceiverPicker.setValue(null);
+        } else {
+            warehouseReceiverPicker.setValue(event.getValue().getWarehouse());
+        }
+    }
+
+    private void initUserData() {
+        CurrentAuthentication auth = appCtx.getBean(CurrentAuthentication.class);
+        User user = (User) auth.getUser();
+        Person person = user.getPerson();
+        if (person == null) {
+            return;
+        }
+
+        this.currentUser = user;
+        this.currentPerson = person;
+        if (person.getType() == PersonTypes.VOLUNTEER) {
+            this.currentVolunteer = volunteerRepository.getByPerson(person);
+        }
     }
 
     @Install(to = "productMovementDl", target = Target.DATA_LOADER)
@@ -103,6 +214,9 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     @Install(target = Target.DATA_CONTEXT)
     private Set<Object> saveDelegate(final SaveContext saveContext) {
         ProductMovement entity = getEditedEntity();
+        Volunteer volunteer = ObjectUtils.firstNonNull(volunteerSourcePicker.getValue(), volunteerReceiverPicker.getValue());
+        entity.setVolunteer(volunteer);
+
         movementService.executeMovement(entity);
         // Here you can save the entity to an external storage and return the saved instance.
         // Set the returned entity to the not-new state using EntityStates.setNew(entity, false).
@@ -113,21 +227,159 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     }
 
     private void onTransferTypeFieldValueChange(HasValue.ValueChangeEvent<TransferTypes> event) {
-        var visibilityInfo = visibleElementsMapInfo.getOrDefault(event.getValue(), new ElementsInfo(false, false, false));
-        warehousesSourcePicker.setVisible(visibilityInfo.isWarehouseSourceEnable());
-        warehousesSourcePicker.setEnabled(visibilityInfo.isWarehouseSourceEnable());
-        if (!visibilityInfo.isWarehouseSourceEnable()) {
-            warehousesSourcePicker.setValue(null);
+        this.firstScreenMeta = toScreenMeta(event.getValue());
+        if (firstScreenMeta != null) {
+            this.updateFirstScreen(firstScreenMeta);
         }
-        warehousesReceiverPicker.setVisible(visibilityInfo.isWarehouseReceiverEnable());
-        warehousesReceiverPicker.setEnabled(visibilityInfo.isWarehouseReceiverEnable());
-        if (!visibilityInfo.isWarehouseReceiverEnable()) {
-            warehousesReceiverPicker.setValue(null);
+    }
+
+    private void updateFirstScreen(FirstScreenMeta firstScreenMeta) {
+        setupPicker(volunteerSourcePicker, firstScreenMeta.getVolunteerSourceMeta());
+        setupPicker(volunteerReceiverPicker, firstScreenMeta.getVolunteerReceiverMeta());
+        setupPicker(warehouseSourcePicker, firstScreenMeta.getWarehousesSourceMeta());
+        setupPicker(warehouseReceiverPicker, firstScreenMeta.getWarehousesReceiverMeta());
+        setupPicker(beneficiaryPersonPicker, firstScreenMeta.getBeneficiaryPersonMeta());
+    }
+
+    private FirstScreenMeta toScreenMeta(TransferTypes type) {
+        switch (type) {
+            case UNATTACHED_PICKUP -> {
+                return new FirstScreenMeta(
+                        FieldMeta.disabled(),
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(currentVolunteer),
+                                () -> FieldMeta.enabled()
+                        ),
+                        WarehousePickerMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.disabled()
+                );
+            }
+            case PICKUP_FROM_POINT -> {
+                return new FirstScreenMeta(
+                        FieldMeta.disabled(),
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(currentVolunteer),
+                                () -> FieldMeta.enabled()
+                        ),
+                        WarehousePickerMeta.enabled(WarehouseTypes.PICKUP_POINT),
+
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.disabled()
+                );
+            }
+            case TRANSFER_TO_WAREHOUSE -> {
+                return new FirstScreenMeta(
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(currentVolunteer),
+                                () -> FieldMeta.enabled()
+                        ),
+                        FieldMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        WarehousePickerMeta.enabled(WarehouseTypes.STORAGE),
+                        PersonPickerMeta.disabled()
+                );
+            }
+            case TRANSFER_FROM_WAREHOUSE -> {
+                return new FirstScreenMeta(
+                        FieldMeta.disabled(),
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(currentVolunteer),
+                                () -> FieldMeta.enabled()
+                        ),
+                        WarehousePickerMeta.enabled(WarehouseTypes.STORAGE),
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.disabled()
+                );
+            }
+            case TRANSFER_TO_VOLUNTEER -> {
+                return new FirstScreenMeta(
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(currentVolunteer),
+                                FieldMeta::enabled
+                        ),
+                        FieldMeta.enabled(),
+                        WarehousePickerMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.disabled()
+                );
+            }
+            case FEED -> {
+                return new FirstScreenMeta(
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(currentVolunteer),
+                                () -> FieldMeta.enabled()
+                        ),
+                        FieldMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.disabled()
+                );
+            }
+            case TRANSFER_TO_BENEFICIARY -> {
+                return new FirstScreenMeta(
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(currentVolunteer),
+                                () -> FieldMeta.enabled()
+                        ),
+                        FieldMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.enabled(PersonTypes.BENEFICIARY)
+                );
+            }
+            case UNATTACHED_WRITEOFF -> {
+                return new FirstScreenMeta(
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(currentVolunteer),
+                                () -> FieldMeta.enabled()
+                        ),
+                        FieldMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.disabled()
+                );
+            }
+            case ACCEPTANCE_TO_WAREHOUSE -> {
+                return new FirstScreenMeta(
+                        FieldMeta.disabled(),
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(),
+                                () -> FieldMeta.enabled()
+                        ),
+                        WarehousePickerMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.disabled()
+                );
+            }
+            case SHIPMENT_FROM_WAREHOUSE -> {
+                return new FirstScreenMeta(
+                        withVolunteerContext(
+                                () -> FieldMeta.disabled(),
+                                () -> FieldMeta.enabled()
+                        ),
+                        FieldMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
+                        PersonPickerMeta.disabled()
+                );
+            }
         }
-        personsPicker.setVisible(visibilityInfo.isBeneficiaryEnable());
-        personsPicker.setEnabled(visibilityInfo.isBeneficiaryEnable());
-        if (!visibilityInfo.isBeneficiaryEnable()) {
-            personsPicker.setValue(null);
+
+        return null;// todo
+    }
+
+    private <V> void setupPicker(EntityPicker<V> picker, FieldMeta<V> meta) {
+//        picker.setEnabled(meta.isEnable());
+        picker.setVisible(meta.isEnable());
+        picker.setValue(meta.getValue());
+    }
+
+    private <V, M extends FieldMeta<V>> M withVolunteerContext(Supplier<M> forVolunteer, Supplier<M> forAdmin) {
+        if (currentVolunteer != null) {
+            return forVolunteer.get();
+        } else {
+            return forAdmin.get();
         }
     }
 
@@ -148,19 +400,6 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
         });
         return upload;
     }
-
-    private static final Map<TransferTypes, ElementsInfo> visibleElementsMapInfo = Map.of(
-            TransferTypes.UNATTACHED_PICKUP, new ElementsInfo(false, true, false),
-            TransferTypes.PICKUP_FROM_POINT, new ElementsInfo(true, true, false),
-            TransferTypes.TRANSFER_TO_WAREHOUSE, new ElementsInfo(true, true, false),
-            TransferTypes.TRANSFER_FROM_WAREHOUSE, new ElementsInfo(true, true, false),
-            TransferTypes.TRANSFER_TO_VOLUNTEER, new ElementsInfo(true, true, false),
-            TransferTypes.FEED, new ElementsInfo(true, false, false),
-            TransferTypes.TRANSFER_TO_BENEFICIARY, new ElementsInfo(true, false, true),
-            TransferTypes.UNATTACHED_WRITEOFF, new ElementsInfo(true, false, false),
-            TransferTypes.ACCEPTANCE_TO_WAREHOUSE, new ElementsInfo(false, true, false),
-            TransferTypes.SHIPMENT_FROM_WAREHOUSE, new ElementsInfo(true, false, false)
-    );
 
     private void firstScreenOpened() {
         setVisibleOnScreen(true, false, false);
@@ -202,47 +441,6 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
         prevStepThirdScreenButton.setVisible(prevStepThirdScreenButtonVisible);
     }
 
-    @Subscribe(id = "nextStepFirstScreenButton", subject = "clickListener")
-    public void onNextStepFirstScreenButtonClick(final ClickEvent<JmixButton> event) {
-        secondScreenOpened();
-    }
 
-    @Subscribe(id = "nextStepSecondScreenButton", subject = "clickListener")
-    public void onNextStepSecondScreenButtonClick(final ClickEvent<JmixButton> event) {
-        thirdScreenOpened();
-    }
 
-    @Subscribe(id = "prevStepSecondScreenButton", subject = "clickListener")
-    public void onPrevStepSecondScreenButtonClick(final ClickEvent<JmixButton> event) {
-        firstScreenOpened();
-    }
-
-    @Subscribe(id = "prevStepThirdScreenButton", subject = "clickListener")
-    public void onPrevStepThirdScreenButtonClick(final ClickEvent<JmixButton> event) {
-        secondScreenOpened();
-    }
-
-    private static class ElementsInfo {
-        private final boolean warehouseSourceEnable;
-        private final boolean warehouseReceiverEnable;
-        private final boolean beneficiaryEnable;
-
-        public ElementsInfo(boolean warehouseSourceEnable, boolean warehouseReceiverEnable, boolean beneficiaryEnable) {
-            this.warehouseSourceEnable = warehouseSourceEnable;
-            this.warehouseReceiverEnable = warehouseReceiverEnable;
-            this.beneficiaryEnable = beneficiaryEnable;
-        }
-
-        public boolean isWarehouseSourceEnable() {
-            return warehouseSourceEnable;
-        }
-
-        public boolean isWarehouseReceiverEnable() {
-            return warehouseReceiverEnable;
-        }
-
-        public boolean isBeneficiaryEnable() {
-            return beneficiaryEnable;
-        }
-    }
 }
