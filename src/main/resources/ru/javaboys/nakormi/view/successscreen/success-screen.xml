@@ -2,6 +2,7 @@
 <view xmlns="http://jmix.io/schema/flowui/view"
       title="msg://successScreen.title">
     <layout classNames="success-layout">
+        <image id="succesImage" width="200px" height="200px"/>
         <h1 text="msg://successScreen.title"/>
         <button text="На главную" id="button"/>
     </layout>
