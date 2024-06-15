@@ -56,7 +56,9 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
             CommandArgs commandArgs = BotUtils.parseCommand(messageTest);
 
             switch (commandArgs.getCommand()) {
+
                 case Commands.START, Commands.CODE, Commands.LOGIN, Commands.REG, Commands.PERSON -> loginScreen.processUpdate(update);
+
                 default -> botFeaturesUtils.sendMessage(update, "Команда не распознана. Неизвестная команда");
             }
 
@@ -64,8 +66,10 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
             String callbackData = update.getCallbackQuery().getData();
 
             switch (callbackData) {
+
                 case Callbacks.LOGIN_HAVE_CODE, Callbacks.LOGIN_ENTER, Callbacks.BACK_FROM_INVITATION_CODE_INPUT,
                      Callbacks.BACK_FROM_LOGIN_PASSWORD_INPUT -> loginScreen.processCallback(update, callbackData);
+
                 default -> botFeaturesUtils.sendMessage(update, "Команда не распознана. Неизвестная команда");
             }
 
