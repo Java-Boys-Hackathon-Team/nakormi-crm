@@ -91,7 +91,7 @@ public interface VolunteerRole {
     void productMovementRow();
 
     @EntityPolicy(entityClass = User.class, actions = EntityPolicyAction.READ)
-    @EntityAttributePolicy(entityClass = User.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
+    @EntityAttributePolicy(entityClass = User.class, attributes = {"telegramUser", "person", "version", "username", "firstName", "lastName", "email", "active", "timeZoneId"}, action = EntityAttributePolicyAction.VIEW)
     void user();
 
     @EntityAttributePolicy(entityClass = PuckUpOrder.class, attributes = "*", action = EntityAttributePolicyAction.VIEW)
@@ -110,8 +110,8 @@ public interface VolunteerRole {
     @EntityPolicy(entityClass = Warehouse.class, actions = EntityPolicyAction.READ)
     void warehouse();
 
-    @MenuPolicy(menuIds = {"ProductMovement.list", "VolunteerRemainderView"})
-    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list", "VolunteerRemainderView"})
+    @MenuPolicy(menuIds = {"ProductMovement.list", "VolunteerRemainderView", "VolunteerAnimalsView"})
+    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list", "VolunteerRemainderView", "VolunteerAnimalsView"})
     void screens();
 
     @SpecificPolicy(resources = "ui.loginToUi")

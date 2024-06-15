@@ -2,11 +2,14 @@ package ru.javaboys.nakormi.service;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javaboys.nakormi.entity.Animal;
 import ru.javaboys.nakormi.entity.Food;
 import ru.javaboys.nakormi.entity.Person;
 import ru.javaboys.nakormi.entity.Volunteer;
 import ru.javaboys.nakormi.model.VolunteerStatData;
+import ru.javaboys.nakormi.repository.AnimalRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +64,5 @@ public class StatisticService {
 
         return resultMap;
     }
-
 
 }
