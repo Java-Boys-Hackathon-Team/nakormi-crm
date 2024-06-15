@@ -81,7 +81,7 @@ vaadin-vertical-layout:has(.attachments) {
     max-width: 100%;
     max-height: 100%;
     border: 3px solid #FFF;
-    box-shadow: #cecece 0px 0px 20px;
+    box-shadow: #cecece 0 0 20px;
     box-sizing: border-box;
 }
 
@@ -125,7 +125,7 @@ vaadin-vertical-layout:has(.attachments) {
 
 .main-menu-btn {
     margin: 0 0 10px;
-    padding: 8px 0px 8px 12px !important;
+    padding: 8px 0 8px 12px !important;
     color: #fff !important;
     background: #006af5;
 }
@@ -133,7 +133,7 @@ vaadin-vertical-layout:has(.attachments) {
 .main-menu-btn[highlight] {
     border-radius: 5px !important;
     margin: 0 10px 10px 0;
-    padding: 8px 0px 8px 12px !important;
+    padding: 8px 0 8px 12px !important;
     color: #1169dd !important;
     background: #006af5;
 }
