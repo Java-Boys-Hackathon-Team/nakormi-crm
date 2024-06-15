@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
-      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
       title="msg://puckUpOrderListView.title"
       focusComponent="puckUpOrdersDataGrid">
     <data>
@@ -56,7 +55,7 @@
                 <column property="creator"/>
                 <column property="volunteer"/>
                 <column property="warehouse"/>
-                <column property="isClosed"/>
+                <column property="status"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">

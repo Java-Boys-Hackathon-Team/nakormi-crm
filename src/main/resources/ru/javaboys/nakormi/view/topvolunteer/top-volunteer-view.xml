@@ -28,12 +28,6 @@
                     </dataGrid>
                 </vbox>
             </tab>
-            <tab id="tab2" label="По количеству курируемых животных">
-                <vbox>
-
-                </vbox>
-            </tab>
         </tabSheet>
-
     </layout>
 </view>

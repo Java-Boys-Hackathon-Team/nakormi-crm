@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://volunteerRemainderView.title">
+    <data>
+        <keyValueCollection id="remainderDc">
+            <properties>
+                <property datatype="string" name="name"/>
+                <property datatype="decimal" name="cnt"/>
+                <property datatype="string" name="measure"/>
+            </properties>
+        </keyValueCollection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <layout>
+        <dataGrid id="remainderDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="remainderDc">
+            <columns>
+                <column property="name" header="Наименование" autoWidth="true"/>
+                <column property="cnt" header="Кол-во" autoWidth="true"/>
+                <column property="measure" header="Ед." autoWidth="true"/>
+            </columns>
+        </dataGrid>
+    </layout>
+</view>

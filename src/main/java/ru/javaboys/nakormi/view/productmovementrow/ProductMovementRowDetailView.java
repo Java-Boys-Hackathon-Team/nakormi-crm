@@ -6,15 +6,19 @@ import com.vaadin.flow.router.Route;
 import io.jmix.core.LoadContext;
 import io.jmix.core.SaveContext;
 import io.jmix.flowui.component.valuepicker.EntityPicker;
-import io.jmix.flowui.kit.component.valuepicker.CustomValueSetEvent;
-import io.jmix.flowui.view.*;
-import org.springframework.stereotype.Component;
+import io.jmix.flowui.view.EditedEntityContainer;
+import io.jmix.flowui.view.Install;
+import io.jmix.flowui.view.StandardDetailView;
+import io.jmix.flowui.view.Subscribe;
+import io.jmix.flowui.view.Target;
+import io.jmix.flowui.view.ViewComponent;
+import io.jmix.flowui.view.ViewController;
+import io.jmix.flowui.view.ViewDescriptor;
 import ru.javaboys.nakormi.dto.ProductMovementRow;
 import ru.javaboys.nakormi.entity.Food;
 import ru.javaboys.nakormi.entity.FoodMeasureType;
 import ru.javaboys.nakormi.view.main.MainView;
 
-import java.util.Objects;
 import java.util.Set;
 
 @Route(value = "productMovementRows/:id", layout = MainView.class)

@@ -1,10 +1,14 @@
 package ru.javaboys.nakormi.view.address;
 
 import com.vaadin.flow.router.Route;
-import io.jmix.flowui.view.*;
+import io.jmix.flowui.view.EditedEntityContainer;
+import io.jmix.flowui.view.StandardDetailView;
+import io.jmix.flowui.view.Subscribe;
+import io.jmix.flowui.view.ViewController;
+import io.jmix.flowui.view.ViewDescriptor;
 import io.jmix.maps.utils.GeometryUtils;
-import org.locationtech.jts.geom.GeometryFactory;
 import io.jmix.mapsflowui.component.event.MapClickEvent;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import ru.javaboys.nakormi.entity.Address;
 import ru.javaboys.nakormi.view.main.MainView;

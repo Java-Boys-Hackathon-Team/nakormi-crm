@@ -1,6 +1,5 @@
 package ru.javaboys.nakormi.view.topvolunteer;
 
-
 import com.vaadin.flow.router.Route;
 import io.jmix.core.entity.KeyValueEntity;
 import io.jmix.flowui.component.image.JmixImage;
@@ -19,7 +18,6 @@ import ru.javaboys.nakormi.view.main.MainView;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Route(value = "top-volunteer-view", layout = MainView.class)
 @ViewController("TopVolunteerView")
@@ -47,8 +45,6 @@ public class TopVolunteerView extends StandardView {
 
         BufferedImage statImage = volunteerTopByFoodImgService.buildImage(volunteerStatDataList);
         volunteerTopByFoodImg.setValueSource(new InMemoryImageSource(statImage));
-
     }
-
 
 }

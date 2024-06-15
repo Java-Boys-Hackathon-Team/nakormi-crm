@@ -14,7 +14,6 @@ import io.jmix.core.FileStorage;
 import io.jmix.core.FileStorageLocator;
 import io.jmix.core.LoadContext;
 import io.jmix.core.SaveContext;
-import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.ViewNavigators;
 import io.jmix.flowui.component.valuepicker.EntityPicker;
@@ -34,7 +33,9 @@ import io.jmix.flowui.view.ViewDescriptor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import ru.javaboys.nakormi.dto.AuthUserData;
 import ru.javaboys.nakormi.dto.ProductMovement;
+import ru.javaboys.nakormi.dto.ProductMovementRow;
 import ru.javaboys.nakormi.entity.Attachment;
 import ru.javaboys.nakormi.entity.Person;
 import ru.javaboys.nakormi.entity.PersonTypes;
@@ -45,8 +46,10 @@ import ru.javaboys.nakormi.entity.Warehouse;
 import ru.javaboys.nakormi.entity.WarehouseTypes;
 import ru.javaboys.nakormi.repository.VolunteerRepository;
 import ru.javaboys.nakormi.service.MovementService;
+import ru.javaboys.nakormi.service.SecurityHelperService;
 import ru.javaboys.nakormi.view.main.MainView;
 import ru.javaboys.nakormi.view.person.PersonListViewSelect;
+import ru.javaboys.nakormi.view.productmovementrow.ProductMovementRowDetailView;
 import ru.javaboys.nakormi.view.successscreen.SuccessScreen;
 import ru.javaboys.nakormi.view.warehouse.WarehouseListViewSelect;
 
@@ -68,6 +71,7 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     @ViewComponent private EntityPicker<Warehouse> warehouseReceiverPicker;
     @ViewComponent private EntityPicker<Person> beneficiaryPersonPicker;
     @ViewComponent private CollectionContainer<Attachment> attachmentsDc;
+    @ViewComponent private CollectionContainer<ProductMovementRow> detailsDc;
 
     @ViewComponent private Component firstScreen;
     @ViewComponent private JmixButton nextStepFirstScreenButton;
@@ -89,6 +93,7 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     @Autowired private ApplicationContext appCtx;
     @Autowired private VolunteerRepository volunteerRepository;
     @Autowired private DialogWindows dialogWindows;
+    @Autowired private SecurityHelperService securityHelperService;
 
     // Поля заполняются при инициализации страницы
     private User currentUser;
@@ -119,7 +124,6 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
         builder.getView().setType(meta.getType());
         builder.open();
     }
-
 
     @Subscribe("warehouseReceiverPicker.entityLookup")
     public void onWarehouseReceiverPickerLookup(final ActionPerformedEvent event) {
@@ -166,6 +170,21 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
         secondScreenOpened();
     }
 
+    @Subscribe("productMovementRowsDataGrid.add")
+    public void onProductAdd(final ActionPerformedEvent event) {
+        dialogWindows.detail(this, ProductMovementRow.class)
+                .withViewClass(ProductMovementRowDetailView.class)
+                .newEntity()
+                .withAfterCloseListener(e -> {
+                    if (e.closedWith(StandardOutcome.SAVE)) {
+                        ProductMovementRow entity = e.getSource().getView().getEditedEntity();
+                        detailsDc.getMutableItems().add(entity);
+                    }
+                })
+                .build()
+                .open();
+    }
+
     // Важно оставить метод, так как сейчас нет времени разбираться
     // почему иногда при выборе волонтера не подтягивается его личный склад
     private void onFirstScreenFinished() {
@@ -194,20 +213,13 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     }
 
     private void initUserData() {
-        CurrentAuthentication auth = appCtx.getBean(CurrentAuthentication.class);
-        User user = (User) auth.getUser();
-        Person person = user.getPerson();
-        if (person == null) {
-            return;
-        }
+        AuthUserData authUserData = securityHelperService.getAuthUserData();
+        this.currentUser = authUserData.getUser();
+        this.currentPerson = authUserData.getPerson();
+        this.currentVolunteer = authUserData.getVolunteer();
 
-        this.currentUser = user;
-        this.currentPerson = person;
-
-        if (person.getType() == PersonTypes.VOLUNTEER) {
+        if (currentVolunteer != null) {
             // Волонтер
-            this.currentVolunteer = volunteerRepository.getByPerson(person);
-
             transferTypeField.setItems(Arrays.asList(
                     TransferTypes.PICKUP_FROM_POINT,
                     TransferTypes.TRANSFER_FROM_WAREHOUSE,

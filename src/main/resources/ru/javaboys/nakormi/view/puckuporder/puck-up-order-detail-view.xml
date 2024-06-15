@@ -42,7 +42,7 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-            <checkbox id="isClosedField" property="isClosed"/>
+            <select id="isClosedField" property="status"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
