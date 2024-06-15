@@ -110,7 +110,7 @@ public interface VolunteerRole {
     void warehouse();
 
     @MenuPolicy(menuIds = "ProductMovement.list")
-    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list"})
+    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list", "SuccessScreen"})
     void screens();
 
     @SpecificPolicy(resources = "ui.loginToUi")
