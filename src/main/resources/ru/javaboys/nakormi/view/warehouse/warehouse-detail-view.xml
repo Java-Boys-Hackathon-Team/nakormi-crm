@@ -21,12 +21,12 @@
     </actions>
     <layout>
         <formLayout id="form" dataContainer="warehouseDc">
-            <entityPicker id="addressField" property="address">
+            <valuePicker id="addressField" property="address">
                 <actions>
-                    <action id="entityLookup" type="entity_lookup"/>
-                    <action id="entityClear" type="entity_clear"/>
+                    <action id="select" icon="vaadin:search"/>
+                    <action id="valueClear" type="value_clear"/>
                 </actions>
-            </entityPicker>
+            </valuePicker>
             <textField id="descriptionField" property="description"/>
             <textField id="contactsField" property="contacts"/>
             <select id="storage_typeField" property="storageType"/>

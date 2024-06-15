@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="nakormi">
+        <addColumn tableName="ADDRESS">
+            <column name="WAREHOUSE_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2" author="nakormi">
+        <createIndex indexName="IDX_ADDRESS_WAREHOUSE" tableName="ADDRESS">
+            <column name="WAREHOUSE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="WAREHOUSE_ID" baseTableName="ADDRESS"
+                                 constraintName="FK_ADDRESS_ON_WAREHOUSE" referencedColumnNames="ID"
+                                 referencedTableName="WAREHOUSE"/>
+    </changeSet>
+</databaseChangeLog>
