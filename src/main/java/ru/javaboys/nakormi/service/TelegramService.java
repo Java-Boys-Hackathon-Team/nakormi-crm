@@ -9,6 +9,7 @@ import io.jmix.securitydata.entity.RoleAssignmentEntity;
 import io.jmix.securityflowui.password.PasswordValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,7 +53,15 @@ public class TelegramService {
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+
+        Authentication authentication;
+
+        try {
+            authentication = authenticationManager.authenticate(authenticationToken);
+        } catch (BadCredentialsException bce) {
+            return false;
+        }
+
         if (authentication.isAuthenticated()) {
             return user.isAccountNonExpired() && user.isAccountNonLocked()
                     && user.isCredentialsNonExpired() && user.isEnabled();

@@ -203,7 +203,19 @@ public class LoginScreen implements BotScreen {
             }
 
             case Commands.LOGIN -> {
+                var auth = commandArgs.getArguments().split(" ");
+                if (!BotUtils.validateArgsCount(auth, 2)) {
+                    botFeaturesUtils.sendMessage(update, "Неверное кол-во аргументов команды /login");
+                    return;
+                }
 
+                var result = telegramService.authenticate(auth[0], auth[1]);
+
+                if (result) {
+                    commonKeyboards.sendHelloAndAccountKeyboard(update);
+                } else {
+                    botFeaturesUtils.sendMessage(update, "Неверный логин или пароль");
+                }
             }
         }
     }
