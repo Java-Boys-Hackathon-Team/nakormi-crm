@@ -51,4 +51,38 @@ public class BotUtils {
 
         return geometryFactory.createPoint(coordinate);
     }
+
+    public static Long getChatIdSafe(Update update) {
+
+        Long chatId = 0L;
+
+        if (update.hasMessage()) {
+            chatId = update.getMessage().getChatId();
+        } else if (update.hasCallbackQuery()) {
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+        }
+
+        if (chatId == 0L) {
+            throw new RuntimeException("Telegram chatId cannot be empty");
+        }
+
+        return chatId;
+    }
+
+    public static Long getUserIdSafe(Update update) {
+
+        Long userId = 0L;
+
+        if (update.hasMessage()) {
+            userId = update.getMessage().getFrom().getId();
+        } else if (update.hasCallbackQuery()) {
+            userId = update.getCallbackQuery().getMessage().getChat().getId();
+        }
+
+        if (userId == 0L) {
+            throw new RuntimeException("Telegram userId cannot be empty");
+        }
+
+        return userId;
+    }
 }

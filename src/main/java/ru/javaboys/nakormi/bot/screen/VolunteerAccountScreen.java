@@ -26,6 +26,7 @@ public class VolunteerAccountScreen implements BotScreen  {
         switch (callbackData) {
 
             case Callbacks.GO_TO_VOLUNTEER_ACCOUNT -> volunteerAccountService.processVolunteerAccountCallback(update);
+            case Callbacks.REFRESH_VOLUNTEER_ACCOUNT -> volunteerAccountService.processRefreshVolunteerAccountCallback(update);
 
         }
 

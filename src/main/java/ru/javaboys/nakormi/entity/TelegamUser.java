@@ -16,7 +16,8 @@ import java.util.UUID;
 
 @JmixEntity
 @Table(name = "TELEGAM_USER", indexes = {
-        @Index(name = "IDX_TELEGAM_USER_INVITATION_CODE", columnList = "INVITATION_CODE_ID")
+        @Index(name = "IDX_TELEGAM_USER_INVITATION_CODE", columnList = "INVITATION_CODE_ID"),
+        @Index(name = "IDX_TELEGAM_USER_VOLUNTEER", columnList = "VOLUNTEER_ID")
 })
 @Entity
 public class TelegamUser {
@@ -24,6 +25,10 @@ public class TelegamUser {
     @Column(name = "ID", nullable = false)
     @Id
     private UUID id;
+
+    @JoinColumn(name = "VOLUNTEER_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private Volunteer volunteer;
 
     @Column(name = "TELEGRAM_USER_FIRST_NAME")
     private String telegramUserFirstName;
@@ -56,8 +61,6 @@ public class TelegamUser {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "telegramUser")
     private User user;
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "telegramUser")
-    private Volunteer volunteer;
 
     public Volunteer getVolunteer() {
         return volunteer;
