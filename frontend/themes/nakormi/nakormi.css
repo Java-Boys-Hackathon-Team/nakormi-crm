@@ -169,6 +169,19 @@ h2 img {
     border-radius: 50%;
 }
 
+.success-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+h3 + vaadin-horizontal-layout {
+    width: 100% !important;
+    margin: 15px 0 0;
+}
+
 /* Стили для мобильной версии */
 @media (max-width: 600px) {
     .attachments .item {

@@ -16,6 +16,7 @@ import io.jmix.core.LoadContext;
 import io.jmix.core.SaveContext;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.DialogWindows;
+import io.jmix.flowui.ViewNavigators;
 import io.jmix.flowui.component.valuepicker.EntityPicker;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.kit.component.button.JmixButton;
@@ -24,6 +25,7 @@ import io.jmix.flowui.view.DialogWindow;
 import io.jmix.flowui.view.EditedEntityContainer;
 import io.jmix.flowui.view.Install;
 import io.jmix.flowui.view.StandardDetailView;
+import io.jmix.flowui.view.StandardOutcome;
 import io.jmix.flowui.view.Subscribe;
 import io.jmix.flowui.view.Target;
 import io.jmix.flowui.view.ViewComponent;
@@ -45,6 +47,7 @@ import ru.javaboys.nakormi.repository.VolunteerRepository;
 import ru.javaboys.nakormi.service.MovementService;
 import ru.javaboys.nakormi.view.main.MainView;
 import ru.javaboys.nakormi.view.person.PersonListViewSelect;
+import ru.javaboys.nakormi.view.successscreen.SuccessScreen;
 import ru.javaboys.nakormi.view.warehouse.WarehouseListViewSelect;
 
 import java.io.InputStream;
@@ -80,6 +83,7 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
     @ViewComponent private JmixButton saveAndCloseBtn;
 
     @Autowired private DataManager dataManager;
+    @Autowired private ViewNavigators viewNavigators;
     @Autowired private FileStorageLocator fileStorageLocator;
     @Autowired private MovementService movementService;
     @Autowired private ApplicationContext appCtx;
@@ -468,4 +472,10 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
         prevStepThirdScreenButton.setVisible(prevStepThirdScreenButtonVisible);
     }
 
+    @Subscribe
+    public void onAfterClose(final AfterCloseEvent event) {
+        if (event.closedWith(StandardOutcome.SAVE)) {
+            viewNavigators.view(SuccessScreen.class).navigate();
+        }
+    }
 }
