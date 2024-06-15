@@ -9,4 +9,6 @@ public class Callbacks {
 
     public static final String GO_TO_VOLUNTEER_ACCOUNT = "go_to_volunteer_account";
     public static final String REFRESH_VOLUNTEER_ACCOUNT = "refresh_volunteer_account";
+    public static final String GO_TO_VOLUNTEER_REMAINDERS = "go_to_volunteer_remainders";
+    public static final String REFRESH_VOLUNTEER_REMAINDERS = "refresh_volunteer_remainders";
 }

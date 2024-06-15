@@ -4,9 +4,11 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.javaboys.nakormi.entity.Food;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class BotUtils {
 
@@ -84,5 +86,13 @@ public class BotUtils {
         }
 
         return userId;
+    }
+
+    public static String formatRemainders(Map<Food, Long> map) {
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<Food, Long> entry : map.entrySet()) {
+            result.append(entry.getKey().getName()).append(" - ").append(entry.getValue()).append("\n");
+        }
+        return result.toString();
     }
 }
