@@ -69,6 +69,8 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
                 default -> botFeaturesUtils.sendMessage(update, "Команда не распознана. Неизвестная команда");
             }
 
+        } else if (update.hasMessage() && update.getMessage().hasDocument()) {
+            loginScreen.processDocument(update);
         }
     }
 

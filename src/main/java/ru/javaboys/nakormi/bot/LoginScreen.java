@@ -1,13 +1,18 @@
 package ru.javaboys.nakormi.bot;
 
 import io.jmix.core.DataManager;
+import io.jmix.core.FileRef;
+import io.jmix.core.FileStorage;
+import io.jmix.core.FileStorageLocator;
 import io.jmix.core.security.SystemAuthenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.javaboys.nakormi.entity.Address;
+import ru.javaboys.nakormi.entity.Attachment;
 import ru.javaboys.nakormi.entity.District;
 import ru.javaboys.nakormi.entity.InvitationCode;
 import ru.javaboys.nakormi.entity.Person;
@@ -18,6 +23,8 @@ import ru.javaboys.nakormi.entity.Warehouse;
 import ru.javaboys.nakormi.entity.WarehouseTypes;
 import ru.javaboys.nakormi.service.TelegramService;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -34,6 +41,8 @@ public class LoginScreen implements BotScreen {
     private final TelegramService telegramService;
 
     private final TelegramContext telegramContext;
+
+    private final FileStorageLocator fileStorageLocator;
 
     @Override
     @Transactional
@@ -203,6 +212,27 @@ public class LoginScreen implements BotScreen {
             case Callbacks.LOGIN_ENTER -> processEnter(update);
             case Callbacks.BACK_FROM_INVITATION_CODE_INPUT, Callbacks.BACK_FROM_LOGIN_PASSWORD_INPUT -> processBack(update);
         }
+    }
+
+    @Override
+    public void processDocument(Update update) throws TelegramApiException, FileNotFoundException {
+
+        Document document = update.getMessage().getDocument();
+
+        var file = botFeaturesUtils.downloadFile(document.getFileId());
+
+        FileStorage fileStorage = fileStorageLocator.getDefault();
+
+        FileRef fileRef = fileStorage.saveStream(document.getFileName(), new FileInputStream(file));
+
+        systemAuthenticator.begin();
+
+        Attachment attachment = dataManager.create(Attachment.class);
+        attachment.setName(fileRef.getFileName());
+        attachment.setSource(fileRef);
+        Attachment savedAttachment = dataManager.save(attachment);
+
+        systemAuthenticator.end();
     }
 
     private void processCode(Update update) throws TelegramApiException {

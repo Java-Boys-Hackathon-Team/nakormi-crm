@@ -2,6 +2,7 @@ package ru.javaboys.nakormi.bot;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -10,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.File;
 import java.util.Map;
 
 @Component
@@ -67,5 +69,16 @@ public class BotFeaturesUtils {
                 .build();
 
         telegramContext.getTelegramClient().execute(message);
+    }
+
+    public File downloadFile(String fileId) throws TelegramApiException {
+
+        var getFile = GetFile.builder().fileId(fileId).build();
+
+        var fileFromTgApi = telegramContext.getTelegramClient().execute(getFile);
+
+        var f = telegramContext.getTelegramClient().downloadFile(fileFromTgApi.getFilePath());
+
+        return f;
     }
 }
