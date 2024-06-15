@@ -48,6 +48,7 @@ import ru.javaboys.nakormi.view.person.PersonListViewSelect;
 import ru.javaboys.nakormi.view.warehouse.WarehouseListViewSelect;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -198,8 +199,35 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
 
         this.currentUser = user;
         this.currentPerson = person;
+
         if (person.getType() == PersonTypes.VOLUNTEER) {
+            // Волонтер
             this.currentVolunteer = volunteerRepository.getByPerson(person);
+
+            transferTypeField.setItems(Arrays.asList(
+                    TransferTypes.PICKUP_FROM_POINT,
+                    TransferTypes.TRANSFER_FROM_WAREHOUSE,
+                    TransferTypes.FEED,
+                    TransferTypes.TRANSFER_TO_BENEFICIARY,
+                    TransferTypes.TRANSFER_TO_VOLUNTEER,
+                    TransferTypes.TRANSFER_TO_WAREHOUSE,
+                    TransferTypes.UNATTACHED_PICKUP,
+                    TransferTypes.UNATTACHED_WRITEOFF
+            ));
+        } else {
+            // Админ
+            transferTypeField.setItems(Arrays.asList(
+                    TransferTypes.PICKUP_FROM_POINT,
+                    TransferTypes.TRANSFER_FROM_WAREHOUSE,
+                    TransferTypes.FEED,
+                    TransferTypes.TRANSFER_TO_BENEFICIARY,
+                    TransferTypes.TRANSFER_TO_VOLUNTEER,
+                    TransferTypes.TRANSFER_TO_WAREHOUSE,
+                    TransferTypes.UNATTACHED_PICKUP,
+                    TransferTypes.UNATTACHED_WRITEOFF,
+                    TransferTypes.ACCEPTANCE_TO_WAREHOUSE,
+                    TransferTypes.SHIPMENT_FROM_WAREHOUSE
+            ));
         }
     }
 
@@ -263,7 +291,6 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
                                 () -> FieldMeta.enabled()
                         ),
                         WarehousePickerMeta.enabled(WarehouseTypes.PICKUP_POINT),
-
                         WarehousePickerMeta.disabled(),
                         PersonPickerMeta.disabled()
                 );
@@ -343,23 +370,23 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
             case ACCEPTANCE_TO_WAREHOUSE -> {
                 return new FirstScreenMeta(
                         FieldMeta.disabled(),
+                        FieldMeta.disabled(),
+                        WarehousePickerMeta.disabled(),
                         withVolunteerContext(
-                                () -> FieldMeta.disabled(),
-                                () -> FieldMeta.enabled()
+                                () -> WarehousePickerMeta.disabled(),
+                                () -> WarehousePickerMeta.enabled(WarehouseTypes.STORAGE)
                         ),
-                        WarehousePickerMeta.disabled(),
-                        WarehousePickerMeta.disabled(),
                         PersonPickerMeta.disabled()
                 );
             }
             case SHIPMENT_FROM_WAREHOUSE -> {
                 return new FirstScreenMeta(
-                        withVolunteerContext(
-                                () -> FieldMeta.disabled(),
-                                () -> FieldMeta.enabled()
-                        ),
                         FieldMeta.disabled(),
-                        WarehousePickerMeta.disabled(),
+                        FieldMeta.disabled(),
+                        withVolunteerContext(
+                                () -> WarehousePickerMeta.disabled(),
+                                () -> WarehousePickerMeta.enabled(WarehouseTypes.STORAGE)
+                        ),
                         WarehousePickerMeta.disabled(),
                         PersonPickerMeta.disabled()
                 );
@@ -440,7 +467,5 @@ public class ProductMovementDetailView extends StandardDetailView<ProductMovemen
         prevStepSecondScreenButton.setVisible(prevStepSecondScreenButtonVisible);
         prevStepThirdScreenButton.setVisible(prevStepThirdScreenButtonVisible);
     }
-
-
 
 }
