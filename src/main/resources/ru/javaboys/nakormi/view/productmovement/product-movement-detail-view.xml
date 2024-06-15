@@ -21,6 +21,7 @@
 
         <formLayout id="firstScreen" classNames="flex-layout" dataContainer="productMovementDc">
             <h3 text="msg://titleFirstScreen.text"/>
+            <hbox/>
             <select id="transferTypeField" property="transferType"/>
 
             <entityPicker id="volunteerSourcePicker" metaClass="Volunteer"
