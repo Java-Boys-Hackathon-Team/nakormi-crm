@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
       xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
-      title="msg://volunteerListView.title"
-      focusComponent="volunteersDataGrid">
+      title="msg://telegamUserListView.title"
+      focusComponent="telegamUsersDataGrid">
     <data>
-        <collection id="volunteersDc"
-                    class="ru.javaboys.nakormi.entity.Volunteer">
+        <collection id="telegamUsersDc"
+                    class="ru.javaboys.nakormi.entity.TelegamUser">
             <fetchPlan extends="_base">
-                <property name="person" fetchPlan="_base"/>
-                <property name="warehouse" fetchPlan="_base"/>
+                <property name="invitationCode" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="volunteersDl" readOnly="true">
+            <loader id="telegamUsersDl" readOnly="true">
                 <query>
-                    <![CDATA[select e from Volunteer e]]>
+                    <![CDATA[select e from TelegamUser e]]>
                 </query>
             </loader>
         </collection>
@@ -30,19 +29,19 @@
     </actions>
     <layout>
         <genericFilter id="genericFilter"
-                       dataLoader="volunteersDl">
+                       dataLoader="telegamUsersDl">
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button id="createBtn" action="volunteersDataGrid.create"/>
-            <button id="editBtn" action="volunteersDataGrid.edit"/>
-            <button id="removeBtn" action="volunteersDataGrid.remove"/>
-            <simplePagination id="pagination" dataLoader="volunteersDl"/>
+            <button id="createBtn" action="telegamUsersDataGrid.create"/>
+            <button id="editBtn" action="telegamUsersDataGrid.edit"/>
+            <button id="removeBtn" action="telegamUsersDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="telegamUsersDl"/>
         </hbox>
-        <dataGrid id="volunteersDataGrid"
+        <dataGrid id="telegamUsersDataGrid"
                   width="100%"
                   minHeight="20em"
-                  dataContainer="volunteersDc"
+                  dataContainer="telegamUsersDc"
                   columnReorderingAllowed="true">
             <actions>
                 <action id="create" type="list_create"/>
@@ -50,9 +49,15 @@
                 <action id="remove" type="list_remove"/>
             </actions>
             <columns resizable="true">
-                <column property="person"/>
-                <column property="passportNumber"/>
-                <column property="warehouse"/>
+                <column property="telegramUserId"/>
+                <column property="telegramChatId"/>
+                <column property="telegramUserName"/>
+                <column property="invitationCodeOk"/>
+                <column property="nakormiCrmRegistrationOk"/>
+                <column property="nakormiCrmAccountOk"/>
+                <column property="invitationCode"/>
+                <column property="telegramUserFirstName"/>
+                <column property="telegramUserLastName"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">

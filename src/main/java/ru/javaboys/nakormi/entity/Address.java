@@ -32,7 +32,7 @@ public class Address {
     private String addressText;
 
     @NotNull
-    @Column(name = "COORDINATE", nullable = false)
+    @Column(name = "COORDINATE")
     private Point coordinate;
 
     @JoinColumn(name = "WAREHOUSE_ID")

@@ -8,7 +8,16 @@ import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.security.authentication.JmixUserDetails;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -20,7 +29,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "USER_", indexes = {
         @Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true),
-        @Index(name = "IDX_USER__PERSON", columnList = "PERSON_ID")
+        @Index(name = "IDX_USER__PERSON", columnList = "PERSON_ID"),
+        @Index(name = "IDX_USER__TELEGRAM_USER", columnList = "TELEGRAM_USER_ID")
 })
 public class User implements JmixUserDetails, HasTimeZone {
 
@@ -28,6 +38,10 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "ID", nullable = false)
     @JmixGeneratedValue
     private UUID id;
+
+    @JoinColumn(name = "TELEGRAM_USER_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private TelegamUser telegramUser;
 
     @JoinColumn(name = "PERSON_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -63,6 +77,14 @@ public class User implements JmixUserDetails, HasTimeZone {
 
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
+
+    public TelegamUser getTelegramUser() {
+        return telegramUser;
+    }
+
+    public void setTelegramUser(TelegamUser telegramUser) {
+        this.telegramUser = telegramUser;
+    }
 
     public Person getPerson() {
         return person;
