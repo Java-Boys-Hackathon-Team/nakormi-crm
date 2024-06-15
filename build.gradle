@@ -21,8 +21,8 @@ repositories {
     maven {
         url = 'https://global.repo.jmix.io/repository/premium'
         credentials {
-            username = rootProject['premiumRepoUser.0']
-            password = rootProject['premiumRepoPass.0']
+            username = wPHpQJCwLzwT
+            password = 240423041533
         }
     }
 }
