@@ -1,16 +1,12 @@
 package ru.javaboys.nakormi.view.foodtransferrow;
 
-import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.router.Route;
-import io.jmix.flowui.kit.component.button.JmixButton;
-import io.jmix.flowui.view.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.jmix.flowui.view.DialogMode;
+import io.jmix.flowui.view.LookupComponent;
+import io.jmix.flowui.view.StandardListView;
+import io.jmix.flowui.view.ViewController;
+import io.jmix.flowui.view.ViewDescriptor;
 import ru.javaboys.nakormi.entity.FoodTransferRow;
-import ru.javaboys.nakormi.service.FoodTransferRowCSVGenerator;
-import ru.javaboys.nakormi.service.VolunteerCSVGenerator;
-import ru.javaboys.nakormi.service.WarehouseCSVGenerator;
-import ru.javaboys.nakormi.service.YandexUploader;
-import ru.javaboys.nakormi.utils.FileUtils;
 import ru.javaboys.nakormi.view.main.MainView;
 
 @Route(value = "foodTransferRows", layout = MainView.class)

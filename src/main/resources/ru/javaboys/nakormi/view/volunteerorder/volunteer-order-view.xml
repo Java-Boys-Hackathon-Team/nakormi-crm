@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://volunteerOrderView.title">
+    <data>
+        <collection id="orderDc"
+                    class="ru.javaboys.nakormi.entity.PuckUpOrder">
+            <fetchPlan extends="_base">
+                <property name="creator" fetchPlan="_base"/>
+                <property name="volunteer" fetchPlan="_base"/>
+                <property name="warehouse" fetchPlan="_base"/>
+            </fetchPlan>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="_confirm" text="Подтревдить"/>
+        <action id="_reject" text="Отклонить"/>
+    </actions>
+    <layout>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="confirmAction" action="_confirm" text="Подтревдить" enabled="false"/>
+            <button id="rejectAction" action="_reject" text="Отклонить" enabled="false"/>
+        </hbox>
+        <dataGrid id="orderDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="orderDc"
+                  columnReorderingAllowed="true">
+            <columns resizable="true">
+                <column property="date"/>
+                <column property="status"/>
+                <column property="warehouse"/>
+                <column property="numberFormatted"/>
+                <column property="creator"/>
+            </columns>
+        </dataGrid>
+    </layout>
+</view>
