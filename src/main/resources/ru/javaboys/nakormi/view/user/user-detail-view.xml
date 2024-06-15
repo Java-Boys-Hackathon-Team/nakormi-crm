@@ -7,6 +7,7 @@
                   class="ru.javaboys.nakormi.entity.User">
             <fetchPlan extends="_base">
                 <property name="person" fetchPlan="_base"/>
+                <property name="telegramUser" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
         </instance>
@@ -35,6 +36,12 @@
             <comboBox id="timeZoneField" property="timeZoneId"/>
             <checkbox id="activeField" property="active"/>
             <entityPicker property="person">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="telegramUserField" property="telegramUser">
                 <actions>
                     <action id="entityLookup" type="entity_lookup"/>
                     <action id="entityClear" type="entity_clear"/>

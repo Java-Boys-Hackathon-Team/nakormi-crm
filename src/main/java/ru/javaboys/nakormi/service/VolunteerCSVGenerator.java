@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javaboys.nakormi.entity.Volunteer;
-import ru.javaboys.nakormi.entity.Warehouse;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class VolunteerCSVGenerator {
                         .append(",")
                         .append(volunteer.getPassportNumber())
                         .append(",")
-                        .append(volunteer.getTelegramId())
+                        .append(volunteer.getTelegramUser().getTelegramUserName())
                         .append(",")
                         .append(volunteer.getWarehouse() != null ? volunteer.getWarehouse().getId().toString() : "")
                         .append("\n");

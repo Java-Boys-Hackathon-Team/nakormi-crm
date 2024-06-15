@@ -29,4 +29,10 @@
         <item view="PuckUpOrder.list" title="msg://ru.javaboys.nakormi.view.puckuporder/puckUpOrderListView.title"/>
         <item view="FoodTransfer.list" title="msg://ru.javaboys.nakormi.view.foodtransfer/foodTransferListView.title"/>
     </menu>
+    <menu id="telegram" description="msg://ru.javaboys.nakormi/menu_config.telegram.description"
+          title="msg://ru.javaboys.nakormi/menu_config.telegram.title" opened="true">
+        <item view="InvitationCode.list"
+              title="msg://ru.javaboys.nakormi.view.invitationcode/invitationCodeListView.title"/>
+        <item view="TelegamUser.list" title="msg://ru.javaboys.nakormi.view.telegamuser/telegamUserListView.title"/>
+    </menu>
 </menu-config>
