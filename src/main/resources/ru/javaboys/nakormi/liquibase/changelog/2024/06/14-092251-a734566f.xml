@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="nakormi">
+        <createTable tableName="TELEGAM_USER">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TELEGAM_USER"/>
+            </column>
+            <column name="TELEGRAM_USER_ID" type="BIGINT"/>
+            <column name="TELEGRAM_CHAT_ID" type="BIGINT"/>
+            <column name="TELEGRAM_USER_NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="nakormi">
+        <createIndex indexName="IDX_USER__TELEGRAM_USER" tableName="USER_">
+            <column name="TELEGRAM_USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3" author="nakormi">
+        <dropColumn columnName="telegram_chat_id" tableName="user_"/>
+
+        <dropColumn columnName="telegram_user_name" tableName="user_"/>
+    </changeSet>
+    <changeSet id="4" author="nakormi">
+        <dropColumn columnName="TELEGRAM_USER_ID" tableName="USER_"/>
+    </changeSet>
+    <changeSet id="5" author="nakormi">
+        <addColumn tableName="USER_">
+            <column name="TELEGRAM_USER_ID" type="UUID">
+                <constraints deleteCascade="false" foreignKeyName="FK_USER__ON_TELEGRAM_USER"
+                             references="TELEGAM_USER(ID)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

@@ -21,6 +21,9 @@ public class Attachment {
     @Id
     private UUID id;
 
+    @Column(name = "TELEGRAM_FILE_ID")
+    private String telegramFileId;
+
     @InstanceName
     @Column(name = "NAME")
     private String name;
@@ -28,6 +31,14 @@ public class Attachment {
     @Lob
     @Column(name = "SOURCE")
     private FileRef source;
+
+    public String getTelegramFileId() {
+        return telegramFileId;
+    }
+
+    public void setTelegramFileId(String telegramFileId) {
+        this.telegramFileId = telegramFileId;
+    }
 
     public FileRef getSource() {
         return source;

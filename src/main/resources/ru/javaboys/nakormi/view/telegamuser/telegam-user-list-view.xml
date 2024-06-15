@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://telegamUserListView.title"
+      focusComponent="telegamUsersDataGrid">
+    <data>
+        <collection id="telegamUsersDc"
+                    class="ru.javaboys.nakormi.entity.TelegamUser">
+            <fetchPlan extends="_base">
+                <property name="invitationCode" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="telegamUsersDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from TelegamUser e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="telegamUsersDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="telegamUsersDataGrid.create"/>
+            <button id="editBtn" action="telegamUsersDataGrid.edit"/>
+            <button id="removeBtn" action="telegamUsersDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="telegamUsersDl"/>
+        </hbox>
+        <dataGrid id="telegamUsersDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="telegamUsersDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="telegramUserId"/>
+                <column property="telegramChatId"/>
+                <column property="telegramUserName"/>
+                <column property="invitationCodeOk"/>
+                <column property="nakormiCrmRegistrationOk"/>
+                <column property="nakormiCrmAccountOk"/>
+                <column property="invitationCode"/>
+                <column property="telegramUserFirstName"/>
+                <column property="telegramUserLastName"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

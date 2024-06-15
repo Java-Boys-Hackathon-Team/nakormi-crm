@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://invitationCodeListView.title"
+      focusComponent="invitationCodesDataGrid">
+    <data>
+        <collection id="invitationCodesDc"
+                    class="ru.javaboys.nakormi.entity.InvitationCode">
+            <fetchPlan extends="_base"/>
+            <loader id="invitationCodesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from InvitationCode e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="invitationCodeDc"
+                  class="ru.javaboys.nakormi.entity.InvitationCode">
+            <fetchPlan extends="_base">
+                <property name="person" fetchPlan="_base">
+                    <property name="address" fetchPlan="_base">
+                        <property name="district" fetchPlan="_base"/>
+                    </property>
+                </property>
+            </fetchPlan>
+            <loader id="invitationCodeDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout padding="false">
+        <formLayout classNames="master-detail-layout" height="100%">
+            <vbox id="listLayout" height="100%">
+                <genericFilter id="genericFilter"
+                               dataLoader="invitationCodesDl">
+                    <properties include=".*"/>
+                </genericFilter>
+                <hbox id="buttonsPanel" classNames="buttons-panel">
+                    <button id="createBtn" action="invitationCodesDataGrid.create"/>
+                    <button id="editBtn" action="invitationCodesDataGrid.edit"/>
+                    <button id="removeBtn" action="invitationCodesDataGrid.remove"/>
+                    <simplePagination id="pagination" dataLoader="invitationCodesDl"/>
+                </hbox>
+                <dataGrid id="invitationCodesDataGrid"
+                          width="100%"
+                          minHeight="20em"
+                          dataContainer="invitationCodesDc"
+                          columnReorderingAllowed="true">
+                    <actions>
+                        <action id="create" type="list_create"/>
+                        <action id="edit" type="list_edit"/>
+                        <action id="remove" type="list_remove"/>
+                    </actions>
+                    <columns resizable="true">
+                        <column property="expirationDate"/>
+                        <column property="code"/>
+                        <column property="used"/>
+                    </columns>
+                </dataGrid>
+                <hbox id="lookupActions" visible="false">
+                    <button id="selectBtn" action="selectAction"/>
+                    <button id="discardBtn" action="discardAction"/>
+                </hbox>
+            </vbox>
+            <vbox id="detailsLayout" height="100%">
+                <formLayout id="form" dataContainer="invitationCodeDc">
+                    <datePicker id="expirationDateField" property="expirationDate"/>
+                    <textField id="codeField" property="code" required="true"/>
+                    <checkbox id="usedField" property="used" readOnly="true"/>
+                    <entityPicker id="personField" property="person" readOnly="true">
+                        <actions>
+                            <action id="entityLookup" type="entity_lookup"/>
+                            <action id="entityClear" type="entity_clear"/>
+                        </actions>
+                    </entityPicker>
+                </formLayout>
+                <hbox id="detailActions">
+                    <button id="saveBtn" text="msg:///actions.Save" icon="CHECK" themeNames="primary"/>
+                    <button id="cancelBtn" text="msg:///actions.Cancel" icon="BAN"/>
+                </hbox>
+            </vbox>
+        </formLayout>
+    </layout>
+</view>

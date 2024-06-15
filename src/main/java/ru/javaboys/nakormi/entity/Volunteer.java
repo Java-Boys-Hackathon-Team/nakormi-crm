@@ -3,7 +3,16 @@ package ru.javaboys.nakormi.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +20,8 @@ import java.util.UUID;
 @JmixEntity
 @Table(name = "VOLUNTEER", indexes = {
         @Index(name = "IDX_VOLUNTEER_PERSON", columnList = "PERSON_ID"),
-        @Index(name = "IDX_VOLUNTEER_WAREHOUSE", columnList = "WAREHOUSE_ID")
+        @Index(name = "IDX_VOLUNTEER_WAREHOUSE", columnList = "WAREHOUSE_ID"),
+        @Index(name = "IDX_VOLUNTEER_TELEGRAM_USER", columnList = "TELEGRAM_USER_ID")
 })
 @Entity
 public class Volunteer {
@@ -25,11 +35,8 @@ public class Volunteer {
     @OneToOne(fetch = FetchType.LAZY)
     private Person person;
 
-    @Column(name = "PASSPORT_NUMBER", length = 30)
+    @Column(name = "PASSPORT_NUMBER")
     private String passportNumber;
-
-    @Column(name = "TELEGRAM_ID", length = 64)
-    private String telegramId;
 
     @JoinColumn(name = "WAREHOUSE_ID")
     @OneToOne(fetch = FetchType.LAZY)
@@ -43,6 +50,18 @@ public class Volunteer {
     )
     private List<Animal> animals;
 
+    @ManyToMany
+    @JoinTable(
+            name = "VOLUNTEER_ATTACHMENT", // Имя связующей таблицы
+            joinColumns = @JoinColumn(name = "VOLUNTEER_ID", referencedColumnName = "ID"), // Колонка в связующей таблице для VOLUNTEER
+            inverseJoinColumns = @JoinColumn(name = "ATTACHMENT_ID", referencedColumnName = "ID") // Колонка в связующей таблице для ATTACHMENT
+    )
+    private List<Attachment> attachments;
+
+    @JoinColumn(name = "TELEGRAM_USER_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private TelegamUser telegramUser;
+
     public List<Animal> getAnimals() {
         return animals;
     }
@@ -51,13 +70,13 @@ public class Volunteer {
         this.animals = animals;
     }
 
-    @ManyToMany
-    @JoinTable(
-            name = "VOLUNTEER_ATTACHMENT", // Имя связующей таблицы
-            joinColumns = @JoinColumn(name = "VOLUNTEER_ID", referencedColumnName = "ID"), // Колонка в связующей таблице для VOLUNTEER
-            inverseJoinColumns = @JoinColumn(name = "ATTACHMENT_ID", referencedColumnName = "ID") // Колонка в связующей таблице для ATTACHMENT
-    )
-    private List<Attachment> attachments;
+    public TelegamUser getTelegramUser() {
+        return telegramUser;
+    }
+
+    public void setTelegramUser(TelegamUser telegramUser) {
+        this.telegramUser = telegramUser;
+    }
 
     public List<Attachment> getAttachments() {
         return attachments;
@@ -73,14 +92,6 @@ public class Volunteer {
 
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
-    }
-
-    public String getTelegramId() {
-        return telegramId;
-    }
-
-    public void setTelegramId(String telegram_id) {
-        this.telegramId = telegram_id;
     }
 
     public String getPassportNumber() {
