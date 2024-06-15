@@ -1,12 +1,8 @@
 package ru.javaboys.nakormi.view.volunteerorder;
 
-
-import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -19,8 +15,6 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 import io.jmix.core.MetadataTools;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.component.details.JmixDetails;
-import io.jmix.flowui.component.grid.DataGrid;
-import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.model.CollectionContainer;
 import io.jmix.flowui.view.StandardView;
 import io.jmix.flowui.view.Subscribe;
@@ -47,8 +41,8 @@ public class VolunteerOrderView extends StandardView {
 
     @Autowired private SecurityHelperService securityHelperService;
     @Autowired private PuckUpOrderRepository puckUpOrderRepository;
-    @Autowired protected UiComponents uiComponents;
     @Autowired protected MetadataTools metadataTools;
+    @Autowired protected UiComponents uiComponents;
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) throws Exception {
