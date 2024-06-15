@@ -4,9 +4,11 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.javaboys.nakormi.entity.Food;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class BotUtils {
 
@@ -50,5 +52,47 @@ public class BotUtils {
         Coordinate coordinate = new Coordinate(1.0, 2.0);
 
         return geometryFactory.createPoint(coordinate);
+    }
+
+    public static Long getChatIdSafe(Update update) {
+
+        Long chatId = 0L;
+
+        if (update.hasMessage()) {
+            chatId = update.getMessage().getChatId();
+        } else if (update.hasCallbackQuery()) {
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+        }
+
+        if (chatId == 0L) {
+            throw new RuntimeException("Telegram chatId cannot be empty");
+        }
+
+        return chatId;
+    }
+
+    public static Long getUserIdSafe(Update update) {
+
+        Long userId = 0L;
+
+        if (update.hasMessage()) {
+            userId = update.getMessage().getFrom().getId();
+        } else if (update.hasCallbackQuery()) {
+            userId = update.getCallbackQuery().getMessage().getChat().getId();
+        }
+
+        if (userId == 0L) {
+            throw new RuntimeException("Telegram userId cannot be empty");
+        }
+
+        return userId;
+    }
+
+    public static String formatRemainders(Map<Food, Long> map) {
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<Food, Long> entry : map.entrySet()) {
+            result.append(entry.getKey().getName()).append(" - ").append(entry.getValue()).append("\n");
+        }
+        return result.toString();
     }
 }

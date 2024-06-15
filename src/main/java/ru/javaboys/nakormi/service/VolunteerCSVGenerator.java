@@ -35,7 +35,7 @@ public class VolunteerCSVGenerator {
                         .append(",")
                         .append(volunteer.getPassportNumber())
                         .append(",")
-                        .append(volunteer.getTelegramUser().getTelegramUserName())
+                        .append(volunteer.getTelegamUser().getTelegramUserName())
                         .append(",")
                         .append(volunteer.getWarehouse() != null ? volunteer.getWarehouse().getId().toString() : "")
                         .append("\n");

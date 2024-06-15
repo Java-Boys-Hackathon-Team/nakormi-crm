@@ -3,8 +3,6 @@ package ru.javaboys.nakormi.bot.service;
 import io.jmix.core.DataManager;
 import io.jmix.core.security.SystemAuthenticator;
 import lombok.RequiredArgsConstructor;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
@@ -141,7 +139,7 @@ public class LoginService {
                         Отлично! Вам была создана учетна запись в системе "Накорми CRM".
                         Для входа в систему перейдите по ссылке:
                         
-                        https://nakormi.kuramshin-dev.ru/
+                        https://nakormi-crm.ru/
                         """);
 
         botFeaturesUtils.sendMessage(update, """
@@ -192,9 +190,11 @@ public class LoginService {
 
         var volunteer = dataManager.create(Volunteer.class);
         volunteer.setPerson(person);
-        volunteer.setTelegramUser(telegramContext.getTelegamUser());
+        TelegamUser tgUser = telegramContext.getTelegamUser();
         volunteer.setWarehouse(warehouse);
-        dataManager.save(volunteer);
+        volunteer = dataManager.save(volunteer);
+        tgUser.setVolunteer(volunteer);
+        dataManager.save(tgUser);
 
         var user = telegramContext.getTelegamUser().getUser();
         user.setPerson(person);

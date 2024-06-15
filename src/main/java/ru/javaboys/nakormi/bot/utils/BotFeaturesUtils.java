@@ -20,26 +20,12 @@ public class BotFeaturesUtils {
 
     private final TelegramContext telegramContext;
 
-    public InlineKeyboardMarkup getInlineKeyboard(Map<String, String> buttons) {
-        var keyboardMarkupBuilder = InlineKeyboardMarkup.builder();
-
-        for (Map.Entry<String, String> buttonEntry : buttons.entrySet()) {
-            InlineKeyboardButton row = InlineKeyboardButton.builder()
-                    .text(buttonEntry.getValue())
-                    .callbackData(buttonEntry.getKey())
-                    .build();
-            keyboardMarkupBuilder.keyboardRow(new InlineKeyboardRow(row));  // Добавление каждой кнопки в новый ряд
-        }
-
-        return keyboardMarkupBuilder.build();
-    }
-
     public void sendInlineKeyboard(Update update, String text, Map<String, String> buttons) throws TelegramApiException {
 
         var keyboardMarkup = getInlineKeyboard(buttons);
 
         SendMessage sm = SendMessage.builder()
-                .chatId(update.getMessage().getChatId())
+                .chatId(BotUtils.getChatIdSafe(update))
                 .text(text)
                 .replyMarkup(keyboardMarkup)
                 .build();
@@ -52,7 +38,7 @@ public class BotFeaturesUtils {
         var keyboardMarkup = getInlineKeyboard(buttons);
 
         EditMessageText sm = EditMessageText.builder()
-                .chatId(update.getCallbackQuery().getMessage().getChatId())
+                .chatId(BotUtils.getChatIdSafe(update))
                 .messageId(Math.toIntExact(update.getCallbackQuery().getMessage().getMessageId()))
                 .text(text)
                 .replyMarkup(keyboardMarkup)
@@ -63,19 +49,9 @@ public class BotFeaturesUtils {
 
     public void sendMessage(Update update, String text) throws TelegramApiException {
 
-        Long chatId;
-
-        if (BotUtils.isCommand(update)) {
-            chatId = update.getMessage().getChatId();
-        } else if (BotUtils.isDocumentOrPhoto(update)) {
-            chatId = update.getMessage().getChatId();
-        } else {
-            chatId = update.getCallbackQuery().getMessage().getChatId();
-        }
-
         SendMessage message = SendMessage
                 .builder()
-                .chatId(chatId)
+                .chatId(BotUtils.getChatIdSafe(update))
                 .text(text)
                 .build();
 
@@ -91,5 +67,19 @@ public class BotFeaturesUtils {
         var f = telegramContext.getTelegramClient().downloadFile(fileFromTgApi.getFilePath());
 
         return f;
+    }
+
+    private InlineKeyboardMarkup getInlineKeyboard(Map<String, String> buttons) {
+        var keyboardMarkupBuilder = InlineKeyboardMarkup.builder();
+
+        for (Map.Entry<String, String> buttonEntry : buttons.entrySet()) {
+            InlineKeyboardButton row = InlineKeyboardButton.builder()
+                    .text(buttonEntry.getValue())
+                    .callbackData(buttonEntry.getKey())
+                    .build();
+            keyboardMarkupBuilder.keyboardRow(new InlineKeyboardRow(row));  // Добавление каждой кнопки в новый ряд
+        }
+
+        return keyboardMarkupBuilder.build();
     }
 }
