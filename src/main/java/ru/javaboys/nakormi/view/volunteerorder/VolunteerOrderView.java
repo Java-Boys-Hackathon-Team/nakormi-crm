@@ -36,7 +36,7 @@ public class VolunteerOrderView extends StandardView {
     public void onBeforeShow(BeforeShowEvent event) throws Exception {
         AuthUserData authUserData = securityHelperService.getAuthUserData();
         orderDc.setItems(
-                puckUpOrderRepository.findByVolunteer(authUserData.getVolunteer())
+                puckUpOrderRepository.findByVolunteerOrderByDateDesc(authUserData.getVolunteer())
         );
     }
 

@@ -19,9 +19,9 @@
                   minHeight="20em"
                   dataContainer="remainderDc">
             <columns>
-                <column property="name" header="Наименование"/>
-                <column property="cnt" header="Количество корма"/>
-                <column property="measure" header="Единица измерения"/>
+                <column property="name" header="Наименование" autoWidth="true"/>
+                <column property="cnt" header="Кол-во" autoWidth="true"/>
+                <column property="measure" header="Ед." autoWidth="true"/>
             </columns>
         </dataGrid>
     </layout>

@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface PuckUpOrderRepository extends JmixDataRepository<PuckUpOrder, UUID> {
 
-    List<PuckUpOrder> findByVolunteer(Volunteer volunteer);
+    List<PuckUpOrder> findByVolunteerOrderByDateDesc(Volunteer volunteer);
 
 }

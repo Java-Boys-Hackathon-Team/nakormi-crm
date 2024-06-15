@@ -30,11 +30,10 @@
                   columnReorderingAllowed="true">
             <columns resizable="true">
                 <column property="date"/>
-                <column property="numberFormatted" editable="false"/>
-                <column property="creator"/>
-                <column property="volunteer"/>
-                <column property="warehouse"/>
                 <column property="status"/>
+                <column property="warehouse"/>
+                <column property="numberFormatted"/>
+                <column property="creator"/>
             </columns>
         </dataGrid>
     </layout>
