@@ -19,12 +19,15 @@
             <fetchPlan extends="_base"/>
         </collection>
     </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
     <layout>
-        <entityPicker id="currentLocationField"
+        <entityPicker id="currentAddressField"
                       metaClass="Address"
                       readOnly="true"
                       width="20em"
-                      label="msg://addressLookupView.title"/>
+                      label="Текущее положение"/>
         <hbox padding="false"
               height="100%"
               width="100%">

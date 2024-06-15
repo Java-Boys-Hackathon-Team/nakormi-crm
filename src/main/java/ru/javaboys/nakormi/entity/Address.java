@@ -11,7 +11,8 @@ import java.util.UUID;
 
 @JmixEntity
 @Table(name = "ADDRESS", indexes = {
-        @Index(name = "IDX_ADDRESS_DISTRICT", columnList = "DISTRICT_ID")
+        @Index(name = "IDX_ADDRESS_DISTRICT", columnList = "DISTRICT_ID"),
+        @Index(name = "IDX_ADDRESS_WAREHOUSE", columnList = "WAREHOUSE_ID")
 })
 @Entity
 public class Address {
@@ -33,6 +34,18 @@ public class Address {
     @NotNull
     @Column(name = "COORDINATE", nullable = false)
     private Point coordinate;
+
+    @JoinColumn(name = "WAREHOUSE_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private Warehouse warehouse;
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
 
     public Point getCoordinate() {
         return coordinate;

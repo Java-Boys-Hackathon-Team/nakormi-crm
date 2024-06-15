@@ -2,9 +2,11 @@ package ru.javaboys.nakormi.view.warehouse;
 
 import com.vaadin.flow.router.Route;
 import io.jmix.flowui.DialogWindows;
+import io.jmix.flowui.component.valuepicker.JmixValuePicker;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.javaboys.nakormi.entity.Address;
 import ru.javaboys.nakormi.entity.Warehouse;
 import ru.javaboys.nakormi.view.addresslookup.AddressLookupView;
 import ru.javaboys.nakormi.view.main.MainView;
@@ -18,8 +20,19 @@ public class WarehouseDetailView extends StandardDetailView<Warehouse> {
     @Autowired
     private DialogWindows dialogWindows;
 
+    @ViewComponent
+    private JmixValuePicker<Address> addressField;
+
     @Subscribe("addressField.select")
     public void onAddressFieldSelect(final ActionPerformedEvent event) {
-        dialogWindows.view(this, AddressLookupView.class).open();
+        dialogWindows.view(this, AddressLookupView.class)
+                .withAfterCloseListener(closeEvent -> {
+                    if (closeEvent.closedWith(StandardOutcome.SELECT)) {
+                        addressField.setValue(closeEvent.getView().getSelected());
+                    }
+                })
+                .open()
+                .getView()
+                .setSelected(getEditedEntity().getAddress());
     }
 }
