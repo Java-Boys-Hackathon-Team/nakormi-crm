@@ -18,37 +18,54 @@
         <action id="closeAction" type="detail_close"/>
     </actions>
     <layout>
+
         <formLayout id="firstScreen" classNames="flex-layout" dataContainer="productMovementDc">
             <h3 text="msg://titleFirstScreen.text"/>
-            <entityPicker id="volunteersPicker" dataContainer="productMovementDc" property="volunteer">
-                <actions>
-                    <action id="entityClear" type="entity_clear"/>
-                    <action id="entityLookup" type="entity_lookup"/>
-                </actions>
-            </entityPicker>
+            <hbox/>
             <select id="transferTypeField" property="transferType"/>
-            <entityPicker id="warehousesSourcePicker" dataContainer="productMovementDc" property="warehouseSource"
-                          enabled="false" visible="false">
+
+            <entityPicker id="volunteerSourcePicker" metaClass="Volunteer"
+                          label="msg://ru.javaboys.nakormi.dto/ProductMovement.volunteerSource">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>
                 </actions>
             </entityPicker>
-            <entityPicker id="warehousesReceiverPicker" dataContainer="productMovementDc" property="warehouseReceiver"
-                          enabled="false" visible="false">
+
+            <entityPicker id="volunteerReceiverPicker" metaClass="Volunteer"
+                          label="msg://ru.javaboys.nakormi.dto/ProductMovement.volunteerReceiver">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>
                 </actions>
             </entityPicker>
-            <entityPicker id="personsPicker" dataContainer="productMovementDc" property="beneficiary" enabled="false"
-                          visible="false">
+
+            <entityPicker id="warehouseSourcePicker" dataContainer="productMovementDc"
+                          property="warehouseSource">
                 <actions>
                     <action id="entityClear" type="entity_clear"/>
                     <action id="entityLookup" type="entity_lookup"/>
                 </actions>
             </entityPicker>
+
+            <entityPicker id="warehouseReceiverPicker" dataContainer="productMovementDc"
+                          property="warehouseReceiver">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                </actions>
+            </entityPicker>
+
+            <entityPicker id="beneficiaryPersonPicker" dataContainer="productMovementDc"
+                          property="beneficiary">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                </actions>
+            </entityPicker>
+
         </formLayout>
+
         <flexLayout id="secondScreen" classNames="flex-layout">
             <h3 text="msg://titleSecondScreen.text"/>
             <hbox id="buttonsPanel" classNames="buttons-panel">
@@ -66,10 +83,12 @@
                 </columns>
             </dataGrid>
         </flexLayout>
+
         <formLayout id="thirdScreen" classNames="flex-layout" dataContainer="productMovementDc">
             <h3 text="msg://titleThirdScreen.text"/>
             <div id="uploadField"/>
         </formLayout>
+
         <hbox id="detailActions">
             <button id="prevStepSecondScreenButton" text="msg://prevStepButton.text" visible="false"/>
             <button id="prevStepThirdScreenButton" text="msg://prevStepButton.text" visible="false"/>

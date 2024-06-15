@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://successScreen.title">
+    <layout classNames="success-layout">
+        <h1 text="msg://successScreen.title"/>
+        <button text="На главную" id="button"/>
+    </layout>
+</view>
