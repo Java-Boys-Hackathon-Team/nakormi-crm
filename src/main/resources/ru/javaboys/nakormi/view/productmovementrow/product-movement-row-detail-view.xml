@@ -23,7 +23,10 @@
                     <action id="entityClear" type="entity_clear"/>
                 </actions>
             </entityPicker>
-            <textField id="amountField" property="amount"/>
+            <hbox>
+                <textField id="amountField" property="amount"/>
+                <textField id="measureTextField" maxWidth="30%"/>
+            </hbox>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
