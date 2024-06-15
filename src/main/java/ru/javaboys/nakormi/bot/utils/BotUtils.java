@@ -1,5 +1,8 @@
 package ru.javaboys.nakormi.bot.utils;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.time.LocalDateTime;
@@ -39,5 +42,13 @@ public class BotUtils {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         return "photo_" + now.format(formatter) + ".jpg";
+    }
+
+    public static Point getDefaultGeoPoint() {
+
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Coordinate coordinate = new Coordinate(1.0, 2.0);
+
+        return geometryFactory.createPoint(coordinate);
     }
 }
