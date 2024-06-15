@@ -23,6 +23,10 @@ public class BotUtils {
         return update.hasMessage() && update.getMessage().hasText();
     }
 
+    public static boolean isDocumentOrPhoto(Update update) {
+        return update.hasMessage();
+    }
+
     public static boolean validateArgsCount(String args, int expectedCount) {
         return  args.split(" ").length == expectedCount;
     }

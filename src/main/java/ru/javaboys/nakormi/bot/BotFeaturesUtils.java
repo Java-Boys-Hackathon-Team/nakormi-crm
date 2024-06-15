@@ -62,9 +62,20 @@ public class BotFeaturesUtils {
     }
 
     public void sendMessage(Update update, String text) throws TelegramApiException {
+
+        Long chatId;
+
+        if (BotUtils.isCommand(update)) {
+            chatId = update.getMessage().getChatId();
+        } else if (BotUtils.isDocumentOrPhoto(update)) {
+            chatId = update.getMessage().getChatId();
+        } else {
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+        }
+
         SendMessage message = SendMessage
                 .builder()
-                .chatId(BotUtils.isCommand(update) ? update.getMessage().getChatId() : update.getCallbackQuery().getMessage().getChatId())
+                .chatId(chatId)
                 .text(text)
                 .build();
 

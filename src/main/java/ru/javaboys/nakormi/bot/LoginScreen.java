@@ -240,7 +240,27 @@ public class LoginScreen implements BotScreen {
                             dataManager.save(v);
                         });
 
+                var tgUser = telegramContext.getTelegamUser();
+                tgUser.setNakormiCrmAccountOk(true);
+                dataManager.save(tgUser);
+
                 systemAuthenticator.end();
+
+                botFeaturesUtils.sendMessage(update, """
+                        Регистрация завершена!
+                        
+                        Вы стали волонтером проекта "Накорми".
+                        """);
+
+                Map<String, String> buttons = Map.of(
+                        Callbacks.LOGIN_HAVE_CODE,"Перейти в Личный Кабинет Волонтера"
+                );
+
+                botFeaturesUtils.sendInlineKeyboard(
+                        update,
+                        "Добро пожаловать в систему \"Накорми CRM\"!",
+                        buttons
+                );
             }
         }
     }
