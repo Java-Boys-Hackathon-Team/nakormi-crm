@@ -6,6 +6,8 @@ import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -24,6 +26,7 @@ import io.jmix.flowui.view.Supply;
 import io.jmix.flowui.view.ViewComponent;
 import io.jmix.flowui.view.ViewController;
 import io.jmix.flowui.view.ViewDescriptor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javaboys.nakormi.dto.AuthUserData;
 import ru.javaboys.nakormi.entity.Animal;
@@ -70,9 +73,11 @@ public class VolunteerAnimalsView extends StandardView {
             avatar.getStyle().set("--vaadin-avatar-size", "5rem");
 
             FileStorage fileStorage = fileStorageLocator.getDefault();
-            Attachment logoAttachment = animal.getAttachments().getFirst();
-            InputStream is = fileStorage.openStream(logoAttachment.getSource());
-            avatar.setImageResource(new StreamResource(logoAttachment.getName(), () -> is));
+            if (CollectionUtils.isNotEmpty(animal.getAttachments())) {
+                Attachment logoAttachment = animal.getAttachments().get(0);
+                InputStream is = fileStorage.openStream(logoAttachment.getSource());
+                avatar.setImageResource(new StreamResource(logoAttachment.getName(), () -> is));
+            }
 
             VerticalLayout infoLayout = new VerticalLayout();
             infoLayout.setSpacing(false);
