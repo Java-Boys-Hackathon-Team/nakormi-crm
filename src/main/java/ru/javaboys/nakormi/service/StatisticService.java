@@ -20,7 +20,7 @@ public class StatisticService {
 
     public Map<TransferTypes, Long> findGoodDealCount(Volunteer volunteer) {
         List<Object[]> resultList = entityManager.createQuery("""
-            select r.foodTransfer.transferType, count(r)
+            select r.foodTransfer.transferType, count(distinct r.foodTransfer)
             from FoodTransferRow r
             where r.movement = 'O' and r.warehouse = :warehouse
             group by r.foodTransfer.transferType

@@ -1,6 +1,5 @@
 package ru.javaboys.nakormi.view.volunteerstatistic;
 
-
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.router.Route;
@@ -19,7 +18,7 @@ import ru.javaboys.nakormi.view.main.MainView;
 import java.util.Map;
 
 @Route(value = "VolunteerStatistic", layout = MainView.class)
-@ViewController("Volunteerstatistic")
+@ViewController("VolunteerStatistic")
 @ViewDescriptor("VolunteerStatistic.xml")
 public class VolunteerStatistic extends StandardView {
     @ViewComponent private H1 volunteerStatisticHeader;
