@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -42,6 +43,17 @@ public class BotFeaturesUtils {
                 .messageId(Math.toIntExact(update.getCallbackQuery().getMessage().getMessageId()))
                 .text(text)
                 .replyMarkup(keyboardMarkup)
+                .build();
+
+        telegramContext.getTelegramClient().execute(sm);
+    }
+
+    public void sendReplyKeyboardMarkup(Update update, String text, ReplyKeyboardMarkup replyKeyboardMarkup) throws TelegramApiException {
+
+        SendMessage sm = SendMessage.builder()
+                .chatId(BotUtils.getChatIdSafe(update))
+                .text(text)
+                .replyMarkup(replyKeyboardMarkup)
                 .build();
 
         telegramContext.getTelegramClient().execute(sm);

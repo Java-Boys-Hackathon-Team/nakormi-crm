@@ -86,7 +86,9 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
                 case Callbacks.GO_TO_VOLUNTEER_ACCOUNT,
                      Callbacks.REFRESH_VOLUNTEER_ACCOUNT,
                      Callbacks.GO_TO_VOLUNTEER_REMAINDERS,
-                     Callbacks.REFRESH_VOLUNTEER_REMAINDERS -> volunteerAccountScreen.processCallback(update, callbackData);
+                     Callbacks.REFRESH_VOLUNTEER_REMAINDERS,
+                     Callbacks.GO_TO_VOLUNTEER_ORDERS,
+                     Callbacks.REFRESH_VOLUNTEER_ORDERS -> volunteerAccountScreen.processCallback(update, callbackData);
 
                 default -> botFeaturesUtils.sendMessage(update, "Команда не распознана. Неизвестная команда");
             }

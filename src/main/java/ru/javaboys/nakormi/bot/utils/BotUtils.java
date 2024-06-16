@@ -5,10 +5,13 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.javaboys.nakormi.entity.Food;
+import ru.javaboys.nakormi.entity.PuckUpOrder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class BotUtils {
 
@@ -93,6 +96,32 @@ public class BotUtils {
         for (Map.Entry<Food, Long> entry : map.entrySet()) {
             result.append(entry.getKey().getName()).append(" - ").append(entry.getValue()).append("\n");
         }
+        return result.toString();
+    }
+
+
+    public static String formatPuckUpOrders(List<PuckUpOrder> orders) {
+        StringBuilder result = new StringBuilder();
+
+        result.append(String.format("%-36s %-20s %-10s %-36s %-36s %-36s %-15s\n",
+                "ID", "Date", "Number", "Creator ID", "Volunteer ID", "Warehouse ID", "Status"));
+
+        for (PuckUpOrder order : orders) {
+            UUID creatorId = order.getCreator() != null ? order.getCreator().getId() : null;
+            UUID volunteerId = order.getVolunteer() != null ? order.getVolunteer().getId() : null;
+            UUID warehouseId = order.getWarehouse() != null ? order.getWarehouse().getId() : null;
+
+            result.append(String.format("%-36s %-20s %-10d %-36s %-36s %-36s %-15s\n",
+                    order.getId(),
+                    order.getDate(),
+                    order.getNumber(),
+                    creatorId,
+                    volunteerId,
+                    warehouseId,
+                    order.getStatus()
+            ));
+        }
+
         return result.toString();
     }
 }

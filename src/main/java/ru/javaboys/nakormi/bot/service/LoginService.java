@@ -269,6 +269,10 @@ public class LoginService {
 
                 commonKeyboards.sendHelloAndAccountKeyboard(update);
             }
+
+            default -> {
+                botFeaturesUtils.sendMessage(update, "Файл не распознан. Повторите попытку");
+            }
         }
     }
 
