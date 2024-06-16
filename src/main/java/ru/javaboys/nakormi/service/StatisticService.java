@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import ru.javaboys.nakormi.entity.Food;
 import ru.javaboys.nakormi.entity.Person;
+import ru.javaboys.nakormi.entity.TransferTypes;
 import ru.javaboys.nakormi.entity.Volunteer;
 import ru.javaboys.nakormi.model.VolunteerStatData;
 
@@ -16,6 +17,21 @@ import java.util.stream.Collectors;
 @Service
 public class StatisticService {
     @PersistenceContext private EntityManager entityManager;
+
+    public Map<TransferTypes, Long> findGoodDealCount(Volunteer volunteer) {
+        List<Object[]> resultList = entityManager.createQuery("""
+            select r.foodTransfer.transferType, count(r)
+            from FoodTransferRow r
+            where r.movement = 'O' and r.warehouse = :warehouse
+            group by r.foodTransfer.transferType
+        """, Object[].class).setParameter("warehouse", volunteer.getWarehouse()).getResultList();
+
+        Map<TransferTypes, Long> resultMap = new HashMap<>();
+        resultList.forEach(o -> {
+            resultMap.put(TransferTypes.fromId((String) o[0]), (Long) o[1]);
+        });
+        return resultMap;
+    }
 
     public List<VolunteerStatData> findVolunteerStatisticByFood() {
         List<Object[]> resultList = entityManager.createQuery("""

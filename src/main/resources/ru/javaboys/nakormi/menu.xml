@@ -20,6 +20,8 @@
               title="msg://ru.javaboys.nakormi.view.volunteeranimals/volunteerAnimalsView.title"/>
         <item view="VolunteerOrderView"
               title="msg://ru.javaboys.nakormi.view.volunteerorder/volunteerOrderView.title"/>
+        <item view="Volunteerstatistic"
+              title="msg://ru.javaboys.nakormi.view.volunteerstatistic/volunteerStatistic.title"/>
     </menu>
     <menu id="animals" description="msg://ru.javaboys.nakormi/menu_config.animals.description"
           title="msg://ru.javaboys.nakormi/menu_config.animals.title" opened="true">
