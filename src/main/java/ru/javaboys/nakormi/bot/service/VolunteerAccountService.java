@@ -173,7 +173,6 @@ public class VolunteerAccountService {
                         Вы накормили бездомных животных: %s раз! 💪👍😻
                         
                         Вы передали корм благополучателям: %s раз! 🎉🎊😇
-                                                
                         """.formatted(person.getName(), person.getSurname(), countFeed, countBeneficiary);
 
         return text;
