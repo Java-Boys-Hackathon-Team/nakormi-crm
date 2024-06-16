@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://volunteerStatistic.title">
+    <layout>
+        <h1 id="volunteerStatisticHeader" text="Вася Пупкин" alignSelf="CENTER"/> //Имя Фамилия волонтера
+        <h2 text="Добрых дел" alignSelf="CENTER"/>
+        <h1 text="10" alignSelf="CENTER"  />
+
+        <h3 text="Накормил: 10 раз!" alignSelf="CENTER"/>
+        <h3 text="Передал благополучателям: 5 раз!" alignSelf="CENTER"/>
+        <h3 text="У меня 5 питомцев" alignSelf="CENTER"/>
+
+
+
+    </layout>
+</view>
