@@ -4,7 +4,6 @@ import io.jmix.core.DataManager;
 import io.jmix.core.security.SystemAuthenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -27,7 +26,6 @@ import ru.javaboys.nakormi.entity.WarehouseTypes;
 import ru.javaboys.nakormi.service.AttachmentService;
 import ru.javaboys.nakormi.service.TelegramService;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -74,7 +72,7 @@ public class LoginService {
         }
 
         var optionalCode = systemAuthenticator.withSystem(() -> dataManager.load(InvitationCode.class)
-                .query("e.code = ?1", userCode)
+                .query("e.code = ?1", userCode.toUpperCase())
                 .optional());
 
         if (optionalCode.isPresent()) {
@@ -203,15 +201,19 @@ public class LoginService {
         user.setEmail(personData[4]);
         dataManager.save(user);
 
+        tgUser = telegramContext.getTelegamUser();
+        tgUser.setNakormiCrmAccountOk(true);
+        dataManager.save(tgUser);
+
         systemAuthenticator.end();
 
         botFeaturesUtils.sendMessage(update, """
-                        Для завершения регистрации нам потребуются скан-копия вашего паспорта.
-                        Отправьте её как файл.
+                        Регистрация завершена!
                         
-                        При отправке добавьте файлу подпись "паспорт".
+                        Вы стали волонтером проекта "Накорми".
                         """);
 
+        commonKeyboards.sendHelloAndAccountKeyboard(update);
     }
 
     public void processCommandLogin(Update update) throws TelegramApiException {
@@ -232,61 +234,20 @@ public class LoginService {
         }
     }
 
-    public void processDocument(Update update) throws TelegramApiException, FileNotFoundException {
-        String caption = update.getMessage().getCaption();
-
-        switch (caption) {
-
-            case "паспорт" -> {
-
-                Document document = update.getMessage().getDocument();
-                var file = botFeaturesUtils.downloadFile(document.getFileId());
-                var attachment = attachmentService.save(file, document.getFileId(), document.getFileName());
-
-                systemAuthenticator.begin();
-
-                var volunteerId = telegramContext.getTelegamUser().getVolunteer().getId();
-
-                dataManager.load(Volunteer.class)
-                        .id(volunteerId)
-                        .optional()
-                        .ifPresent(v -> {
-                            v.setAttachments(List.of(attachment));
-                            dataManager.save(v);
-                        });
-
-                var tgUser = telegramContext.getTelegamUser();
-                tgUser.setNakormiCrmAccountOk(true);
-                dataManager.save(tgUser);
-
-                systemAuthenticator.end();
-
-                botFeaturesUtils.sendMessage(update, """
-                        Регистрация завершена!
-                        
-                        Вы стали волонтером проекта "Накорми".
-                        """);
-
-                commonKeyboards.sendHelloAndAccountKeyboard(update);
-            }
-
-            default -> {
-                botFeaturesUtils.sendMessage(update, "Файл не распознан. Возможно вы допустили ошибку в подписи. Повторите попытку.");
-            }
-        }
+    public void processDocument(Update update) throws TelegramApiException {
+        botFeaturesUtils.sendMessage(update, "Файл не распознан. Команда для обработки файла отсутствует");
     }
 
-    public void processPhoto(Update update) throws TelegramApiException, FileNotFoundException {
+    public void processPhoto(Update update) throws TelegramApiException {
         List<PhotoSize> photos = update.getMessage().getPhoto();
         String caption = update.getMessage().getCaption();
 
+        if (caption == null) {
+            botFeaturesUtils.sendMessage(update, "Изображение не распознано. Возможно вы допустили ошибку в подписи. Повторите попытку.");
+            return;
+        }
 
-
-//        var file = botFeaturesUtils.downloadFile(fileId);
-//
-//        var attachment = attachmentService.save(file, fileId, BotUtils.generatePhotoName());
-
-        switch (caption) {
+        switch (caption.toLowerCase()) {
 
             case "нужна помощь" -> {
 
