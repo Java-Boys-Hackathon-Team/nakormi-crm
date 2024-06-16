@@ -15,19 +15,10 @@
         <dataLoadCoordinator auto="true"/>
     </facets>
     <layout>
-        <dataGrid id="animalsDataGrid"
-                  width="100%"
-                  minHeight="20em"
-                  dataContainer="animalDc"
-                  columnReorderingAllowed="true">
-            <columns resizable="true">
-                <column property="nickname"/>
-                <column property="type"/>
-                <column property="gender"/>
-                <column property="isSterilized"/>
-                <column property="description"/>
-                <column property="pride.name"/>
-            </columns>
-        </dataGrid>
+        <h5 id="topTitle"/>
+        <virtualList id="animalList"
+                     width="100%"
+                     height="100%"
+                     itemsContainer="animalDc"/>
     </layout>
 </view>
