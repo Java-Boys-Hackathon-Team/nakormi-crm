@@ -33,8 +33,9 @@ public class VolunteerAccountScreen implements BotScreen  {
 
             case Callbacks.GO_TO_VOLUNTEER_ORDERS -> volunteerAccountService.processVolunteerOrdersCallback(update);
             case Callbacks.REFRESH_VOLUNTEER_ORDERS -> volunteerAccountService.processRefreshVolunteerOrdersCallback(update);
-        }
 
+            case Callbacks.ANIMAL_IN_DANGER -> volunteerAccountService.processAnimalInDanger(update);
+        }
     }
 
     @Override

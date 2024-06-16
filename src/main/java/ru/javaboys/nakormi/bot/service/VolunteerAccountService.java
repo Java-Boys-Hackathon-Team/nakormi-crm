@@ -72,6 +72,16 @@ public class VolunteerAccountService {
         processVolunteerOrders(update);
     }
 
+    public void processAnimalInDanger(Update update) throws TelegramApiException {
+        botFeaturesUtils.sendMessage(update, """
+                Если вы обнаружили животное в опасности, то срочно сделайте фото и отправьте в ответ.
+                Ваше сообщение будет разослано всем зарегистрированным волонтерам.
+                Кто-то сможет откликнуться и придти на на помощь.
+                
+                Отправляйте фото как фотографию, а не как файл. Обязательно добавьте подпись "нужна помощь".
+                """);
+    }
+
     public void processOrder(Update update) throws TelegramApiException {
         String message = update.getMessage().getText();
         var orderNumber = BotUtils.extractOrderNumber(message);
@@ -230,7 +240,7 @@ public class VolunteerAccountService {
         Map<String, String> buttons = Map.of(
                 Callbacks.GO_TO_VOLUNTEER_REMAINDERS, "🏫 Остатки на моё складе",
                 Callbacks.GO_TO_VOLUNTEER_ORDERS, "📣 Мои заказы",
-                "3", "🆘 Животное в опасности!",
+                Callbacks.ANIMAL_IN_DANGER, "🆘 Животное в опасности!",
                 Callbacks.REFRESH_VOLUNTEER_ACCOUNT, "🔁 Обновить статистику"
         );
 

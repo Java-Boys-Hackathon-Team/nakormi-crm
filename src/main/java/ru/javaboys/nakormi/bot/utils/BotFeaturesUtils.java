@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -79,6 +81,17 @@ public class BotFeaturesUtils {
         var f = telegramContext.getTelegramClient().downloadFile(fileFromTgApi.getFilePath());
 
         return f;
+    }
+
+    public void sendPhoto(Update update, String text, String fileId) throws TelegramApiException {
+        SendPhoto msg = SendPhoto
+                .builder()
+                .chatId(BotUtils.getChatIdSafe(update))
+                .photo(new InputFile(fileId))
+                .caption(text)
+                .build();
+
+        telegramContext.getTelegramClient().execute(msg);
     }
 
     private InlineKeyboardMarkup getInlineKeyboard(Map<String, String> buttons) {
