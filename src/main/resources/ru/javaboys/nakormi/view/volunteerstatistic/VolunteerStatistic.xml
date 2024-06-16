@@ -2,15 +2,13 @@
 <view xmlns="http://jmix.io/schema/flowui/view"
       title="msg://volunteerStatistic.title">
     <layout>
-        <h1 id="volunteerStatisticHeader" text="Вася Пупкин" alignSelf="CENTER"/> //Имя Фамилия волонтера
+        <h1 id="volunteerStatisticHeader" alignSelf="CENTER"/>
         <h2 text="Добрых дел" alignSelf="CENTER"/>
-        <h1 text="10" alignSelf="CENTER"  />
+        <h1 id="goodDealCnt" text="10" alignSelf="CENTER"  />
 
-        <h3 text="Накормил: 10 раз!" alignSelf="CENTER"/>
-        <h3 text="Передал благополучателям: 5 раз!" alignSelf="CENTER"/>
-        <h3 text="У меня 5 питомцев" alignSelf="CENTER"/>
-
-
+        <h3 id="feedCnt" text="Накормил: 10 раз!" alignSelf="CENTER"/>
+        <h3 id="benCnt" text="Передал благополучателям: 5 раз!" alignSelf="CENTER"/>
+        <h3 id="animalCnt" text="У меня 5 питомцев" alignSelf="CENTER"/>
 
     </layout>
 </view>

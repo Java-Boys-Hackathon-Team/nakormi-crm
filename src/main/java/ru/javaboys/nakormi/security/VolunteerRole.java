@@ -111,8 +111,8 @@ public interface VolunteerRole {
     @EntityPolicy(entityClass = Warehouse.class, actions = EntityPolicyAction.READ)
     void warehouse();
 
-    @MenuPolicy(menuIds = {"ProductMovement.list", "VolunteerRemainderView", "VolunteerAnimalsView", "VolunteerOrderView", "TopVolunteerView"})
-    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list", "VolunteerRemainderView", "VolunteerAnimalsView", "VolunteerOrderView", "SuccessScreen", "TopVolunteerView", "Animal.detail"})
+    @MenuPolicy(menuIds = {"ProductMovement.list", "VolunteerRemainderView", "VolunteerAnimalsView", "VolunteerOrderView", "TopVolunteerView", "Volunteerstatistic"})
+    @ViewPolicy(viewIds = {"LoginView", "MainView", "ProductMovement.list", "ProductMovement.detail", "ProductMovementRow.detail", "ProductMovementRow.list", "FoodSelect.list", "WarehouseSelect.list", "VolunteerSelect.list", "PersonSelect.list", "VolunteerRemainderView", "VolunteerAnimalsView", "VolunteerOrderView", "SuccessScreen", "TopVolunteerView", "Animal.detail", "Volunteerstatistic"})
     void screens();
 
     @SpecificPolicy(resources = "ui.loginToUi")
