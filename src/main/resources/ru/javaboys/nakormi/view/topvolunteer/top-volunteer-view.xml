@@ -23,7 +23,7 @@
                               dataContainer="volunteerTopByFoodDc">
                         <columns>
                             <column property="fio" header="Имя Фамилия"/>
-                            <column property="cnt" header="Количество реализоованного корма (г.)"/>
+                            <column property="cnt" header="Количество реализованного корма (г.)"/>
                         </columns>
                     </dataGrid>
                 </vbox>
