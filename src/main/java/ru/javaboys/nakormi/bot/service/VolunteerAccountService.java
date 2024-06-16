@@ -20,6 +20,7 @@ import ru.javaboys.nakormi.service.AttachmentService;
 import ru.javaboys.nakormi.service.StatisticService;
 import ru.javaboys.nakormi.service.TelegramService;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -94,9 +95,9 @@ public class VolunteerAccountService {
         for (PuckUpOrder order : orders) {
             KeyboardRow row = new KeyboardRow();
 
-            String dateFormatted = String.format("%td-%<tm", order.getDate()); // Дата в формате "день-месяц"
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
             String personName = order.getCreator() != null ? order.getCreator().getName() + " " + order.getCreator().getSurname() : "Unknown";
-            String buttonText = String.format("Заказ %s от %s %s", order.getNumberFormatted(), personName, dateFormatted);
+            String buttonText = String.format("Заказ %s от %s %s", order.getNumberFormatted(), personName, order.getDate().format(formatter));
 
             row.add(buttonText);
             keyboard.add(row);
