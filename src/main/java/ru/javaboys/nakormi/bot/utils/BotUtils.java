@@ -27,12 +27,19 @@ public class BotUtils {
         return new CommandArgs(command, arguments);
     }
 
-    public static boolean isCommand(Update update) {
-        return update.hasMessage() && update.getMessage().hasText();
+    public static boolean startsWithOrder(String text) {
+        return text.startsWith("Заказ");
     }
 
-    public static boolean isDocumentOrPhoto(Update update) {
-        return update.hasMessage();
+    public static Integer extractOrderNumber(String text) {
+        int startIndex = text.indexOf("Заказ") + 5;
+        int endIndex = text.indexOf("от");
+        if (startIndex < endIndex && startIndex > 0 && endIndex > 0) {
+            String strNumber = text.substring(startIndex, endIndex).trim();
+
+            return Integer.valueOf(strNumber.substring(strNumber.lastIndexOf('0') + 1));
+        }
+        return null;
     }
 
     public static boolean validateArgsCount(String args, int expectedCount) {
@@ -72,6 +79,23 @@ public class BotUtils {
         }
 
         return chatId;
+    }
+
+    public static Integer getMessageIdSafe(Update update) {
+
+        Integer messageId = 0;
+
+        if (update.hasMessage()) {
+            messageId = update.getMessage().getMessageId();
+        } else if (update.hasCallbackQuery()) {
+            messageId = update.getCallbackQuery().getMessage().getMessageId();
+        }
+
+        if (messageId == 0L) {
+            throw new RuntimeException("Telegram messageId cannot be empty");
+        }
+
+        return messageId;
     }
 
     public static Long getUserIdSafe(Update update) {

@@ -72,6 +72,52 @@ public class VolunteerAccountService {
         processVolunteerOrders(update);
     }
 
+    public void processOrder(Update update) throws TelegramApiException {
+        String message = update.getMessage().getText();
+        var orderNumber = BotUtils.extractOrderNumber(message);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+
+        systemAuthenticator.begin();
+
+        dataManager.load(PuckUpOrder.class)
+                .query("e.number = ?1", orderNumber)
+                .optional()
+                .ifPresent(po -> {
+
+                    Map<String, String> buttons = Map.of(
+                            Callbacks.GO_TO_VOLUNTEER_ACCOUNT, "↩️ Назад"
+                    );
+
+                    String text = """
+                            Заказ №%s
+                            
+                            От %s
+                            
+                            Инициатор: %s
+                            
+                            Склад: %s
+                            
+                            Статус: %s
+                            """
+                            .formatted(
+                                    orderNumber,
+                                    po.getDate().format(formatter),
+                                    po.getCreator().getName() + " " + po.getCreator().getSurname(),
+                                    po.getWarehouse() == null ? "не указан" : po.getWarehouse().getDescription(),
+                                    po.getStatus()
+                            );
+
+                    try {
+                        botFeaturesUtils.sendInlineKeyboard(update, text, buttons);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException("Telegram API call error", e);
+                    }
+                });
+
+        systemAuthenticator.end();
+    }
+
     private void processVolunteerOrders(Update update) throws TelegramApiException {
 
         systemAuthenticator.begin();

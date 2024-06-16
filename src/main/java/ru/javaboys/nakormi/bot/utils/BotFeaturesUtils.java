@@ -40,7 +40,7 @@ public class BotFeaturesUtils {
 
         EditMessageText sm = EditMessageText.builder()
                 .chatId(BotUtils.getChatIdSafe(update))
-                .messageId(Math.toIntExact(update.getCallbackQuery().getMessage().getMessageId()))
+                .messageId(Math.toIntExact(BotUtils.getMessageIdSafe(update)))
                 .text(text)
                 .replyMarkup(keyboardMarkup)
                 .build();

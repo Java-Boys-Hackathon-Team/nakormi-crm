@@ -65,6 +65,12 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
         if (update.hasMessage() && update.getMessage().hasText()) {
 
             String messageTest = update.getMessage().getText();
+
+            if (BotUtils.startsWithOrder(messageTest)) {
+                volunteerAccountScreen.processOrder(update);
+                return;
+            }
+
             CommandArgs commandArgs = BotUtils.parseCommand(messageTest);
 
             switch (commandArgs.getCommand()) {

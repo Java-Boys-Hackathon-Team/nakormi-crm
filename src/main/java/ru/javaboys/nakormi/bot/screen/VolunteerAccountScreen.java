@@ -46,4 +46,8 @@ public class VolunteerAccountScreen implements BotScreen  {
     public void processPhoto(Update update) throws TelegramApiException, FileNotFoundException {
 
     }
+
+    public void processOrder(Update update) throws TelegramApiException, FileNotFoundException {
+        volunteerAccountService.processOrder(update);
+    }
 }
