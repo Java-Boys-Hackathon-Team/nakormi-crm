@@ -269,19 +269,56 @@ public class LoginService {
 
                 commonKeyboards.sendHelloAndAccountKeyboard(update);
             }
+
+            default -> {
+                botFeaturesUtils.sendMessage(update, "Файл не распознан. Возможно вы допустили ошибку в подписи. Повторите попытку.");
+            }
         }
     }
 
     public void processPhoto(Update update) throws TelegramApiException, FileNotFoundException {
         List<PhotoSize> photos = update.getMessage().getPhoto();
+        String caption = update.getMessage().getCaption();
 
-        String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize))
-                .map(PhotoSize::getFileId)
-                .orElse("");
 
-        var file = botFeaturesUtils.downloadFile(fileId);
 
-        var attachment = attachmentService.save(file, fileId, BotUtils.generatePhotoName());
+//        var file = botFeaturesUtils.downloadFile(fileId);
+//
+//        var attachment = attachmentService.save(file, fileId, BotUtils.generatePhotoName());
+
+        switch (caption) {
+
+            case "нужна помощь" -> {
+
+                String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize))
+                        .map(PhotoSize::getFileId)
+                        .orElse("");
+
+                systemAuthenticator.begin();
+
+                dataManager.load(TelegamUser.class)
+                        .all()
+                        .list()
+                        .forEach(tgu -> {
+
+                            try {
+                                botFeaturesUtils.sendPhoto(update, """
+                                        🆘 Внимание! Животное в опасности!
+                                        Свяжитесь с волонтером и найдите способ помочь животному.
+                                        """, fileId);
+                            } catch (TelegramApiException e) {
+                                throw new RuntimeException("Telegram API send photo error", e);
+                            }
+                        });
+
+                systemAuthenticator.end();
+
+            }
+
+            default -> {
+                botFeaturesUtils.sendMessage(update, "Изображение не распознано. Возможно вы допустили ошибку в подписи. Повторите попытку.");
+            }
+        }
     }
 
 }
