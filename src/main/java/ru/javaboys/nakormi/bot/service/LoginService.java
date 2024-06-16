@@ -4,7 +4,6 @@ import io.jmix.core.DataManager;
 import io.jmix.core.security.SystemAuthenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -27,7 +26,6 @@ import ru.javaboys.nakormi.entity.WarehouseTypes;
 import ru.javaboys.nakormi.service.AttachmentService;
 import ru.javaboys.nakormi.service.TelegramService;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -74,7 +72,7 @@ public class LoginService {
         }
 
         var optionalCode = systemAuthenticator.withSystem(() -> dataManager.load(InvitationCode.class)
-                .query("e.code = ?1", userCode)
+                .query("e.code = ?1", userCode.toUpperCase())
                 .optional());
 
         if (optionalCode.isPresent()) {
