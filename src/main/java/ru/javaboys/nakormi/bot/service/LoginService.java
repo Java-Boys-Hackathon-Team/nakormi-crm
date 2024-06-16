@@ -4,7 +4,6 @@ import io.jmix.core.DataManager;
 import io.jmix.core.security.SystemAuthenticator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -27,7 +26,6 @@ import ru.javaboys.nakormi.entity.WarehouseTypes;
 import ru.javaboys.nakormi.service.AttachmentService;
 import ru.javaboys.nakormi.service.TelegramService;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -74,7 +72,7 @@ public class LoginService {
         }
 
         var optionalCode = systemAuthenticator.withSystem(() -> dataManager.load(InvitationCode.class)
-                .query("e.code = ?1", userCode)
+                .query("e.code = ?1", userCode.toUpperCase())
                 .optional());
 
         if (optionalCode.isPresent()) {
@@ -203,15 +201,19 @@ public class LoginService {
         user.setEmail(personData[4]);
         dataManager.save(user);
 
+        tgUser = telegramContext.getTelegamUser();
+        tgUser.setNakormiCrmAccountOk(true);
+        dataManager.save(tgUser);
+
         systemAuthenticator.end();
 
         botFeaturesUtils.sendMessage(update, """
-                        Для завершения регистрации нам потребуются скан-копия вашего паспорта.
-                        Отправьте её как файл.
+                        Регистрация завершена!
                         
-                        При отправке добавьте файлу подпись "паспорт".
+                        Вы стали волонтером проекта "Накорми".
                         """);
 
+        commonKeyboards.sendHelloAndAccountKeyboard(update);
     }
 
     public void processCommandLogin(Update update) throws TelegramApiException {
@@ -232,56 +234,52 @@ public class LoginService {
         }
     }
 
-    public void processDocument(Update update) throws TelegramApiException, FileNotFoundException {
+    public void processDocument(Update update) throws TelegramApiException {
+        botFeaturesUtils.sendMessage(update, "Файл не распознан. Команда для обработки файла отсутствует");
+    }
+
+    public void processPhoto(Update update) throws TelegramApiException {
+        List<PhotoSize> photos = update.getMessage().getPhoto();
         String caption = update.getMessage().getCaption();
 
-        switch (caption) {
+        if (caption == null) {
+            botFeaturesUtils.sendMessage(update, "Изображение не распознано. Возможно вы допустили ошибку в подписи. Повторите попытку.");
+            return;
+        }
 
-            case "паспорт" -> {
+        switch (caption.toLowerCase()) {
 
-                Document document = update.getMessage().getDocument();
-                var file = botFeaturesUtils.downloadFile(document.getFileId());
-                var attachment = attachmentService.save(file, document.getFileId(), document.getFileName());
+            case "нужна помощь" -> {
+
+                String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize))
+                        .map(PhotoSize::getFileId)
+                        .orElse("");
 
                 systemAuthenticator.begin();
 
-                var volunteerId = telegramContext.getTelegamUser().getVolunteer().getId();
+                dataManager.load(TelegamUser.class)
+                        .all()
+                        .list()
+                        .forEach(tgu -> {
 
-                dataManager.load(Volunteer.class)
-                        .id(volunteerId)
-                        .optional()
-                        .ifPresent(v -> {
-                            v.setAttachments(List.of(attachment));
-                            dataManager.save(v);
+                            try {
+                                botFeaturesUtils.sendPhoto(update, """
+                                        🆘 Внимание! Животное в опасности!
+                                        Свяжитесь с волонтером и найдите способ помочь животному.
+                                        """, fileId);
+                            } catch (TelegramApiException e) {
+                                throw new RuntimeException("Telegram API send photo error", e);
+                            }
                         });
-
-                var tgUser = telegramContext.getTelegamUser();
-                tgUser.setNakormiCrmAccountOk(true);
-                dataManager.save(tgUser);
 
                 systemAuthenticator.end();
 
-                botFeaturesUtils.sendMessage(update, """
-                        Регистрация завершена!
-                        
-                        Вы стали волонтером проекта "Накорми".
-                        """);
+            }
 
-                commonKeyboards.sendHelloAndAccountKeyboard(update);
+            default -> {
+                botFeaturesUtils.sendMessage(update, "Изображение не распознано. Возможно вы допустили ошибку в подписи. Повторите попытку.");
             }
         }
-    }
-
-    public void processPhoto(Update update) throws TelegramApiException, FileNotFoundException {
-        List<PhotoSize> photos = update.getMessage().getPhoto();
-
-        String fileId = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize))
-                .map(PhotoSize::getFileId)
-                .orElse("");
-
-        var file = botFeaturesUtils.downloadFile(fileId);
-
-        var attachment = attachmentService.save(file, fileId, BotUtils.generatePhotoName());
     }
 
 }

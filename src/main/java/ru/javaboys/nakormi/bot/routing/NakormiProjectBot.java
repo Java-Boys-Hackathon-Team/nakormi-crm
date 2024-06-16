@@ -65,6 +65,12 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
         if (update.hasMessage() && update.getMessage().hasText()) {
 
             String messageTest = update.getMessage().getText();
+
+            if (BotUtils.startsWithOrder(messageTest)) {
+                volunteerAccountScreen.processOrder(update);
+                return;
+            }
+
             CommandArgs commandArgs = BotUtils.parseCommand(messageTest);
 
             switch (commandArgs.getCommand()) {
@@ -86,7 +92,10 @@ public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingl
                 case Callbacks.GO_TO_VOLUNTEER_ACCOUNT,
                      Callbacks.REFRESH_VOLUNTEER_ACCOUNT,
                      Callbacks.GO_TO_VOLUNTEER_REMAINDERS,
-                     Callbacks.REFRESH_VOLUNTEER_REMAINDERS -> volunteerAccountScreen.processCallback(update, callbackData);
+                     Callbacks.REFRESH_VOLUNTEER_REMAINDERS,
+                     Callbacks.GO_TO_VOLUNTEER_ORDERS,
+                     Callbacks.REFRESH_VOLUNTEER_ORDERS,
+                     Callbacks.ANIMAL_IN_DANGER -> volunteerAccountScreen.processCallback(update, callbackData);
 
                 default -> botFeaturesUtils.sendMessage(update, "Команда не распознана. Неизвестная команда");
             }

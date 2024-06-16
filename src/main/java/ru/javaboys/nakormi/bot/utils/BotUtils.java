@@ -5,10 +5,13 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.javaboys.nakormi.entity.Food;
+import ru.javaboys.nakormi.entity.PuckUpOrder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class BotUtils {
 
@@ -24,12 +27,19 @@ public class BotUtils {
         return new CommandArgs(command, arguments);
     }
 
-    public static boolean isCommand(Update update) {
-        return update.hasMessage() && update.getMessage().hasText();
+    public static boolean startsWithOrder(String text) {
+        return text.startsWith("Заказ");
     }
 
-    public static boolean isDocumentOrPhoto(Update update) {
-        return update.hasMessage();
+    public static Integer extractOrderNumber(String text) {
+        int startIndex = text.indexOf("Заказ") + 5;
+        int endIndex = text.indexOf("от");
+        if (startIndex < endIndex && startIndex > 0 && endIndex > 0) {
+            String strNumber = text.substring(startIndex, endIndex).trim();
+
+            return Integer.valueOf(strNumber.substring(strNumber.lastIndexOf('0') + 1));
+        }
+        return null;
     }
 
     public static boolean validateArgsCount(String args, int expectedCount) {
@@ -71,6 +81,23 @@ public class BotUtils {
         return chatId;
     }
 
+    public static Integer getMessageIdSafe(Update update) {
+
+        Integer messageId = 0;
+
+        if (update.hasMessage()) {
+            messageId = update.getMessage().getMessageId();
+        } else if (update.hasCallbackQuery()) {
+            messageId = update.getCallbackQuery().getMessage().getMessageId();
+        }
+
+        if (messageId == 0L) {
+            throw new RuntimeException("Telegram messageId cannot be empty");
+        }
+
+        return messageId;
+    }
+
     public static Long getUserIdSafe(Update update) {
 
         Long userId = 0L;
@@ -93,6 +120,32 @@ public class BotUtils {
         for (Map.Entry<Food, Long> entry : map.entrySet()) {
             result.append(entry.getKey().getName()).append(" - ").append(entry.getValue()).append("\n");
         }
+        return result.toString();
+    }
+
+
+    public static String formatPuckUpOrders(List<PuckUpOrder> orders) {
+        StringBuilder result = new StringBuilder();
+
+        result.append(String.format("%-36s %-20s %-10s %-36s %-36s %-36s %-15s\n",
+                "ID", "Date", "Number", "Creator ID", "Volunteer ID", "Warehouse ID", "Status"));
+
+        for (PuckUpOrder order : orders) {
+            UUID creatorId = order.getCreator() != null ? order.getCreator().getId() : null;
+            UUID volunteerId = order.getVolunteer() != null ? order.getVolunteer().getId() : null;
+            UUID warehouseId = order.getWarehouse() != null ? order.getWarehouse().getId() : null;
+
+            result.append(String.format("%-36s %-20s %-10d %-36s %-36s %-36s %-15s\n",
+                    order.getId(),
+                    order.getDate(),
+                    order.getNumber(),
+                    creatorId,
+                    volunteerId,
+                    warehouseId,
+                    order.getStatus()
+            ));
+        }
+
         return result.toString();
     }
 }
