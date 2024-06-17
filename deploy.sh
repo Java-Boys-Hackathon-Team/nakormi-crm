@@ -30,6 +30,7 @@ docker-compose down
 rm -rf build
 rm -rf node_modules
 rm -rf frontend/generated
+rm -rf src/main/bundles
 
 # Шаг 5: Удаление всех образов из docker-compose
 docker rmi -f nakormi-nginx:latest
