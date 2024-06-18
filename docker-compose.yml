@@ -29,6 +29,7 @@ services:
       - PG_NAME=pgadmin
       - PG_PASS=pgadmin
       - NAKORMI_BOT_TOKEN
+      - YANDEX_TOKEN
     tty: true
     depends_on:
       - db
