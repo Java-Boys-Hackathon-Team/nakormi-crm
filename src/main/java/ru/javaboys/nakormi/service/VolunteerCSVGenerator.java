@@ -35,15 +35,15 @@ public class VolunteerCSVGenerator {
                         .append(",")
                         .append(volunteer.getPassportNumber())
                         .append(",")
-                        .append(volunteer.getTelegamUser().getTelegramUserName())
+                        .append(volunteer.getTelegamUser() != null ? volunteer.getTelegamUser().getTelegramUserName() : "")
                         .append(",")
                         .append(volunteer.getWarehouse() != null ? volunteer.getWarehouse().getId().toString() : "")
                         .append("\n");
             }
 
-            log.info("CSV file has been generated successfully at: " + csvFileName);
+            log.info("CSV file has been generated successfully at: {}", csvFileName);
         } catch (IOException e) {
-            log.error("Error writing CSV file: " + e.getMessage());
+            log.error("Error writing CSV file: {}", e.getMessage());
         }
     }
 }
