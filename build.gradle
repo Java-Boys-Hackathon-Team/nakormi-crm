@@ -75,6 +75,7 @@ dependencies {
     implementation 'io.jmix.reports:jmix-reports-flowui-starter'
     implementation 'io.jmix.maps:jmix-maps-starter'
     implementation 'io.jmix.maps:jmix-maps-flowui-starter'
+    implementation 'io.jmix.jmxconsole:jmix-jmxconsole-starter'
 }
 
 test {
