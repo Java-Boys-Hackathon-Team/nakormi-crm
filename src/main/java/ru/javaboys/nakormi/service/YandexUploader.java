@@ -41,7 +41,7 @@ public class YandexUploader {
                                 .body(Mono.just(fileContent), byte[].class)
                                 .retrieve()
                                 .bodyToMono(String.class)
-                                .subscribe(response -> log.info("File uploaded: " + file.getName() + ", Response: " + response));
+                                .subscribe(response -> log.info("File uploaded to Yandex Cloud: {}, Response: {}", file.getName(), response));
             }
         }
     }

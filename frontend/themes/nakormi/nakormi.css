@@ -1,22 +1,4 @@
 /* Стили для десктопной версии */
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes drive {
-    from {
-        margin-left: -120%;
-    }
-    to {
-        margin-left: 120%;
-    }
-}
-
 body:has(.jmix-login-main-layout) {
     overflow: hidden;
 }
@@ -148,19 +130,8 @@ vaadin-vertical-layout:has(.attachments) {
     box-sizing: border-box;
     border: 5px #fff solid;
     box-shadow: 0 0 30px 10px #cecece;
-    /*transition: 10s all linear;*/
     max-width: 150px;
 }
-
-/*
-.jmix-login-main-layout > img:hover {
-    transform: rotate(3600deg);
-}
-
-img:has(+ * [focused]) {
-    animation: drive 2s linear infinite, spin 1s linear infinite;
-}
-*/
 
 h2 img {
     max-height: 20px;
