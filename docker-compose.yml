@@ -1,19 +1,6 @@
 version: '3'
 
 services:
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-    depends_on:
-      - nakormi
-
   nakormi:
     build: .
     command: ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-Dconfig.file=/workspace/application-prod.properties", "-jar", "nakormi.jar"]
@@ -63,7 +50,6 @@ services:
       - "5050:80"
     depends_on:
       - db
-
 
   # MinIO Console http://localhost:29001/
   minio:
