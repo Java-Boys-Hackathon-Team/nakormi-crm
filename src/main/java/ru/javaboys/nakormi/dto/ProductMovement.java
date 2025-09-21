@@ -17,7 +17,14 @@ import ru.javaboys.nakormi.entity.Warehouse;
 import java.util.List;
 import java.util.UUID;
 
-import static ru.javaboys.nakormi.validation.FoodTransferTypes.*;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.Feed;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.PickupFromPoint;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.TransferFromWarehouse;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.TransferToBeneficiary;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.TransferToVolunteer;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.TransferToWarehouse;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.UnattachedPickup;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.UnattachedWriteoff;
 
 @JmixEntity
 public class ProductMovement {

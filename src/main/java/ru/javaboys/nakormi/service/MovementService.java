@@ -21,8 +21,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static ru.javaboys.nakormi.entity.TransferTypes.*;
-import static ru.javaboys.nakormi.validation.FoodTransferTypes.*;
+import static ru.javaboys.nakormi.entity.TransferTypes.ACCEPTANCE_TO_WAREHOUSE;
+import static ru.javaboys.nakormi.entity.TransferTypes.FEED;
+import static ru.javaboys.nakormi.entity.TransferTypes.PICKUP_FROM_POINT;
+import static ru.javaboys.nakormi.entity.TransferTypes.SHIPMENT_FROM_WAREHOUSE;
+import static ru.javaboys.nakormi.entity.TransferTypes.TRANSFER_FROM_WAREHOUSE;
+import static ru.javaboys.nakormi.entity.TransferTypes.TRANSFER_TO_BENEFICIARY;
+import static ru.javaboys.nakormi.entity.TransferTypes.TRANSFER_TO_VOLUNTEER;
+import static ru.javaboys.nakormi.entity.TransferTypes.TRANSFER_TO_WAREHOUSE;
+import static ru.javaboys.nakormi.entity.TransferTypes.UNATTACHED_PICKUP;
+import static ru.javaboys.nakormi.entity.TransferTypes.UNATTACHED_WRITEOFF;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.Feed;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.OrderToGet;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.PickupFromPoint;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.Transfer;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.TransferFromWarehouse;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.TransferToBeneficiary;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.TransferToVolunteer;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.TransferToWarehouse;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.UnattachedPickup;
+import static ru.javaboys.nakormi.validation.FoodTransferTypes.UnattachedWriteoff;
 
 @Service
 public class MovementService {
