@@ -166,7 +166,6 @@ public class LoginService {
         var address = dataManager.create(Address.class);
         address.setDistrict(district);
         address.setAddressText(personData[3]);
-        address.setCoordinate(BotUtils.getDefaultGeoPoint());
         address = dataManager.save(address);
 
         var person = dataManager.create(Person.class);

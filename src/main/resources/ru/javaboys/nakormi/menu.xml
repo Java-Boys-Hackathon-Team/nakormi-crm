@@ -7,11 +7,9 @@
     <menu id="application" opened="true" title="msg://ru.javaboys.nakormi/menu.application.title">
         <item view="User.list" title="msg://ru.javaboys.nakormi.view.user/UserListView.title"/>
         <item view="District.list" title="msg://ru.javaboys.nakormi.view.district/districtListView.title"/>
-        <item view="Address.list" title="msg://ru.javaboys.nakormi.view.address/addressListView.title"/>
         <item view="Person.list" title="msg://ru.javaboys.nakormi.view.person/personListView.title"/>
         <item view="Warehouse.list" title="msg://ru.javaboys.nakormi.view.warehouse/warehouseListView.title"/>
         <item view="Volunteer.list" title="msg://ru.javaboys.nakormi.view.volunteer/volunteerListView.title"/>
-        <item view="AddressLookupView" title="msg://ru.javaboys.nakormi.view.addresslookup/addressLookupView.title"/>
     </menu>
     <menu id="volunteer" opened="true" title="msg://ru.javaboys.nakormi/menu_config.volunteer.description">
         <item view="VolunteerRemainderView"

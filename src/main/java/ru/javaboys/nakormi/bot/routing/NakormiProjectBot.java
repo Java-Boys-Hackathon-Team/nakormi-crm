@@ -2,6 +2,7 @@ package ru.javaboys.nakormi.bot.routing;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.longpolling.BotSession;
@@ -20,6 +21,7 @@ import ru.javaboys.nakormi.service.TelegramService;
 
 @Slf4j
 @Component
+@ConditionalOnProperty(name = "bot.token", havingValue = "", matchIfMissing = false)
 public class NakormiProjectBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
     private final String token;

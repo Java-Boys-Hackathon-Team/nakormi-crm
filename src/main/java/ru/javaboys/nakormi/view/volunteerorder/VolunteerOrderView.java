@@ -94,7 +94,7 @@ public class VolunteerOrderView extends StandardView {
 
             JmixDetails infoDetails = uiComponents.create(JmixDetails.class);
             infoDetails.setSummaryText("Детальная информация");
-            infoDetails.setContent(additionalInfoLayout);
+            infoDetails.add(additionalInfoLayout);
             infoLayout.add(infoDetails);
 
             if (order.getStatus() == PuckupOrderStatus.CREATED) {
@@ -118,7 +118,7 @@ public class VolunteerOrderView extends StandardView {
                 });
 
                 actionLayout.add(confirmButton, rejectButton);
-                actionDetails.setContent(actionLayout);
+                actionDetails.add(actionLayout);
 
                 infoLayout.add(actionDetails);
             }

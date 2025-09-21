@@ -1,6 +1,7 @@
 plugins {
     id 'io.jmix' version '2.2.3'
     id 'java'
+    id 'co.uzzu.dotenv.gradle' version '4.0.0'
 }
 
 apply plugin: 'org.springframework.boot'
@@ -22,14 +23,7 @@ configurations {
 repositories {
     mavenCentral()
     maven {
-        url 'https://global.repo.jmix.io/repository/public'
-    }
-    maven {
-        url = 'https://global.repo.jmix.io/repository/premium'
-        credentials {
-            username = '240423041533'
-            password = 'wPHpQJCwLzwT'
-        }
+        url 'https://nexus.jmix.io/repository/public'
     }
 }
 
@@ -39,8 +33,6 @@ dependencies {
     implementation 'io.jmix.security:jmix-security-starter'
     implementation 'io.jmix.security:jmix-security-flowui-starter'
     implementation 'io.jmix.security:jmix-security-data-starter'
-    // Удаляем зависимость, так как используем S3
-    // implementation 'io.jmix.localfs:jmix-localfs-starter'
     implementation 'io.jmix.flowui:jmix-flowui-starter'
     implementation 'io.jmix.flowui:jmix-flowui-data-starter'
     implementation 'io.jmix.flowui:jmix-flowui-themes'
@@ -49,6 +41,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
@@ -56,7 +50,6 @@ dependencies {
     implementation 'org.telegram:telegrambots-springboot-longpolling-starter:7.4.1'
     implementation 'org.telegram:telegrambots-client:7.4.1'
     implementation 'com.vdurmont:emoji-java:5.1.1'
-//    implementation 'org.telegram:telegrambots:7.4.1'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -73,8 +66,8 @@ dependencies {
     implementation 'io.jmix.reports:jmix-reports-starter'
     implementation 'io.jmix.reports:jmix-reports-rest-starter'
     implementation 'io.jmix.reports:jmix-reports-flowui-starter'
-    implementation 'io.jmix.maps:jmix-maps-starter'
-    implementation 'io.jmix.maps:jmix-maps-flowui-starter'
+//    implementation 'io.jmix.maps:jmix-maps-starter'
+//    implementation 'io.jmix.maps:jmix-maps-flowui-starter'
     implementation 'io.jmix.jmxconsole:jmix-jmxconsole-starter'
 }
 

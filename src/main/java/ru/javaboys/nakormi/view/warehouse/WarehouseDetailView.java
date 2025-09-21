@@ -14,7 +14,6 @@ import io.jmix.flowui.view.ViewDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javaboys.nakormi.entity.Address;
 import ru.javaboys.nakormi.entity.Warehouse;
-import ru.javaboys.nakormi.view.addresslookup.AddressLookupView;
 import ru.javaboys.nakormi.view.main.MainView;
 
 @Route(value = "warehouses/:id", layout = MainView.class)
@@ -31,14 +30,5 @@ public class WarehouseDetailView extends StandardDetailView<Warehouse> {
 
     @Subscribe("addressField.select")
     public void onAddressFieldSelect(final ActionPerformedEvent event) {
-        dialogWindows.view(this, AddressLookupView.class)
-                .withAfterCloseListener(closeEvent -> {
-                    if (closeEvent.closedWith(StandardOutcome.SELECT)) {
-                        addressField.setValue(closeEvent.getView().getSelected());
-                    }
-                })
-                .open()
-                .getView()
-                .setSelected(getEditedEntity().getAddress());
     }
 }

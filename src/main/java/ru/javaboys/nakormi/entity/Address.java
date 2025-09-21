@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import org.locationtech.jts.geom.Point;
 
 import java.util.UUID;
 
@@ -39,10 +38,6 @@ public class Address {
     @Column(name = "ADDRESS_TEXT", nullable = false, length = 1000)
     private String addressText;
 
-    @NotNull
-    @Column(name = "COORDINATE")
-    private Point coordinate;
-
     @JoinColumn(name = "WAREHOUSE_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private Warehouse warehouse;
@@ -53,14 +48,6 @@ public class Address {
 
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
-    }
-
-    public Point getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(Point coordinate) {
-        this.coordinate = coordinate;
     }
 
     public String getAddressText() {
