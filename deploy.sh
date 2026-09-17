@@ -33,7 +33,8 @@ rm -rf frontend/generated
 rm -rf src/main/bundles
 
 # Шаг 5: Удаление всех образов из docker-compose
-docker rmi -f nakormi-nakormi:latest
+# На чистом сервере образа ещё нет, а set -e превратил бы это в падение деплоя.
+docker rmi -f nakormi-nakormi:latest || true
 
 docker compose rm -f
 docker image prune -f --filter "label=com.docker.compose.project=nakormi"
