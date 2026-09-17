@@ -3,7 +3,9 @@ version: '3'
 services:
   nakormi:
     build: .
-    command: ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-Dconfig.file=/workspace/application-prod.properties", "-jar", "nakormi.jar"]
+    # Без агента отладки: на сервере, смотрящем в интернет, открытый порт
+    # отладчика - это удалённое выполнение кода без пароля.
+    command: ["java", "-Dconfig.file=/workspace/application-prod.properties", "-jar", "nakormi.jar"]
     volumes:
       - './src/main/resources/application-prod.properties:/workspace/application-prod.properties'
     restart: always
@@ -37,8 +39,10 @@ services:
       - POSTGRES_PASSWORD=pgadmin
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
 
+  # Поднимается только по требованию: docker compose --profile tools up -d pgadmin
   pgadmin:
     image: dpage/pgadmin4
+    profiles: [tools]
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: "kuramshin.py@yandex.ru"
@@ -53,7 +57,9 @@ services:
 
   # MinIO Console http://localhost:29001/
   minio:
-    image: bitnami/minio
+    # bitnami/minio из публичного каталога Docker Hub убран издателем, поэтому
+    # используется его же образ из legacy-каталога: переменные и поведение те же.
+    image: bitnamilegacy/minio
     container_name: minio
     ports:
       - "29000:9000"
