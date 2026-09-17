@@ -25,7 +25,10 @@ services:
       - minio
 
   db:
-    image: postgres:latest
+    # Версия зафиксирована: в postgres 18 сменился путь данных внутри образа, и
+    # том, смонтированный по-старому, ломает запуск. Обновление мажорной версии
+    # требует переноса данных, а не просто нового тега.
+    image: postgres:16
     restart: always
     container_name: db
     ports:
