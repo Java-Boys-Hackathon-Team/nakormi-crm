@@ -29,6 +29,16 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
       # За обратным прокси, который терминирует TLS.
       - SERVER_FORWARD_HEADERS_STRATEGY=framework
+      # Без этого JVM считает доступной память всего сервера и берёт под кучу
+      # четверть от неё, не замечая предела контейнера.
+      - JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=55
+    # Сервер делит память между всеми проектами, поэтому у каждого свой потолок.
+    # Ориентир - фактический расход приложения плюс запас на пик сборки мусора.
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1280M
     networks: [common-infra]
 
 networks:
