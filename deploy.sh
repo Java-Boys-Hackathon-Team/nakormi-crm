@@ -24,8 +24,16 @@ git checkout "$BRANCH_NAME"
 # Шаг 3: Слияние последних изменений
 git pull origin "$BRANCH_NAME"
 
+# На сервере приложение запускается отдельным compose-файлом: базу и объектное
+# хранилище даёт common-infra, а docker-compose.yml с их локальными копиями
+# используется только на машине разработчика.
+COMPOSE="docker compose -f docker-compose.prod.yml"
+
+[ -f .env.prod ] || { echo "Нет .env.prod с параметрами подключения к common-infra"; exit 1; }
+docker network inspect common-infra >/dev/null 2>&1 || { echo "Нет сети common-infra - не поднята общая инфраструктура"; exit 1; }
+
 # Шаг 4: Остановка всех работающих контейнеров
-docker compose down
+$COMPOSE down
 
 rm -rf build
 rm -rf node_modules
@@ -36,7 +44,7 @@ rm -rf src/main/bundles
 # На чистом сервере образа ещё нет, а set -e превратил бы это в падение деплоя.
 docker rmi -f nakormi-nakormi:latest || true
 
-docker compose rm -f
+$COMPOSE rm -f
 docker image prune -f --filter "label=com.docker.compose.project=nakormi"
 
 # Шаг 6: Сборка проекта nakormi
@@ -48,7 +56,7 @@ if [ -x "$JAVA_17_HOME/bin/javac" ]; then
 fi
 ./gradlew -Dorg.gradle.jvmargs='-Xms1g -Xmx4g' -Pvaadin.productionMode=true bootJar -x test
 
-# Шаг 7: Запуск всех сервисов
-docker compose up -d
+# Шаг 7: Запуск приложения
+$COMPOSE up -d --build
 
 echo "Deployment completed successfully on branch $BRANCH_NAME"

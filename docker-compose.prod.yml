@@ -1,0 +1,37 @@
+name: nakormi
+
+# Продовый запуск на сервере: поднимается только само приложение.
+#
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# База и объектное хранилище берутся из common-infra - общих сервисов сервера,
+# к которым подключены все проекты. Поэтому docker-compose.yml здесь намеренно
+# не подключается: описанные в нём postgres, minio и pgadmin нужны только для
+# локальной разработки, где проект должен быть самодостаточным.
+#
+# Параметры подключения (адреса, имена баз, пароли) лежат в .env.prod рядом с
+# этим файлом, права 600, в репозиторий не коммитятся.
+
+services:
+  nakormi:
+    build: .
+    container_name: nakormi
+    restart: always
+    command: ["java", "-Dspring.config.additional-location=file:/workspace/application-prod.properties", "-jar", "nakormi.jar"]
+    volumes:
+      - './src/main/resources/application-prod.properties:/workspace/application-prod.properties'
+    ports:
+      # Порт слушается на хосте: reverse proxy ходит в приложение через него.
+      - "8080:8080"
+    env_file:
+      - .env.prod
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      # За обратным прокси, который терминирует TLS.
+      - SERVER_FORWARD_HEADERS_STRATEGY=framework
+    networks: [common-infra]
+
+networks:
+  common-infra:
+    # Сеть поднята проектом common-infra; здесь она только используется.
+    external: true
