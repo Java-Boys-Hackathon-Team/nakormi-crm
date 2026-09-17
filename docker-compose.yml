@@ -5,7 +5,10 @@ services:
     build: .
     # Без агента отладки: на сервере, смотрящем в интернет, открытый порт
     # отладчика - это удалённое выполнение кода без пароля.
-    command: ["java", "-Dconfig.file=/workspace/application-prod.properties", "-jar", "nakormi.jar"]
+    # -Dconfig.file Spring не читает (это ключ другой библиотеки), поэтому
+    # смонтированный файл раньше просто игнорировался, а приложение работало на
+    # копии из jar. Подключаем его тем ключом, который Spring действительно знает.
+    command: ["java", "-Dspring.config.additional-location=file:/workspace/application-prod.properties", "-jar", "nakormi.jar"]
     volumes:
       - './src/main/resources/application-prod.properties:/workspace/application-prod.properties'
     restart: always
@@ -19,6 +22,8 @@ services:
       - PG_PASS=pgadmin
       - NAKORMI_BOT_TOKEN
       - YANDEX_TOKEN
+      # Приложение стоит за прокси, который терминирует TLS.
+      - SERVER_FORWARD_HEADERS_STRATEGY=framework
     tty: true
     depends_on:
       - db
