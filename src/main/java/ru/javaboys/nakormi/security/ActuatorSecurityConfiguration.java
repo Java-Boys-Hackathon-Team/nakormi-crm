@@ -1,9 +1,9 @@
 package ru.javaboys.nakormi.security;
 
-import io.jmix.core.JmixSecurityFilterChainOrder;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,7 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ActuatorSecurityConfiguration {
 
     @Bean
-    @Order(JmixSecurityFilterChainOrder.CUSTOM)
+    // Числовой порядок, а не константа Jmix: в версии Jmix этого проекта
+    // константы для пользовательских цепочек ещё нет. Первой цепочка быть
+    // может безопасно - securityMatcher ограничивает её только actuator.
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain actuatorFilterChain(HttpSecurity http) throws Exception {
         http.securityMatcher(EndpointRequest.toAnyEndpoint())
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
