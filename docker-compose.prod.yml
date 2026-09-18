@@ -23,9 +23,15 @@ services:
     ports:
       # Порт слушается на хосте: reverse proxy ходит в приложение через него.
       - "8080:8080"
+      # Служебный порт с метриками; наружу не проброшен.
+      - "9080:9080"
     env_file:
       - .env.prod
     environment:
+      # Метрики приложения и JVM на служебном порту, отдельном от прикладного.
+      - MANAGEMENT_SERVER_PORT=9080
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,prometheus,metrics
+      - MANAGEMENT_METRICS_TAGS_APPLICATION=nakormi
       - SPRING_PROFILES_ACTIVE=prod
       # За обратным прокси, который терминирует TLS.
       - SERVER_FORWARD_HEADERS_STRATEGY=framework
